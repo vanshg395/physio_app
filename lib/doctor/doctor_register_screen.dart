@@ -182,8 +182,12 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                         "value": "OD",
                       },
                       {
-                        "display": "DPT",
-                        "value": "DPT",
+                        "display": "BPT",
+                        "value": "BPT",
+                      },
+                      {
+                        "display": "MPT",
+                        "value": "MPT",
                       },
                       {
                         "display": "MS",
@@ -229,8 +233,8 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                         "value": "Occupational Therapy",
                       },
                       {
-                        "display": "Rehabilitation",
-                        "value": "Rehabilitation",
+                        "display": "Physiotherapists",
+                        "value": "Physiotherapists",
                       },
                     ],
                     textField: 'display',

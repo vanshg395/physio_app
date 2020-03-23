@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:physio_app/doctor/doctor_tabs_screen.dart';
 import 'package:provider/provider.dart';
 
 import './doctor/doctor_register_screen.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           //             : PatientRegisterScreen()
           //         : LoginScreen()
           //     : LoginScreen(),
-          home: IndexPage(),
+          home: DoctorTabsScreen(),
         ),
       ),
     );
