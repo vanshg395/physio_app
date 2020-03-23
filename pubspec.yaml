@@ -28,6 +28,7 @@ dependencies:
   provider: ^4.0.3
   intl: ^0.16.1
   intl_phone_number_input: ^0.3.0
+  dropdown_formfield: ^0.1.1
 
 dev_dependencies:
   flutter_test:
