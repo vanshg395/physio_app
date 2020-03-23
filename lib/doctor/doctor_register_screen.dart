@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:dropdown_formfield/dropdown_formfield.dart';
-=======
->>>>>>> d26790b7e82ec3cfff93310fcf9aac0b1b0ba5cf
 
 class DoctorRegisterScreen extends StatefulWidget {
   @override
@@ -11,14 +8,11 @@ class DoctorRegisterScreen extends StatefulWidget {
 
 class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
-<<<<<<< HEAD
   String _hospital;
   String _designation;
   String _dept;
   String _seqQues;
   bool _isLoading = false;
-=======
->>>>>>> d26790b7e82ec3cfff93310fcf9aac0b1b0ba5cf
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +30,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                     height: 30,
                   ),
                   Text(
-<<<<<<< HEAD
                     'Personal Details',
-=======
-                    'Registration Form',
->>>>>>> d26790b7e82ec3cfff93310fcf9aac0b1b0ba5cf
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 26,
@@ -111,7 +101,6 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                   SizedBox(
                     height: 15,
                   ),
-<<<<<<< HEAD
                   DropDownFormField(
                     titleText: 'Hospital',
                     hintText: 'Please choose one',
@@ -326,15 +315,3 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
     );
   }
 }
-=======
-      
-                ]
-                )
-            )
-            )
-            )
-            )
-            );
-  }
-}
->>>>>>> d26790b7e82ec3cfff93310fcf9aac0b1b0ba5cf
