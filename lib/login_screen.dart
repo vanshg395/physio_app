@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-// import './providers/auth.dart';
+import './providers/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -36,8 +36,9 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
     try {
-      // await Provider.of<Auth>(context, listen: false).login(email, password);
+      await Provider.of<Auth>(context, listen: false).login(email, password);
     } catch (error) {
+      print(error);
       errorMessage = error.toString();
       setState(() {
         _emailController.text = '';
@@ -234,8 +235,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         fontFamily: 'SFProTextSemiMed',
                                       ),
                                     ),
-                                    // onPressed: _submit,
-                                    onPressed: () {},
+                                    onPressed: _submit,
+                                    // onPressed: () {},
                                   ),
                           ),
                         ),

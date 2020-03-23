@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
+import 'package:http/http.dart' as http;
 
 class DoctorRegisterScreen extends StatefulWidget {
   @override
@@ -13,6 +16,33 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
   String _dept;
   String _seqQues;
   bool _isLoading = false;
+  bool _isLoading2 = false;
+  List<dynamic> _hospitals;
+
+  @override
+  void initState() {
+    super.initState();
+    getHospitals();
+  }
+
+  Future<void> getHospitals() async {
+    String url = 'https://fitknees.herokuapp.com/auth/hospitals/';
+
+    try {
+      setState(() {
+        _isLoading2 = true;
+      });
+      final response = await http.get(url);
+      final responseBody = json.decode(response.body);
+      print(responseBody);
+      _hospitals = responseBody;
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _isLoading2 = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,54 +131,33 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  DropDownFormField(
-                    titleText: 'Hospital',
-                    hintText: 'Please choose one',
-                    required: true,
-                    value: _hospital,
-                    onSaved: (value) {
-                      setState(() {
-                        _hospital = value;
-                      });
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        _hospital = value;
-                      });
-                    },
-                    dataSource: [
-                      {
-                        "display": "Running",
-                        "value": "Running",
-                      },
-                      {
-                        "display": "Climbing",
-                        "value": "Climbing",
-                      },
-                      {
-                        "display": "Walking",
-                        "value": "Walking",
-                      },
-                      {
-                        "display": "Swimming",
-                        "value": "Swimming",
-                      },
-                      {
-                        "display": "Soccer Practice",
-                        "value": "Soccer Practice",
-                      },
-                      {
-                        "display": "Baseball Practice",
-                        "value": "Baseball Practice",
-                      },
-                      {
-                        "display": "Football Practice",
-                        "value": "Football Practice",
-                      },
-                    ],
-                    textField: 'display',
-                    valueField: 'value',
-                  ),
+                  _isLoading2
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(
+                              Colors.grey,
+                            ),
+                          ),
+                        )
+                      : DropDownFormField(
+                          titleText: 'Hospital',
+                          hintText: 'Please choose one',
+                          required: true,
+                          value: _hospital,
+                          onSaved: (value) {
+                            setState(() {
+                              _hospital = value;
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _hospital = value;
+                            });
+                          },
+                          dataSource: _hospitals,
+                          textField: 'hospital',
+                          valueField: 'hospital',
+                        ),
                   SizedBox(
                     height: 15,
                   ),
@@ -227,52 +236,52 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                     textField: 'display',
                     valueField: 'value',
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  DropDownFormField(
-                    titleText: 'Security Question',
-                    hintText: 'Please choose one',
-                    required: true,
-                    value: _seqQues,
-                    onSaved: (value) {
-                      setState(() {
-                        _seqQues = value;
-                      });
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        _seqQues = value;
-                      });
-                    },
-                    dataSource: [
-                      {
-                        "display":
-                            "What was the name of your elementary school?",
-                        "value": "What was the name of your elementary school?",
-                      },
-                      {
-                        "display":
-                            "In what city or town does your nearest sibling live?",
-                        "value":
-                            "In what city or town does your nearest sibling live?",
-                      },
-                      {
-                        "display": "What is your pet's name?",
-                        "value": "What is your pet's name?",
-                      },
-                      {
-                        "display": "What is your father's middle name?",
-                        "value": "What is your father's middle name?",
-                      },
-                      {
-                        "display": "Your favourite colour?",
-                        "value": "Your favourite colour?",
-                      },
-                    ],
-                    textField: 'display',
-                    valueField: 'value',
-                  ),
+                  // SizedBox(
+                  //   height: 15,
+                  // ),
+                  // DropDownFormField(
+                  //   titleText: 'Security Question',
+                  //   hintText: 'Please choose one',
+                  //   required: true,
+                  //   value: _seqQues,
+                  //   onSaved: (value) {
+                  //     setState(() {
+                  //       _seqQues = value;
+                  //     });
+                  //   },
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       _seqQues = value;
+                  //     });
+                  //   },
+                  //   dataSource: [
+                  //     {
+                  //       "display":
+                  //           "What was the name of your elementary school?",
+                  //       "value": "What was the name of your elementary school?",
+                  //     },
+                  //     {
+                  //       "display":
+                  //           "In what city or town does your nearest sibling live?",
+                  //       "value":
+                  //           "In what city or town does your nearest sibling live?",
+                  //     },
+                  //     {
+                  //       "display": "What is your pet's name?",
+                  //       "value": "What is your pet's name?",
+                  //     },
+                  //     {
+                  //       "display": "What is your father's middle name?",
+                  //       "value": "What is your father's middle name?",
+                  //     },
+                  //     {
+                  //       "display": "Your favourite colour?",
+                  //       "value": "Your favourite colour?",
+                  //     },
+                  //   ],
+                  //   textField: 'display',
+                  //   valueField: 'value',
+                  // ),
                   SizedBox(
                     height: 30,
                   ),
