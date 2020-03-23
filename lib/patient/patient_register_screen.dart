@@ -6,12 +6,7 @@ enum Gender { Male, Female }
 enum YesNo { Yes, No }
 enum BloodPressure { High, Low, No }
 enum Frequency { Frequently, Sometimes, Rarely, Never }
-<<<<<<< HEAD
 enum DailyActivity { Bedridden, Low, Moderate, High, VeryHigh }
-=======
-enum ActivtyLevel { Bedridden, Low, Moderate, High, VeryHigh }
-
->>>>>>> d26790b7e82ec3cfff93310fcf9aac0b1b0ba5cf
 
 class PatientRegisterScreen extends StatefulWidget {
   @override
