@@ -6,7 +6,12 @@ enum Gender { Male, Female }
 enum YesNo { Yes, No }
 enum BloodPressure { High, Low, No }
 enum Frequency { Frequently, Sometimes, Rarely, Never }
+<<<<<<< HEAD
 enum DailyActivity { Bedridden, Low, Moderate, High, VeryHigh }
+=======
+enum ActivtyLevel { Bedridden, Low, Moderate, High, VeryHigh }
+
+>>>>>>> d26790b7e82ec3cfff93310fcf9aac0b1b0ba5cf
 
 class PatientRegisterScreen extends StatefulWidget {
   @override
@@ -26,11 +31,18 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
   YesNo _yesno7;
   Frequency _freq1;
   Frequency _freq2;
+  ActivtyLevel _ac1;
+
   bool _hasSurgeryHappenned = false;
+<<<<<<< HEAD
   bool _familyHistory = false;
   BloodPressure _bloodPressure;
   DailyActivity _dailyActivity;
   bool _isLoading = false;
+=======
+  bool _hasfamilyHistory = false;
+  BloodPressure _bp;
+>>>>>>> d26790b7e82ec3cfff93310fcf9aac0b1b0ba5cf
 
   @override
   Widget build(BuildContext context) {
@@ -735,6 +747,284 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                               Text('Never'),
                             ],
                           ),
+                          
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'Do you drink?',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: Frequency.Frequently,
+                                groupValue: _freq2,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _freq2 = value;
+                                  });
+                                },
+                              ),
+                              Text('Frequently'),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: Frequency.Rarely,
+                                groupValue: _freq2,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _freq2 = value;
+                                    // _data['gender'] = describeEnum(_gender);
+                                  });
+                                },
+                              ),
+                              Text('Rarely'),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: Frequency.Sometimes,
+                                groupValue: _freq2,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _freq2 = value;
+                                  });
+                                },
+                              ),
+                              Text('Sometimes'),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: Frequency.Never,
+                                groupValue: _freq2,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _freq2 = value;
+                                  });
+                                },
+                              ),
+                              Text('Never'),
+                            ],
+                          ),
+
+                         
+                          
+                        ],
+                      ),  
+                    ],
+                  ),
+
+                   SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            'Do you have any family history of osteoarthrities/Osteoporosis?',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: YesNo.Yes,
+                                groupValue: _yesno7,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _yesno7 = value;
+                                    _hasfamilyHistory = true;
+                                    // _data['gender'] = describeEnum(_gender);
+                                  });
+                                },
+                              ),
+                              Text('Yes'),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: YesNo.No,
+                                groupValue: _yesno7,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _yesno7 = value;
+                                    _hasfamilyHistory = false;
+                                    // _data['gender'] = describeEnum(_gender);
+                                  });
+                                },
+                              ),
+                              Text('No'),
+                            ],
+                          ),
+                          if (_hasfamilyHistory) ...[
+                            SizedBox(
+                              height: 15,
+                            ),
+                            TextFormField(
+                              // controller: _emailController,
+                              maxLines: 3,
+                              decoration: InputDecoration(
+                                labelText: 'If Yes, Please Specify who is affected',
+                                labelStyle: TextStyle(color: Colors.grey),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                              ),
+                              keyboardAppearance: Brightness.light,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (val) {
+                                if (val == '') {
+                                  return 'This Field is required.';
+                                }
+                              },
+                              // onSaved: (val) {
+                              //   _authData['email'] = val;
+                              // },
+                            ),
+                          ],
+                          SizedBox(
+                            height: 15,
+                          ),
+                          SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'How much is your daily activity level?',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: ActivtyLevel.Bedridden,
+                                groupValue: _ac1,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _ac1 = value;
+                                  });
+                                },
+                              ),
+                              Text('Bedridden'),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: ActivtyLevel.VeryHigh,
+                                groupValue: _ac1,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _ac1 = value;
+                                    // _data['gender'] = describeEnum(_gender);
+                                  });
+                                },
+                              ),
+                              Text('Very High'),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: ActivtyLevel.High,
+                                groupValue: _ac1,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _ac1 = value;
+                                  });
+                                },
+                              ),
+                              Text('High'),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: ActivtyLevel.Moderate,
+                                groupValue: _ac1,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _ac1 = value;
+                                  });
+                                },
+                              ),
+                              Text('Moderate'),
+                            ],
+                          ),
+
+                        ],
+                      ),  
+                      Row(
+                        children: <Widget>[
+                          Radio(
+                            activeColor: Color(0xFF06aE71),
+                            value: ActivtyLevel.Low,
+                            groupValue: _ac1,
+                            onChanged: (value) {
+                              setState(() {
+                                _ac1 = value;
+                              });
+                            },
+                          ),
+                          Text('Low'),
                         ],
                       ),
                     ],
