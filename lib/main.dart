@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:physio_app/doctor/doctor_register_screen.dart';
 import 'package:physio_app/patient/patient_register_screen.dart';
 
 import './login_screen.dart';
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: PatientRegisterScreen(),
+      home: DoctorRegisterScreen(),
     );
   }
 }

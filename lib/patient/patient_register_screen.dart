@@ -6,6 +6,7 @@ enum Gender { Male, Female }
 enum YesNo { Yes, No }
 enum BloodPressure { High, Low, No }
 enum Frequency { Frequently, Sometimes, Rarely, Never }
+enum DailyActivity { Bedridden, Low, Moderate, High, VeryHigh }
 
 class PatientRegisterScreen extends StatefulWidget {
   @override
@@ -26,7 +27,10 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
   Frequency _freq1;
   Frequency _freq2;
   bool _hasSurgeryHappenned = false;
-  BloodPressure _bp;
+  bool _familyHistory = false;
+  BloodPressure _bloodPressure;
+  DailyActivity _dailyActivity;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -396,10 +400,10 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                       Radio(
                         activeColor: Color(0xFF06aE71),
                         value: BloodPressure.High,
-                        groupValue: _bp,
+                        groupValue: _bloodPressure,
                         onChanged: (value) {
                           setState(() {
-                            _bp = value;
+                            _bloodPressure = value;
                             // _data['gender'] = describeEnum(_gender);
                           });
                         },
@@ -411,10 +415,10 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                       Radio(
                         activeColor: Color(0xFF06aE71),
                         value: BloodPressure.Low,
-                        groupValue: _bp,
+                        groupValue: _bloodPressure,
                         onChanged: (value) {
                           setState(() {
-                            _bp = value;
+                            _bloodPressure = value;
                             // _data['gender'] = describeEnum(_gender);
                           });
                         },
@@ -426,10 +430,10 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                       Radio(
                         activeColor: Color(0xFF06aE71),
                         value: BloodPressure.No,
-                        groupValue: _bp,
+                        groupValue: _bloodPressure,
                         onChanged: (value) {
                           setState(() {
-                            _bp = value;
+                            _bloodPressure = value;
                             // _data['gender'] = describeEnum(_gender);
                           });
                         },
@@ -734,6 +738,309 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         ],
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'Do you drink?',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: Frequency.Frequently,
+                                groupValue: _freq2,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _freq2 = value;
+                                  });
+                                },
+                              ),
+                              Text('Frequently'),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: Frequency.Rarely,
+                                groupValue: _freq2,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _freq2 = value;
+                                    // _data['gender'] = describeEnum(_gender);
+                                  });
+                                },
+                              ),
+                              Text('Rarely'),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: Frequency.Sometimes,
+                                groupValue: _freq2,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _freq2 = value;
+                                  });
+                                },
+                              ),
+                              Text('Sometimes'),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: Frequency.Never,
+                                groupValue: _freq2,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _freq2 = value;
+                                  });
+                                },
+                              ),
+                              Text('Never'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'Do you have a family history of Osteoarthritis/Osteoporosis?',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Radio(
+                        activeColor: Color(0xFF06aE71),
+                        value: YesNo.Yes,
+                        groupValue: _yesno7,
+                        onChanged: (value) {
+                          setState(() {
+                            _yesno7 = value;
+                            _familyHistory = true;
+                            // _data['gender'] = describeEnum(_gender);
+                          });
+                        },
+                      ),
+                      Text('Yes'),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Radio(
+                        activeColor: Color(0xFF06aE71),
+                        value: YesNo.No,
+                        groupValue: _yesno7,
+                        onChanged: (value) {
+                          setState(() {
+                            _yesno7 = value;
+                            _familyHistory = false;
+                            // _data['gender'] = describeEnum(_gender);
+                          });
+                        },
+                      ),
+                      Text('No'),
+                    ],
+                  ),
+                  if (_familyHistory) ...[
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      // controller: _emailController,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        labelText: 'If Yes, Please Specify',
+                        labelStyle: TextStyle(color: Colors.grey),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                      keyboardAppearance: Brightness.light,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (val) {
+                        if (val == '') {
+                          return 'This Field is required.';
+                        }
+                      },
+                      // onSaved: (val) {
+                      //   _authData['email'] = val;
+                      // },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      'How much is your daily activity level?',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Radio(
+                                  activeColor: Color(0xFF06aE71),
+                                  value: DailyActivity.Bedridden,
+                                  groupValue: _dailyActivity,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _dailyActivity = value;
+                                    });
+                                  },
+                                ),
+                                Text('Bedridden'),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Radio(
+                                  activeColor: Color(0xFF06aE71),
+                                  value: DailyActivity.Moderate,
+                                  groupValue: _dailyActivity,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _dailyActivity = value;
+                                      // _data['gender'] = describeEnum(_gender);
+                                    });
+                                  },
+                                ),
+                                Text('Moderate'),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Radio(
+                                  activeColor: Color(0xFF06aE71),
+                                  value: DailyActivity.Low,
+                                  groupValue: _dailyActivity,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _dailyActivity = value;
+                                    });
+                                  },
+                                ),
+                                Text('Low'),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Radio(
+                                  activeColor: Color(0xFF06aE71),
+                                  value: DailyActivity.High,
+                                  groupValue: _dailyActivity,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _dailyActivity = value;
+                                    });
+                                  },
+                                ),
+                                Text('High'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Radio(
+                          activeColor: Color(0xFF06aE71),
+                          value: DailyActivity.VeryHigh,
+                          groupValue: _dailyActivity,
+                          onChanged: (value) {
+                            setState(() {
+                              _dailyActivity = value;
+                            });
+                          },
+                        ),
+                        Text('Very High'),
+                      ],
+                    ),
+                  ],
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 40,
+                    ),
+                    height: 40,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: _isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation(
+                                  Colors.grey,
+                                ),
+                              ),
+                            )
+                          : RaisedButton(
+                              color: Colors.grey[350],
+                              textColor: Colors.black,
+                              child: Text(
+                                'SUBMIT',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'SFProTextSemiMed',
+                                ),
+                              ),
+                              // onPressed: _submit,
+                              onPressed: () {},
+                            ),
+                    ),
                   ),
                 ],
               ),
