@@ -5,6 +5,11 @@ import './doctor/doctor_register_screen.dart';
 import './patient/patient_register_screen.dart';
 import './login_screen.dart';
 import './providers/auth.dart';
+import './videocall/pages/index.dart';
+
+
+//IndexPage()    ---- Video Calling
+
 
 void main() => runApp(MyApp());
 
