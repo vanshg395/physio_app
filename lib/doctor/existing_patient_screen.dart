@@ -73,8 +73,9 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
         'patient': patientId,
       });
       final responseBody = json.decode(response.body);
+      print(responseBody);
       print(response.statusCode);
-      final channelName = responseBody['channel'];
+      final channelName = responseBody[0]['channel'];
       await showDialog(
         context: context,
         child: AlertDialog(
