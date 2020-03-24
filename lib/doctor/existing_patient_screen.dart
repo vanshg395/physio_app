@@ -75,6 +75,18 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
       final responseBody = json.decode(response.body);
       print(response.statusCode);
       final channelName = responseBody['channel'];
+      await showDialog(
+        context: context,
+        child: AlertDialog(
+          content: Text(channelName),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
+        ),
+      );
       await PermissionHandler().requestPermissions(
         [PermissionGroup.camera, PermissionGroup.microphone],
       );
