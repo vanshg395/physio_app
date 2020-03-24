@@ -39,6 +39,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
   DailyActivity _dailyActivity;
   bool _isLoading = false;
   Map<String, dynamic> _data = {
+    'user': '',
     'date_of_birth': '',
     'height': '',
     'weight': '',
@@ -76,7 +77,9 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
       final response = await http.post(
         url,
         headers: {
-          'Authorization': Provider.of<Auth>(context, listen: false).token
+          'Authorization': Provider.of<Auth>(context, listen: false).token,
+          'content_type': 'application/json',
+          "Accept": "application/json",
         },
         body: json.encode(_data),
       );
@@ -143,9 +146,10 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                     onChanged: (_) {
                       _formKey.currentState.validate();
                     },
-                    // onSaved: (val) {
-                    //   _authData['email'] = val;
-                    // },
+                    onSaved: (val) {
+                      _data['user'] =
+                          Provider.of<Auth>(context, listen: false).id;
+                    },
                   ),
                   SizedBox(
                     height: 15,

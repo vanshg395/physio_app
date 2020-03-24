@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../providers/auth.dart';
 
 class DoctorRegisterScreen extends StatefulWidget {
   @override
@@ -17,7 +20,15 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
   String _seqQues;
   bool _isLoading = false;
   bool _isLoading2 = false;
-  List<dynamic> _hospitals;
+  List<dynamic> _hospitals = [];
+  Map<String, dynamic> _data = {
+    'docinfo': '',
+    'hospital': '',
+    'department': '',
+    'designation': '',
+    'security_question': '',
+    'security_answer': '',
+  };
 
   @override
   void initState() {
@@ -25,23 +36,53 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
     getHospitals();
   }
 
+  Future<void> _submit() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    _formKey.currentState.save();
+    try {
+      String url = 'https://fitknees.herokuapp.com/auth/doctor/';
+
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': Provider.of<Auth>(context, listen: false).token,
+        },
+        body: json.encode(_data),
+      );
+      final responseBody = json.decode(response.body);
+      print(responseBody);
+      print(response.statusCode);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> getHospitals() async {
     String url = 'https://fitknees.herokuapp.com/auth/hospitals/';
 
     try {
-      setState(() {
-        _isLoading2 = true;
-      });
-      final response = await http.get(url);
+      // setState(() {
+      //   _isLoading2 = true;
+      // });
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': Provider.of<Auth>(context, listen: false).token,
+        },
+      );
       final responseBody = json.decode(response.body);
       print(responseBody);
-      _hospitals = responseBody;
+      setState(() {
+        _hospitals = responseBody;
+      });
     } catch (e) {
       print(e);
     }
-    setState(() {
-      _isLoading2 = false;
-    });
+    // setState(() {
+    //   _isLoading2 = false;
+    // });
   }
 
   @override
@@ -93,9 +134,10 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                         return 'This Field is required.';
                       }
                     },
-                    // onSaved: (val) {
-                    //   _authData['email'] = val;
-                    // },
+                    onSaved: (val) {
+                      _data['docinfo'] =
+                          Provider.of<Auth>(context, listen: false).id;
+                    },
                   ),
                   SizedBox(
                     height: 15,
@@ -147,6 +189,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                           onSaved: (value) {
                             setState(() {
                               _hospital = value;
+                              _data['hospital'] = value;
                             });
                           },
                           onChanged: (value) {
@@ -156,7 +199,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                           },
                           dataSource: _hospitals,
                           textField: 'hospital',
-                          valueField: 'hospital',
+                          valueField: 'id',
                         ),
                   SizedBox(
                     height: 15,
@@ -169,6 +212,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                     onSaved: (value) {
                       setState(() {
                         _designation = value;
+                        _data['designation'] = value;
                       });
                     },
                     onChanged: (value) {
@@ -216,6 +260,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                     onSaved: (value) {
                       setState(() {
                         _dept = value;
+                        _data['department'] = value;
                       });
                     },
                     onChanged: (value) {
@@ -240,52 +285,85 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                     textField: 'display',
                     valueField: 'value',
                   ),
-                  // SizedBox(
-                  //   height: 15,
-                  // ),
-                  // DropDownFormField(
-                  //   titleText: 'Security Question',
-                  //   hintText: 'Please choose one',
-                  //   required: true,
-                  //   value: _seqQues,
-                  //   onSaved: (value) {
-                  //     setState(() {
-                  //       _seqQues = value;
-                  //     });
-                  //   },
-                  //   onChanged: (value) {
-                  //     setState(() {
-                  //       _seqQues = value;
-                  //     });
-                  //   },
-                  //   dataSource: [
-                  //     {
-                  //       "display":
-                  //           "What was the name of your elementary school?",
-                  //       "value": "What was the name of your elementary school?",
-                  //     },
-                  //     {
-                  //       "display":
-                  //           "In what city or town does your nearest sibling live?",
-                  //       "value":
-                  //           "In what city or town does your nearest sibling live?",
-                  //     },
-                  //     {
-                  //       "display": "What is your pet's name?",
-                  //       "value": "What is your pet's name?",
-                  //     },
-                  //     {
-                  //       "display": "What is your father's middle name?",
-                  //       "value": "What is your father's middle name?",
-                  //     },
-                  //     {
-                  //       "display": "Your favourite colour?",
-                  //       "value": "Your favourite colour?",
-                  //     },
-                  //   ],
-                  //   textField: 'display',
-                  //   valueField: 'value',
-                  // ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  DropDownFormField(
+                    titleText: 'Security Question',
+                    hintText: 'Please choose one',
+                    required: true,
+                    value: _seqQues,
+                    onSaved: (value) {
+                      setState(() {
+                        _seqQues = value;
+                        _data['security_question'] = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _seqQues = value;
+                      });
+                    },
+                    dataSource: [
+                      // {
+                      //   "display":
+                      //       "What was the name of your elementary school?",
+                      //   "value": "What was the name of your elementary school?",
+                      // },
+                      // {
+                      //   "display":
+                      //       "In what city or town does your nearest sibling live?",
+                      //   "value":
+                      //       "In what city or town does your nearest sibling live?",
+                      // },
+                      {
+                        "display": "What is your pet's name?",
+                        "value": "What is your pet's name?",
+                      },
+                      {
+                        "display": "What is your father's middle name?",
+                        "value": "What is your father's middle name?",
+                      },
+                      {
+                        "display": "Your favourite colour?",
+                        "value": "Your favourite colour?",
+                      },
+                    ],
+                    textField: 'display',
+                    valueField: 'value',
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  TextFormField(
+                    maxLines: 1,
+                    // controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Answer',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    keyboardAppearance: Brightness.light,
+                    validator: (val) {
+                      if (val == '') {
+                        return 'This Field is required.';
+                      }
+                    },
+                    onSaved: (value) {
+                      _data['security_answer'] = value;
+                    },
+                  ),
                   SizedBox(
                     height: 30,
                   ),

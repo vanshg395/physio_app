@@ -59,7 +59,8 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
         backgroundColor: Color(0xFF072031),
         unselectedItemColor: Colors.white,
         currentIndex: _selectedPageIndex,
-        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
         items: [
           BottomNavigationBarItem(
             icon: Icon(
@@ -72,20 +73,20 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
               size: 33,
               color: Color(0xff3284ff),
             ),
-            title: SizedBox(),
+            title: Text('Add Patient'),
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person,
+              Icons.people,
               size: 33,
               color: Colors.grey,
             ),
             activeIcon: Icon(
-              Icons.person,
+              Icons.people,
               size: 33,
               color: Color(0xff3284ff),
             ),
-            title: SizedBox(),
+            title: Text('Existing Patients'),
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -98,7 +99,11 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
               size: 33,
               color: Color(0xff3284ff),
             ),
-            title: SizedBox(),
+            title: FittedBox(
+                child: Text(
+              'Consultation Calendar',
+              textAlign: TextAlign.center,
+            )),
           ),
         ],
       ),

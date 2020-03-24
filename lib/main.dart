@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:physio_app/doctor/doctor_tabs_screen.dart';
 import 'package:provider/provider.dart';
 
+import './doctor/doctor_tabs_screen.dart';
 import './doctor/doctor_register_screen.dart';
 import './patient/patient_register_screen.dart';
 import './login_screen.dart';
@@ -19,16 +19,43 @@ class MyApp extends StatelessWidget {
       value: Auth(),
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: auth.isAuth
-              ? auth.entryLevel == 'First'
-                  ? auth.userType == 'Doctor'
-                      ? DoctorRegisterScreen()
-                      : PatientRegisterScreen()
-                  : LoginScreen()
-              : LoginScreen(),
-          // home: PatientRegisterScreen(),
-        ),
+            debugShowCheckedModeBanner: false,
+            home: auth.isAuth
+                ? auth.entryLevel == 'First'
+                    ? auth.userType == 'Doctor'
+                        ? DoctorRegisterScreen()
+                        : PatientRegisterScreen()
+                    : auth.userType == 'Doctor'
+                        ? DoctorTabsScreen()
+                        : PatientRegisterScreen()
+                : FutureBuilder(
+                    future: auth.tryAutoLogin(),
+                    builder: (ctx, res) {
+                      if (res.connectionState == ConnectionState.waiting) {
+                        return (Scaffold(
+                          body: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ));
+                      } else {
+                        if (res.data) {
+                          return auth.entryLevel == 'First'
+                              ? auth.userType == 'Doctor'
+                                  ? DoctorRegisterScreen()
+                                  : PatientRegisterScreen()
+                              : auth.userType == 'Doctor'
+                                  ? DoctorTabsScreen()
+                                  : PatientRegisterScreen();
+                        } else {
+                          return LoginScreen();
+                        }
+                      }
+                    },
+                  )
+            // home: PatientRegisterScreen(),
+            // home: DoctorRegisterScreen(),
+            // home: DoctorTabsScreen(),
+            ),
       ),
     );
   }

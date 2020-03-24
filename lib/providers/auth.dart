@@ -12,9 +12,14 @@ class Auth with ChangeNotifier {
   String _username;
   String _name;
   String _entryLevel;
+  String _id;
 
   bool get isAuth {
     return token != null;
+  }
+
+  String get id {
+    return _id;
   }
 
   String get token {
@@ -52,6 +57,7 @@ class Auth with ChangeNotifier {
         _token = 'Token ' + responseBody['token']['auth_token'];
         _username = responseBody['username'];
         _name = responseBody['name'];
+        _id = responseBody['userInfo']['id'];
         _entryLevel = responseBody['userInfo']['entryLevel'];
         final prefs = await SharedPreferences.getInstance();
         final data = json.encode({
@@ -59,6 +65,8 @@ class Auth with ChangeNotifier {
           'userType': _userType,
           'username': _username,
           'name': _name,
+          'id': _id,
+          'entryLevel': _entryLevel,
         });
         prefs.setString('userData', data);
         notifyListeners();
@@ -83,21 +91,24 @@ class Auth with ChangeNotifier {
     _userType = extractedUserData['userType'];
     _username = extractedUserData['username'];
     _name = extractedUserData['name'];
+    _id = extractedUserData['id'];
+    _entryLevel = extractedUserData['entryLevel'];
     notifyListeners();
     return true;
   }
 
-  // Future<void> logout() async {
-  //   print(1);
-  //   String url = 'https://fitknees.herokuapp.com/auth/token/login/';
-  //   final response = await http.get(url, headers: {'Authorization': _token});
-  //   print(response.statusCode);
-  //   final prefs = await SharedPreferences.getInstance();
-  //   prefs.clear();
-  //   _token = null;
-  //   _userType = null;
-  //   _username = null;
-  //   _name = null;
-  //   notifyListeners();
-  // }
+  Future<void> logout() async {
+    print(1);
+    String url = 'https://fitknees.herokuapp.com/auth/token/login/';
+    final response = await http.get(url, headers: {'Authorization': _token});
+    print(response.statusCode);
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    _token = null;
+    _userType = null;
+    _username = null;
+    _name = null;
+    _id = null;
+    notifyListeners();
+  }
 }
