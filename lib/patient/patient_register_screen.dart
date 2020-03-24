@@ -1,6 +1,13 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../providers/auth.dart';
 
 enum Gender { Male, Female }
 enum YesNo { Yes, No }
@@ -31,6 +38,58 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
   BloodPressure _bloodPressure;
   DailyActivity _dailyActivity;
   bool _isLoading = false;
+  Map<String, dynamic> _data = {
+    'date_of_birth': '',
+    'height': '',
+    'weight': '',
+    'country_code': '',
+    'phone_number': '',
+    'occupation': '',
+    'report_email': '',
+    'gender': '',
+    'blood_pressure': '',
+    'liver_disease': '',
+    'kidney_disease': '',
+    'heart_disease': '',
+    'diabetes': '',
+    'past_surgery': '',
+    'past_surgery_desc': '',
+    'smoke': '',
+    'drink': '',
+    'history_osteoporosis': '',
+    'history_osteoporosis_desc': '',
+    'activity': '',
+  };
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    _formKey.currentState.save();
+    print(_data);
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      String url = 'https://fitknees.herokuapp.com/auth/patient/';
+
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': Provider.of<Auth>(context, listen: false).token
+        },
+        body: json.encode(_data),
+      );
+      final responseBody = response.body;
+      print(responseBody);
+      print(response.statusCode);
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +140,9 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         return 'This Field is required.';
                       }
                     },
+                    onChanged: (_) {
+                      _formKey.currentState.validate();
+                    },
                     // onSaved: (val) {
                     //   _authData['email'] = val;
                     // },
@@ -111,6 +173,9 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                       if (val == '') {
                         return 'This Field is required.';
                       }
+                    },
+                    onChanged: (_) {
+                      _formKey.currentState.validate();
                     },
                     // onSaved: (val) {
                     //   _authData['email'] = val;
@@ -148,6 +213,14 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         lastDate: DateTime.now(),
                       );
                       dateCtl.text = DateFormat.yMMMMd().format(date);
+                      _data['date_of_birth'] =
+                          DateFormat('yyyy-MM-dd').format(date);
+                      print(_data);
+                    },
+                    validator: (val) {
+                      if (val == '') {
+                        return 'This Field is required.';
+                      }
                     },
                   ),
                   SizedBox(
@@ -180,9 +253,12 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         return 'This Field is required.';
                       }
                     },
-                    // onSaved: (val) {
-                    //   _authData['email'] = val;
-                    // },
+                    onChanged: (_) {
+                      _formKey.currentState.validate();
+                    },
+                    onSaved: (val) {
+                      _data['height'] = val;
+                    },
                   ),
                   SizedBox(
                     height: 15,
@@ -214,9 +290,12 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         return 'This Field is required.';
                       }
                     },
-                    // onSaved: (val) {
-                    //   _authData['email'] = val;
-                    // },
+                    onChanged: (_) {
+                      _formKey.currentState.validate();
+                    },
+                    onSaved: (val) {
+                      _data['weight'] = val;
+                    },
                   ),
                   SizedBox(
                     height: 15,
@@ -224,15 +303,17 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                   InternationalPhoneNumberInput.withCustomBorder(
                     onInputChanged: (PhoneNumber number) {
                       print(number.phoneNumber);
+                      _data['country_code'] = number.dialCode;
+                      _data['phone_number'] = number.phoneNumber;
                     },
-                    isEnabled: true,
+                    // isEnabled: true,
                     autoValidate: true,
                     formatInput: true,
                     inputBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
                     hintText: 'Enter your Phone Number',
-                    onInputValidated: (val) {},
+                    onInputValidated: (_) {},
                     selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                     initialCountry2LetterCode: 'IN',
                   ),
@@ -262,6 +343,9 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                       if (val == '') {
                         return 'This Field is required.';
                       }
+                    },
+                    onChanged: (_) {
+                      _formKey.currentState.validate();
                     },
                     // onSaved: (val) {
                     //   _authData['email'] = val;
@@ -295,9 +379,12 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         return 'This Field is required.';
                       }
                     },
-                    // onSaved: (val) {
-                    //   _authData['email'] = val;
-                    // },
+                    onChanged: (_) {
+                      _formKey.currentState.validate();
+                    },
+                    onSaved: (val) {
+                      _data['email'] = val;
+                    },
                   ),
                   SizedBox(
                     height: 25,
@@ -318,7 +405,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _gender = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['gender'] = describeEnum(_gender);
                           });
                         },
                       ),
@@ -333,7 +420,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _gender = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['gender'] = describeEnum(_gender);
                           });
                         },
                       ),
@@ -359,7 +446,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _yesno1 = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['report_email'] =
+                                describeEnum(_yesno1) == 'Yes';
                           });
                         },
                       ),
@@ -374,7 +462,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _yesno1 = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['report_email'] =
+                                describeEnum(_yesno1) == 'Yes';
                           });
                         },
                       ),
@@ -404,7 +493,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _bloodPressure = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['blood_pressure'] =
+                                describeEnum(_bloodPressure);
                           });
                         },
                       ),
@@ -419,7 +509,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _bloodPressure = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['blood_pressure'] =
+                                describeEnum(_bloodPressure);
                           });
                         },
                       ),
@@ -434,7 +525,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _bloodPressure = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['blood_pressure'] =
+                                describeEnum(_bloodPressure);
                           });
                         },
                       ),
@@ -452,7 +544,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _yesno2 = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['liver_disease'] =
+                                describeEnum(_yesno2) == 'Yes';
                           });
                         },
                       ),
@@ -467,7 +560,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _yesno2 = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['liver_disease'] =
+                                describeEnum(_yesno2) == 'Yes';
                           });
                         },
                       ),
@@ -485,7 +579,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _yesno3 = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['kidney_disease'] =
+                                describeEnum(_yesno3) == 'Yes';
                           });
                         },
                       ),
@@ -500,7 +595,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _yesno3 = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['kidney_disease'] =
+                                describeEnum(_yesno3) == 'Yes';
                           });
                         },
                       ),
@@ -518,7 +614,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _yesno4 = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['heart_disease'] =
+                                describeEnum(_yesno4) == 'Yes';
                           });
                         },
                       ),
@@ -533,7 +630,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _yesno4 = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['heart_disease'] =
+                                describeEnum(_yesno4) == 'Yes';
                           });
                         },
                       ),
@@ -551,7 +649,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _yesno5 = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['diabetes'] = describeEnum(_yesno5) == 'Yes';
                           });
                         },
                       ),
@@ -566,7 +664,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         onChanged: (value) {
                           setState(() {
                             _yesno5 = value;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['diabetes'] = describeEnum(_yesno5) == 'Yes';
                           });
                         },
                       ),
@@ -593,7 +691,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                           setState(() {
                             _yesno6 = value;
                             _hasSurgeryHappenned = true;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['past_surgery'] =
+                                describeEnum(_yesno6) == 'Yes';
                           });
                         },
                       ),
@@ -609,7 +708,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                           setState(() {
                             _yesno6 = value;
                             _hasSurgeryHappenned = false;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['past_surgery'] =
+                                describeEnum(_yesno6) == 'Yes';
                           });
                         },
                       ),
@@ -646,9 +746,12 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                           return 'This Field is required.';
                         }
                       },
-                      // onSaved: (val) {
-                      //   _authData['email'] = val;
-                      // },
+                      onChanged: (_) {
+                        _formKey.currentState.validate();
+                      },
+                      onSaved: (val) {
+                        _data['past_surgery_desc'] = val;
+                      },
                     ),
                   ],
                   SizedBox(
@@ -675,6 +778,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     _freq1 = value;
+                                    _data['smoke'] = describeEnum(_freq1);
                                   });
                                 },
                               ),
@@ -690,7 +794,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     _freq1 = value;
-                                    // _data['gender'] = describeEnum(_gender);
+                                    _data['smoke'] = describeEnum(_freq1);
                                   });
                                 },
                               ),
@@ -714,6 +818,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     _freq1 = value;
+                                    _data['smoke'] = describeEnum(_freq1);
                                   });
                                 },
                               ),
@@ -729,6 +834,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     _freq1 = value;
+                                    _data['smoke'] = describeEnum(_freq1);
                                   });
                                 },
                               ),
@@ -763,6 +869,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     _freq2 = value;
+                                    _data['drink'] = describeEnum(_freq2);
                                   });
                                 },
                               ),
@@ -778,7 +885,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     _freq2 = value;
-                                    // _data['gender'] = describeEnum(_gender);
+                                    _data['drink'] = describeEnum(_freq2);
                                   });
                                 },
                               ),
@@ -802,6 +909,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     _freq2 = value;
+                                    _data['drink'] = describeEnum(_freq2);
                                   });
                                 },
                               ),
@@ -817,6 +925,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     _freq2 = value;
+                                    _data['drink'] = describeEnum(_freq2);
                                   });
                                 },
                               ),
@@ -848,6 +957,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                             _yesno7 = value;
                             _familyHistory = true;
                             // _data['gender'] = describeEnum(_gender);
+                            _data['history_osteoporosis'] =
+                                describeEnum(_yesno7) == 'Yes';
                           });
                         },
                       ),
@@ -863,7 +974,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                           setState(() {
                             _yesno7 = value;
                             _familyHistory = false;
-                            // _data['gender'] = describeEnum(_gender);
+                            _data['history_osteoporosis'] =
+                                describeEnum(_yesno7) == 'Yes';
                           });
                         },
                       ),
@@ -900,115 +1012,126 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                           return 'This Field is required.';
                         }
                       },
-                      // onSaved: (val) {
-                      //   _authData['email'] = val;
-                      // },
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      'How much is your daily activity level?',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Radio(
-                                  activeColor: Color(0xFF06aE71),
-                                  value: DailyActivity.Bedridden,
-                                  groupValue: _dailyActivity,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _dailyActivity = value;
-                                    });
-                                  },
-                                ),
-                                Text('Bedridden'),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Radio(
-                                  activeColor: Color(0xFF06aE71),
-                                  value: DailyActivity.Moderate,
-                                  groupValue: _dailyActivity,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _dailyActivity = value;
-                                      // _data['gender'] = describeEnum(_gender);
-                                    });
-                                  },
-                                ),
-                                Text('Moderate'),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Radio(
-                                  activeColor: Color(0xFF06aE71),
-                                  value: DailyActivity.Low,
-                                  groupValue: _dailyActivity,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _dailyActivity = value;
-                                    });
-                                  },
-                                ),
-                                Text('Low'),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Radio(
-                                  activeColor: Color(0xFF06aE71),
-                                  value: DailyActivity.High,
-                                  groupValue: _dailyActivity,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _dailyActivity = value;
-                                    });
-                                  },
-                                ),
-                                Text('High'),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Radio(
-                          activeColor: Color(0xFF06aE71),
-                          value: DailyActivity.VeryHigh,
-                          groupValue: _dailyActivity,
-                          onChanged: (value) {
-                            setState(() {
-                              _dailyActivity = value;
-                            });
-                          },
-                        ),
-                        Text('Very High'),
-                      ],
+                      onChanged: (_) {
+                        _formKey.currentState.validate();
+                      },
+                      onSaved: (val) {
+                        _data['history_osteoporosis'] = val;
+                      },
                     ),
                   ],
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'How much is your daily activity level?',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: DailyActivity.Bedridden,
+                                groupValue: _dailyActivity,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _dailyActivity = value;
+                                    _data['activity'] =
+                                        describeEnum(_dailyActivity);
+                                  });
+                                },
+                              ),
+                              Text('Bedridden'),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: DailyActivity.Moderate,
+                                groupValue: _dailyActivity,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _dailyActivity = value;
+                                    _data['activity'] =
+                                        describeEnum(_dailyActivity);
+                                  });
+                                },
+                              ),
+                              Text('Moderate'),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: DailyActivity.Low,
+                                groupValue: _dailyActivity,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _dailyActivity = value;
+                                    _data['activity'] =
+                                        describeEnum(_dailyActivity);
+                                  });
+                                },
+                              ),
+                              Text('Low'),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Radio(
+                                activeColor: Color(0xFF06aE71),
+                                value: DailyActivity.High,
+                                groupValue: _dailyActivity,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _dailyActivity = value;
+                                    _data['activity'] =
+                                        describeEnum(_dailyActivity);
+                                  });
+                                },
+                              ),
+                              Text('High'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Radio(
+                        activeColor: Color(0xFF06aE71),
+                        value: DailyActivity.VeryHigh,
+                        groupValue: _dailyActivity,
+                        onChanged: (value) {
+                          setState(() {
+                            _dailyActivity = value;
+                            _data['activity'] = describeEnum(_dailyActivity);
+                          });
+                        },
+                      ),
+                      Text('Very High'),
+                    ],
+                  ),
                   SizedBox(
                     height: 30,
                   ),
@@ -1037,10 +1160,13 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                   fontFamily: 'SFProTextSemiMed',
                                 ),
                               ),
-                              // onPressed: _submit,
-                              onPressed: () {},
+                              onPressed: _submit,
+                              // onPressed: () {},
                             ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                 ],
               ),

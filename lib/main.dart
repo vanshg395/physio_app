@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           //             : PatientRegisterScreen()
           //         : LoginScreen()
           //     : LoginScreen(),
-          home: DoctorTabsScreen(),
+          home: PatientRegisterScreen(),
         ),
       ),
     );

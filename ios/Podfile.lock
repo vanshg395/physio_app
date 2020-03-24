@@ -2,7 +2,11 @@ PODS:
   - agora_rtc_engine (1.0.8):
     - AgoraRtcEngine_iOS (= 2.9.1)
     - Flutter
+  - agora_rtm (0.9.10):
+    - AgoraRtm_iOS (= 1.1.0)
+    - Flutter
   - AgoraRtcEngine_iOS (2.9.1)
+  - AgoraRtm_iOS (1.1.0)
   - Flutter (1.0.0)
   - libphonenumber (0.0.1):
     - Flutter
@@ -19,6 +23,7 @@ PODS:
 
 DEPENDENCIES:
   - agora_rtc_engine (from `.symlinks/plugins/agora_rtc_engine/ios`)
+  - agora_rtm (from `.symlinks/plugins/agora_rtm/ios`)
   - Flutter (from `Flutter`)
   - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
@@ -29,11 +34,14 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AgoraRtcEngine_iOS
+    - AgoraRtm_iOS
     - libPhoneNumber-iOS
 
 EXTERNAL SOURCES:
   agora_rtc_engine:
     :path: ".symlinks/plugins/agora_rtc_engine/ios"
+  agora_rtm:
+    :path: ".symlinks/plugins/agora_rtm/ios"
   Flutter:
     :path: Flutter
   libphonenumber:
@@ -49,7 +57,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   agora_rtc_engine: 481d11cbbee6728aa192ba42ab8981abba9f09a5
+  agora_rtm: 05ca0fa31dc73b088207a93a6ac2d37c3916f923
   AgoraRtcEngine_iOS: b2eedd8f9ab47b71163f3285e836bd23feb43fff
+  AgoraRtm_iOS: 9192a2c904b2171614ab0b0886f1bee126313baf
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
