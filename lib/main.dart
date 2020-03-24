@@ -20,14 +20,14 @@ class MyApp extends StatelessWidget {
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
           debugShowCheckedModeBanner: false,
-          // home: auth.isAuth
-          //     ? auth.entryLevel == 'First'
-          //         ? auth.userType == 'Doctor'
-          //             ? DoctorRegisterScreen()
-          //             : PatientRegisterScreen()
-          //         : LoginScreen()
-          //     : LoginScreen(),
-          home: PatientRegisterScreen(),
+          home: auth.isAuth
+              ? auth.entryLevel == 'First'
+                  ? auth.userType == 'Doctor'
+                      ? DoctorRegisterScreen()
+                      : PatientRegisterScreen()
+                  : LoginScreen()
+              : LoginScreen(),
+          // home: PatientRegisterScreen(),
         ),
       ),
     );
