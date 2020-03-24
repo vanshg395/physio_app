@@ -81,7 +81,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
           'content_type': 'application/json',
           "Accept": "application/json",
         },
-        body: json.encode(_data),
+        body: _data,
       );
       final responseBody = response.body;
       print(responseBody);

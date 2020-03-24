@@ -93,8 +93,24 @@ class Auth with ChangeNotifier {
     _name = extractedUserData['name'];
     _id = extractedUserData['id'];
     _entryLevel = extractedUserData['entryLevel'];
+    // logout();
     notifyListeners();
     return true;
+  }
+
+  Future<void> changeEntryLevel() async {
+    _entryLevel = 'Not First';
+    final prefs = await SharedPreferences.getInstance();
+    final data = json.encode({
+      'token': _token,
+      'userType': _userType,
+      'username': _username,
+      'name': _name,
+      'id': _id,
+      'entryLevel': _entryLevel,
+    });
+    prefs.setString('userData', data);
+    notifyListeners();
   }
 
   Future<void> logout() async {

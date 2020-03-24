@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:physio_app/doctor/patient_overview_scren.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../providers/auth.dart';
 
 class ExistingPatientScreen extends StatefulWidget {
   @override
@@ -8,6 +14,51 @@ class ExistingPatientScreen extends StatefulWidget {
 
 class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
   bool _isLoading = false;
+  List<dynamic> _patients = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getPatients();
+  }
+
+  Future<void> getPatients() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      String url = 'https://fitknees.herokuapp.com/auth/assign/';
+
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': Provider.of<Auth>(context, listen: false).token,
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+      final responseBody = json.decode(response.body);
+      _patients = responseBody['patients'];
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  String getInitials(String name) {
+    String initials = '';
+    initials = name[0];
+    for (var i = 0; i < name.length; i++) {
+      if (name[i] == ' ') {
+        initials += name[i + 1];
+        break;
+      }
+    }
+    initials = initials.toUpperCase();
+    return initials;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,90 +81,160 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
             SizedBox(
               height: 30,
             ),
-            ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                Card(
-                  color: Colors.grey[100],
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: ListTile(
-                      title: Text('John Doe'),
-                      leading: CircleAvatar(
-                        child: Text('JD'),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.video_call,
-                          size: 30,
+            _isLoading
+                ? Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                // : ListView(
+                //     shrinkWrap: true,
+                //     children: <Widget>[
+                //       Card(
+                //         color: Colors.grey[100],
+                //         child: Padding(
+                //           padding: const EdgeInsets.symmetric(vertical: 5.0),
+                //           child: ListTile(
+                //             title: Text('John Doe'),
+                //             leading: CircleAvatar(
+                //               child: Text('JD'),
+                //             ),
+                //             trailing: IconButton(
+                //               icon: Icon(
+                //                 Icons.video_call,
+                //                 size: 30,
+                //               ),
+                //               onPressed: () {
+                //                 // // try {
+                //                 // //   await Provider.of<Products>(context,
+                //                 // //           listen: false)
+                //                 // //       .deleteProduct(id);
+                //                 // // } catch (error) {
+                //                 // //   scaffold.showSnackBar(
+                //                 // //     SnackBar(
+                //                 // //       content: Text(
+                //                 // //         'Deleting failed!',
+                //                 // //         textAlign: TextAlign.center,
+                //                 // //       ),
+                //                 // //     ),
+                //                 // //   );
+                //                 // }
+                //               },
+                //               color: Colors.green,
+                //             ),
+                //             onTap: () {
+                //               Navigator.of(context).push(
+                //                 MaterialPageRoute(
+                //                   builder: (ctx) =>
+                //                       PatientOverviewScreen(name: 'John Doe'),
+                //                 ),
+                //               );
+                //             },
+                //           ),
+                //         ),
+                //       ),
+                //       Divider(),
+                //       Card(
+                //         color: Colors.grey[100],
+                //         child: Padding(
+                //           padding: const EdgeInsets.symmetric(vertical: 5.0),
+                //           child: ListTile(
+                //             title: Text('Vansh Goel'),
+                //             leading: CircleAvatar(
+                //               child: Text('VG'),
+                //             ),
+                //             trailing: IconButton(
+                //               icon: Icon(
+                //                 Icons.video_call,
+                //                 size: 30,
+                //               ),
+                //               onPressed: () async {
+                //                 // // try {
+                //                 // //   await Provider.of<Products>(context,
+                //                 // //           listen: false)
+                //                 // //       .deleteProduct(id);
+                //                 // // } catch (error) {
+                //                 // //   scaffold.showSnackBar(
+                //                 // //     SnackBar(
+                //                 // //       content: Text(
+                //                 // //         'Deleting failed!',
+                //                 // //         textAlign: TextAlign.center,
+                //                 // //       ),
+                //                 // //     ),
+                //                 // //   );
+                //                 // }
+                //               },
+                //               color: Colors.green,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   )
+                : _patients.length == 0
+                    ? Expanded(
+                        child: Center(
+                          child: Text('There are no patients for you.'),
                         ),
-                        onPressed: () {
-                          // // try {
-                          // //   await Provider.of<Products>(context,
-                          // //           listen: false)
-                          // //       .deleteProduct(id);
-                          // // } catch (error) {
-                          // //   scaffold.showSnackBar(
-                          // //     SnackBar(
-                          // //       content: Text(
-                          // //         'Deleting failed!',
-                          // //         textAlign: TextAlign.center,
-                          // //       ),
-                          // //     ),
-                          // //   );
-                          // }
-                        },
-                        color: Colors.green,
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (ctx) =>
-                                PatientOverviewScreen(name: 'John Doe'),
+                      )
+                    : Flexible(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemBuilder: (ctx, i) => Column(
+                            children: <Widget>[
+                              Card(
+                                color: Colors.grey[100],
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                  child: ListTile(
+                                    title: Text(_patients[i]['fullName']),
+                                    leading: CircleAvatar(
+                                      child: Text(getInitials(
+                                          _patients[i]['fullName'])),
+                                    ),
+                                    trailing: IconButton(
+                                      icon: Icon(
+                                        Icons.video_call,
+                                        size: 30,
+                                      ),
+                                      onPressed: () {
+                                        // // try {
+                                        // //   await Provider.of<Products>(context,
+                                        // //           listen: false)
+                                        // //       .deleteProduct(id);
+                                        // // } catch (error) {
+                                        // //   scaffold.showSnackBar(
+                                        // //     SnackBar(
+                                        // //       content: Text(
+                                        // //         'Deleting failed!',
+                                        // //         textAlign: TextAlign.center,
+                                        // //       ),
+                                        // //     ),
+                                        // //   );
+                                        // }
+                                      },
+                                      color: Colors.green,
+                                    ),
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (ctx) =>
+                                              PatientOverviewScreen(
+                                                  name: _patients[i]
+                                                      ['fullName']),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Divider(),
+                            ],
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                Divider(),
-                Card(
-                  color: Colors.grey[100],
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: ListTile(
-                      title: Text('Vansh Goel'),
-                      leading: CircleAvatar(
-                        child: Text('VG'),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.video_call,
-                          size: 30,
+                          itemCount: _patients.length,
                         ),
-                        onPressed: () async {
-                          // // try {
-                          // //   await Provider.of<Products>(context,
-                          // //           listen: false)
-                          // //       .deleteProduct(id);
-                          // // } catch (error) {
-                          // //   scaffold.showSnackBar(
-                          // //     SnackBar(
-                          // //       content: Text(
-                          // //         'Deleting failed!',
-                          // //         textAlign: TextAlign.center,
-                          // //       ),
-                          // //     ),
-                          // //   );
-                          // }
-                        },
-                        color: Colors.green,
                       ),
-                    ),
-                  ),
-                ),
-              ],
-            )
           ],
         ),
       ),

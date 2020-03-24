@@ -41,6 +41,9 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
       return;
     }
     _formKey.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
     try {
       String url = 'https://fitknees.herokuapp.com/auth/doctor/';
 
@@ -49,14 +52,21 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
         headers: {
           'Authorization': Provider.of<Auth>(context, listen: false).token,
         },
-        body: json.encode(_data),
+        // body: json.encode(_data),
+        body: _data,
       );
       final responseBody = json.decode(response.body);
       print(responseBody);
       print(response.statusCode);
+      if (response.statusCode == 200) {
+        await Provider.of<Auth>(context, listen: false).changeEntryLevel();
+      }
     } catch (e) {
       print(e);
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   Future<void> getHospitals() async {
@@ -392,8 +402,8 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                                   fontFamily: 'SFProTextSemiMed',
                                 ),
                               ),
-                              // onPressed: _submit,
-                              onPressed: () {},
+                              onPressed: _submit,
+                              // onPressed: () {},
                             ),
                     ),
                   ),
