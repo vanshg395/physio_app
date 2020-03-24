@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:physio_app/doctor/patient_overview_scren.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../providers/auth.dart';
+import '../videocall/pages/call.dart';
 
 class ExistingPatientScreen extends StatefulWidget {
   @override
@@ -60,6 +62,35 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
     return initials;
   }
 
+  Future<void> makeVideoCall(docId, patientId) async {
+    String url = 'https://fitknees.herokuapp.com/auth/patient/vcall/';
+
+    try {
+      final response = await http.post(url, headers: {
+        'Authorization': Provider.of<Auth>(context, listen: false).token,
+      }, body: {
+        'doctor': docId,
+        'patient': patientId,
+      });
+      final responseBody = json.decode(response.body);
+      print(response.statusCode);
+      final channelName = responseBody['channel'];
+      await PermissionHandler().requestPermissions(
+        [PermissionGroup.camera, PermissionGroup.microphone],
+      );
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CallPage(
+            channelName: channelName,
+          ),
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -87,90 +118,6 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
                       child: CircularProgressIndicator(),
                     ),
                   )
-                // : ListView(
-                //     shrinkWrap: true,
-                //     children: <Widget>[
-                //       Card(
-                //         color: Colors.grey[100],
-                //         child: Padding(
-                //           padding: const EdgeInsets.symmetric(vertical: 5.0),
-                //           child: ListTile(
-                //             title: Text('John Doe'),
-                //             leading: CircleAvatar(
-                //               child: Text('JD'),
-                //             ),
-                //             trailing: IconButton(
-                //               icon: Icon(
-                //                 Icons.video_call,
-                //                 size: 30,
-                //               ),
-                //               onPressed: () {
-                //                 // // try {
-                //                 // //   await Provider.of<Products>(context,
-                //                 // //           listen: false)
-                //                 // //       .deleteProduct(id);
-                //                 // // } catch (error) {
-                //                 // //   scaffold.showSnackBar(
-                //                 // //     SnackBar(
-                //                 // //       content: Text(
-                //                 // //         'Deleting failed!',
-                //                 // //         textAlign: TextAlign.center,
-                //                 // //       ),
-                //                 // //     ),
-                //                 // //   );
-                //                 // }
-                //               },
-                //               color: Colors.green,
-                //             ),
-                //             onTap: () {
-                //               Navigator.of(context).push(
-                //                 MaterialPageRoute(
-                //                   builder: (ctx) =>
-                //                       PatientOverviewScreen(name: 'John Doe'),
-                //                 ),
-                //               );
-                //             },
-                //           ),
-                //         ),
-                //       ),
-                //       Divider(),
-                //       Card(
-                //         color: Colors.grey[100],
-                //         child: Padding(
-                //           padding: const EdgeInsets.symmetric(vertical: 5.0),
-                //           child: ListTile(
-                //             title: Text('Vansh Goel'),
-                //             leading: CircleAvatar(
-                //               child: Text('VG'),
-                //             ),
-                //             trailing: IconButton(
-                //               icon: Icon(
-                //                 Icons.video_call,
-                //                 size: 30,
-                //               ),
-                //               onPressed: () async {
-                //                 // // try {
-                //                 // //   await Provider.of<Products>(context,
-                //                 // //           listen: false)
-                //                 // //       .deleteProduct(id);
-                //                 // // } catch (error) {
-                //                 // //   scaffold.showSnackBar(
-                //                 // //     SnackBar(
-                //                 // //       content: Text(
-                //                 // //         'Deleting failed!',
-                //                 // //         textAlign: TextAlign.center,
-                //                 // //       ),
-                //                 // //     ),
-                //                 // //   );
-                //                 // }
-                //               },
-                //               color: Colors.green,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   )
                 : _patients.length == 0
                     ? Expanded(
                         child: Center(
@@ -198,21 +145,12 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
                                         Icons.video_call,
                                         size: 30,
                                       ),
-                                      onPressed: () {
-                                        // // try {
-                                        // //   await Provider.of<Products>(context,
-                                        // //           listen: false)
-                                        // //       .deleteProduct(id);
-                                        // // } catch (error) {
-                                        // //   scaffold.showSnackBar(
-                                        // //     SnackBar(
-                                        // //       content: Text(
-                                        // //         'Deleting failed!',
-                                        // //         textAlign: TextAlign.center,
-                                        // //       ),
-                                        // //     ),
-                                        // //   );
-                                        // }
+                                      onPressed: () async {
+                                        await makeVideoCall(
+                                            Provider.of<Auth>(context,
+                                                    listen: false)
+                                                .id,
+                                            _patients[i]['patHandlerID']);
                                       },
                                       color: Colors.green,
                                     ),

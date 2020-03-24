@@ -11,7 +11,7 @@ class DoctorTabsScreen extends StatefulWidget {
 
 class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
   List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 0;
+  int _selectedPageIndex = 1;
 
   @override
   void initState() {
