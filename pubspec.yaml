@@ -34,6 +34,8 @@ dependencies:
   agora_rtc_engine: ^1.0.5
   agora_rtm: ^0.9.10
   permission_handler: ^3.0.0
+  file_picker: ^1.5.0+2
+
 
   
 dev_dependencies:

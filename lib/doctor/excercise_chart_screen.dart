@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
-
+import './doctor_add_video.dart';
 class ExcerciseChartScreen extends StatefulWidget {
   @override
   _ExcerciseChartScreenState createState() => _ExcerciseChartScreenState();
@@ -195,26 +195,54 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
                 Expanded(
                   child: SizedBox(),
                 ),
-                InkWell(
-                  child: Container(
-                    color: Colors.red,
-                    height: 100,
-                    width: double.infinity,
-                    child: SafeArea(
-                      child: Center(
-                        child: Text(
-                          'Assign',
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.white,
+                Column(
+                  children: <Widget>[
+                    InkWell(
+                      child: Container(
+                        alignment: Alignment.center,
+                        color: Colors.green,
+                        height: 80,
+                        width: double.infinity,
+                        child: SafeArea(
+                          child: Center(
+                            child: Text(
+                              'Add Video',
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ),
+                      onTap:(){ Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (ctx) =>DoctorVideoAdd()
+                              ),
+                        );}
                     ),
-                  ),
-                  onTap: () async {
-                    await assign();
-                  },
+                    InkWell(
+                      child: Container(
+                        color: Colors.red,
+                        height: 80,
+                        width: double.infinity,
+                        child: SafeArea(
+                          child: Center(
+                            child: Text(
+                              'Assign',
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () async {
+                        await assign();
+                      },
+                    ),
+                  ],
                 )
               ],
             ),
