@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1073563422656",
+    "firebase_url": "https://fitknees-my-physio.firebaseio.com",
+    "project_id": "fitknees-my-physio",
+    "storage_bucket": "fitknees-my-physio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073563422656:android:0ff3175d6ecf5a890e8225",
+        "android_client_info": {
+          "package_name": "com.ashva.fitknees_physio_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073563422656-l1vqpcl705qs63ftkc9agabftr5fqkop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0VeS2DTszAg2vW5It5UtSyLH8_l19OGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073563422656-l1vqpcl705qs63ftkc9agabftr5fqkop.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
