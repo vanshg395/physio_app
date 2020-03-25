@@ -55,6 +55,7 @@ class Auth with ChangeNotifier {
       if (response.statusCode == 200) {
         _userType = responseBody['userInfo']['userType'];
         _token = 'Token ' + responseBody['token']['auth_token'];
+        print(_token);
         _username = responseBody['username'];
         _name = responseBody['name'];
         _id = responseBody['userInfo']['id'];

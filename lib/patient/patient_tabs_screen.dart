@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import './patient_exercise_screen.dart';
+import './patient_consultation_screen.dart';
+
 class PatientTabsScreen extends StatefulWidget {
   @override
   _PatientTabsScreenState createState() => _PatientTabsScreenState();
@@ -13,14 +16,14 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
   @override
   void initState() {
     _pages = [
-      // {
-      //   'page': AddPatientScreen(),
-      //   'title': 'AddPatient',
-      // },
-      // {
-      //   'page': ExistingPatientScreen(),
-      //   'title': 'ExistingPatient',
-      // },
+      {
+        'page': PatientConsultationScreen(),
+        'title': 'PatConsult',
+      },
+      {
+        'page': PatientExerciseScreen(),
+        'title': 'PatExercise',
+      },
       // {
       //   'page': DoctorScheduleScreen(),
       //   'title': 'Schedule',
@@ -50,7 +53,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: _pages[_selectedPageIndex]['page'],
+      body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         backgroundColor: Color(0xFF072031),
