@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../providers/auth.dart';
 import '../videocall/pages/call.dart';
+import './excercise_chart_screen.dart';
 
 class PatientOverviewScreen extends StatefulWidget {
   final String name;
@@ -244,7 +245,11 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
                                 textColor: Colors.white,
                                 icon: Icon(Icons.directions_run),
                                 label: Text('Excercise Chart'),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (ctx) =>
+                                          ExcerciseChartScreen()));
+                                },
                               ),
                             ),
                             Expanded(
