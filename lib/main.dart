@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import './doctor/doctor_tabs_screen.dart';
 import './doctor/doctor_register_screen.dart';
 import './patient/patient_register_screen.dart';
+import './patient/patient_tabs_screen.dart';
 import './login_screen.dart';
 import './providers/auth.dart';
-import './videocall/pages/index.dart';
 
 //IndexPage()    ---- Video Calling
 
@@ -27,16 +27,16 @@ class MyApp extends StatelessWidget {
                         : PatientRegisterScreen()
                     : auth.userType == 'Doctor'
                         ? DoctorTabsScreen()
-                        : PatientRegisterScreen()
+                        : PatientTabsScreen()
                 : FutureBuilder(
                     future: auth.tryAutoLogin(),
                     builder: (ctx, res) {
                       if (res.connectionState == ConnectionState.waiting) {
-                        return (Scaffold(
+                        return Scaffold(
                           body: Center(
                             child: CircularProgressIndicator(),
                           ),
-                        ));
+                        );
                       } else {
                         if (res.data) {
                           return auth.entryLevel == 'First'
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
                                   : PatientRegisterScreen()
                               : auth.userType == 'Doctor'
                                   ? DoctorTabsScreen()
-                                  : PatientRegisterScreen();
+                                  : PatientTabsScreen();
                         } else {
                           return LoginScreen();
                         }
