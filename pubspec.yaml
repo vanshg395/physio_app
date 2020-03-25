@@ -34,6 +34,8 @@ dependencies:
   agora_rtc_engine: ^1.0.5
   agora_rtm: ^0.9.10
   permission_handler: ^3.0.0
+  chewie: ^0.9.10
+  video_player: ^0.10.8+1
 
   
 dev_dependencies:
