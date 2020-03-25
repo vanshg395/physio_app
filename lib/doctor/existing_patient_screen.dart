@@ -17,6 +17,7 @@ class ExistingPatientScreen extends StatefulWidget {
 class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
   bool _isLoading = false;
   List<dynamic> _patients = [];
+  String _docId;
 
   @override
   void initState() {
@@ -41,6 +42,8 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
       print(response.statusCode);
       final responseBody = json.decode(response.body);
       _patients = responseBody['patients'];
+      print(_patients);
+      _docId = responseBody['docHandlerId'];
     } catch (e) {
       print(e);
     }
@@ -51,6 +54,9 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
 
   String getInitials(String name) {
     String initials = '';
+    if (name == '') {
+      return '';
+    }
     initials = name[0];
     for (var i = 0; i < name.length; i++) {
       if (name[i] == ' ') {
@@ -58,6 +64,7 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
         break;
       }
     }
+    print(initials);
     initials = initials.toUpperCase();
     return initials;
   }
@@ -150,8 +157,7 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
                                   child: ListTile(
                                     title: Text(_patients[i]['fullName']),
                                     leading: CircleAvatar(
-                                      child: Text(getInitials(
-                                          _patients[i]['fullName'])),
+                                      child: Text(''),
                                     ),
                                     trailing: IconButton(
                                       icon: Icon(
@@ -172,8 +178,10 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
                                         MaterialPageRoute(
                                           builder: (ctx) =>
                                               PatientOverviewScreen(
-                                                  name: _patients[i]
-                                                      ['fullName']),
+                                            name: _patients[i]['fullName'],
+                                            patId: _patients[i]['patHandlerID'],
+                                            docId: _docId,
+                                          ),
                                         ),
                                       );
                                     },
