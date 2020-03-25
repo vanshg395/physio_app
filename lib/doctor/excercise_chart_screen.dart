@@ -14,8 +14,10 @@ class ExcerciseChartScreen extends StatefulWidget {
 class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
   bool _isLoading = false;
   List _excercises = [];
-  List<String> assignedEvaluators = [];
+  List<Map<String, dynamic>> assignedExercises = [];
   List<bool> isSelected = [];
+  TextEditingController _nameC = TextEditingController();
+  TextEditingController _noteC = TextEditingController();
 
   @override
   void initState() {
@@ -23,17 +25,55 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
     getExcercise();
   }
 
-  void toggleSelection(String id, int i) {
-    setState(() {
-      if (isSelected[i]) {
-        assignedEvaluators.remove(id);
+  Future<void> toggleSelection(String id, int i) async {
+    if (isSelected[i]) {
+      setState(() {
+        assignedExercises.removeWhere((element) => element['videoId'] == id);
         isSelected[i] = false;
-      } else {
-        assignedEvaluators.add(id);
+      });
+    } else {
+      final _res = await showModalBottomSheet(
+        context: context,
+        builder: (ctx) => BottomSheet(),
+      );
+      print(_res);
+      setState(() {
+        assignedExercises.add({
+          'videoId': id,
+          'sets': _res[0],
+          'reps': _res[1],
+        });
         isSelected[i] = true;
+      });
+    }
+    print(assignedExercises);
+  }
+
+  Future<void> assign() async {
+    try {
+      String url = 'https://fitknees.herokuapp.com/auth/excercise/';
+
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': Provider.of<Auth>(context, listen: false).token,
+          'content-type': 'application/json',
+        },
+        body: json.encode({
+          'name': _nameC.text,
+          'notes': _noteC.text,
+          'consolId': 'e37a6b92-5018-455a-8bae-3d1f9e587d4f',
+          'data': assignedExercises,
+        }),
+      );
+      if (response.statusCode >= 200 && response.statusCode < 299) {
+        Navigator.of(context).pop();
       }
-    });
-    print(assignedEvaluators);
+      print(response.body);
+    } catch (e) {
+      print('err');
+      print(e);
+    }
   }
 
   Future<void> getExcercise() async {
@@ -64,8 +104,9 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text('Excercise Chart'),
+        title: Text('Exercise Chart'),
       ),
       body: _isLoading
           ? Container(
@@ -75,6 +116,55 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
             )
           : Column(
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextField(
+                    controller: _nameC,
+                    decoration: InputDecoration(
+                      labelText: 'Name',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    keyboardAppearance: Brightness.light,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextField(
+                    maxLines: 3,
+                    controller: _noteC,
+                    decoration: InputDecoration(
+                      labelText: 'Notes',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    keyboardAppearance: Brightness.light,
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ListView.builder(
@@ -122,12 +212,115 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
                       ),
                     ),
                   ),
-                  onTap: () {
-                    print('Hello');
+                  onTap: () async {
+                    await assign();
                   },
                 )
               ],
             ),
+    );
+  }
+}
+
+class BottomSheet extends StatefulWidget {
+  @override
+  _BottomSheetState createState() => _BottomSheetState();
+}
+
+class _BottomSheetState extends State<BottomSheet> {
+  bool _isLoading = false;
+  TextEditingController _setsC = TextEditingController();
+  TextEditingController _repsC = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 30,
+      ),
+      child: Column(
+        children: <Widget>[
+          TextField(
+            controller: _setsC,
+            decoration: InputDecoration(
+              labelText: 'Sets',
+              labelStyle: TextStyle(color: Colors.grey),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+            ),
+            keyboardType: TextInputType.emailAddress,
+            keyboardAppearance: Brightness.light,
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          TextField(
+            controller: _repsC,
+            decoration: InputDecoration(
+              labelText: 'Reps',
+              labelStyle: TextStyle(color: Colors.grey),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+            ),
+            keyboardType: TextInputType.emailAddress,
+            keyboardAppearance: Brightness.light,
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.6,
+            height: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: _isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(
+                          Colors.grey,
+                        ),
+                      ),
+                    )
+                  : RaisedButton(
+                      color: Colors.grey[350],
+                      textColor: Colors.black,
+                      child: Text(
+                        'ADD',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'SFProTextSemiMed',
+                        ),
+                      ),
+                      // onPressed: _submit,
+                      onPressed: () {
+                        Navigator.of(context).pop([_setsC.text, _repsC.text]);
+                      },
+                    ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

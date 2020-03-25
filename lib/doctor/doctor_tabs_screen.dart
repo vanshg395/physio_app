@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './existing_patient_screen.dart';
 import './add_patient_screen.dart';
 import './doctor_schedule_screen.dart';
+import './doctor_profile_screen.dart';
 
 class DoctorTabsScreen extends StatefulWidget {
   @override
@@ -27,6 +28,10 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
       {
         'page': DoctorScheduleScreen(),
         'title': 'Schedule',
+      },
+      {
+        'page': DoctorProfileScreen(),
+        'title': 'Profile',
       },
       // {
       //   'page': AllTeamsScreen(),
@@ -60,6 +65,7 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
         unselectedItemColor: Colors.white,
         currentIndex: _selectedPageIndex,
         selectedFontSize: 12,
+        type: BottomNavigationBarType.fixed,
         unselectedFontSize: 12,
         items: [
           BottomNavigationBarItem(
@@ -100,10 +106,24 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
               color: Color(0xff3284ff),
             ),
             title: FittedBox(
-                child: Text(
-              'Consultation Calendar',
-              textAlign: TextAlign.center,
-            )),
+              child: Text(
+                'Calendar',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              size: 33,
+              color: Colors.grey,
+            ),
+            activeIcon: Icon(
+              Icons.person,
+              size: 33,
+              color: Color(0xff3284ff),
+            ),
+            title: Text('Profile'),
           ),
         ],
       ),
