@@ -17,7 +17,6 @@ class VideoScreen extends StatefulWidget {
 
 class _VideoScreenState extends State<VideoScreen> {
   VideoPlayerController _videoPlayerController1;
-  VideoPlayerController _videoPlayerController2;
   ChewieController _chewieController;
 
   @override
@@ -26,7 +25,7 @@ class _VideoScreenState extends State<VideoScreen> {
     _videoPlayerController1 = VideoPlayerController.network(widget.vidUrl);
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController1,
-      aspectRatio: 3 / 2,
+      aspectRatio: _videoPlayerController1.value.aspectRatio,
       autoPlay: true,
       looping: true,
     );
@@ -35,7 +34,6 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   void dispose() {
     _videoPlayerController1.dispose();
-    _videoPlayerController2.dispose();
     _chewieController.dispose();
     super.dispose();
   }
@@ -46,16 +44,10 @@ class _VideoScreenState extends State<VideoScreen> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Center(
-              child: Chewie(
-                controller: _chewieController,
-              ),
-            ),
-          ),
-        ],
+      body: Container(
+        child: Chewie(
+          controller: _chewieController,
+        ),
       ),
     );
   }

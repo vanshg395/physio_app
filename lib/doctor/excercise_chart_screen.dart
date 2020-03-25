@@ -165,31 +165,33 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
                     keyboardAppearance: Brightness.light,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (ctx, i) => Card(
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.play_circle_outline,
-                          size: 40,
-                        ),
-                        title: Text(_excercises[i]['name']),
-                        subtitle: Text(_excercises[i]['description']),
-                        trailing: isSelected[i]
-                            ? Icon(
-                                Icons.check,
-                                color: Colors.blue,
-                              )
-                            : null,
-                        onTap: () => toggleSelection(
-                          _excercises[i]['id'],
-                          i,
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder: (ctx, i) => Card(
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.play_circle_outline,
+                            size: 40,
+                          ),
+                          title: Text(_excercises[i]['name']),
+                          subtitle: Text(_excercises[i]['description']),
+                          trailing: isSelected[i]
+                              ? Icon(
+                                  Icons.check,
+                                  color: Colors.blue,
+                                )
+                              : null,
+                          onTap: () => toggleSelection(
+                            _excercises[i]['id'],
+                            i,
+                          ),
                         ),
                       ),
+                      itemCount: _excercises.length,
                     ),
-                    itemCount: _excercises.length,
                   ),
                 ),
                 Expanded(

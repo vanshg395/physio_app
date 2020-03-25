@@ -76,54 +76,55 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemBuilder: (ctx, i) => Card(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        elevation: 3,
-                        child: ListTile(
-                            leading: IconButton(
-                              icon: Icon(
-                                Icons.play_circle_outline,
-                                size: 30,
+                  Flexible(
+                    child: Container(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemBuilder: (ctx, i) => Card(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          elevation: 3,
+                          child: ListTile(
+                              leading: IconButton(
+                                icon: Icon(
+                                  Icons.play_circle_outline,
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  print('hey');
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (ctx) => VideoScreen(
+                                          _exerciseData[i][0]['chart_root']
+                                              ['name'],
+                                          _exerciseData[i][0]['video_handler']
+                                              ['video']),
+                                    ),
+                                  );
+                                },
                               ),
-                              onPressed: () {
-                                print('hey');
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (ctx) => VideoScreen(
-                                        _exerciseData[i][0]['chart_root']
-                                            ['name'],
-                                        _exerciseData[i][0]['video_handler']
-                                            ['video']),
-                                  ),
-                                );
-                              },
-                            ),
-                            title:
-                                Text(_exerciseData[i][0]['chart_root']['name']),
-                            subtitle: Text(
-                                _exerciseData[i][0]['sets'].toString() +
-                                    ' Sets X ' +
-                                    _exerciseData[i][0]['reps'].toString() +
-                                    ' Reps'),
-                            trailing: _exerciseDone[i]
-                                ? Icon(
-                                    Icons.done,
-                                    color: Colors.green,
-                                  )
-                                : IconButton(
-                                    icon: Icon(Icons.hourglass_empty),
-                                    onPressed: () {
-                                      setState(() {
-                                        _exerciseDone[i] = true;
-                                      });
-                                    },
-                                  )),
+                              title: Text(
+                                  _exerciseData[i][0]['chart_root']['name']),
+                              subtitle: Text(
+                                  _exerciseData[i][0]['sets'].toString() +
+                                      ' Sets X ' +
+                                      _exerciseData[i][0]['reps'].toString() +
+                                      ' Reps'),
+                              trailing: _exerciseDone[i]
+                                  ? Icon(
+                                      Icons.done,
+                                      color: Colors.green,
+                                    )
+                                  : IconButton(
+                                      icon: Icon(Icons.hourglass_empty),
+                                      onPressed: () {
+                                        setState(() {
+                                          _exerciseDone[i] = true;
+                                        });
+                                      },
+                                    )),
+                        ),
+                        itemCount: _exerciseData.length,
                       ),
-                      itemCount: _exerciseData.length,
                     ),
                   ),
                 ],
