@@ -60,8 +60,8 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
 
   Future<void> getConsols() async{
     try {
-      await Provider.of<Auth>(context, listen: false).getConsol();
       print('FUCKK');
+      await Provider.of<Auth>(context, listen: false).getConsol();
       int statusCode = Provider.of<Auth>(context, listen: false).consulstatusget;
       if(statusCode==0){
 
