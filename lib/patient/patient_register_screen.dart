@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-
+import './router.dart';
 import '../providers/auth.dart';
 
 enum Gender { Male, Female }
@@ -46,18 +46,18 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
     'country_code': '',
     'phone_number': '',
     'occupation': '',
-    'report_email': '',
+    'report_email': true,
     'gender': '',
     'blood_pressure': '',
-    'liver_disease': '',
-    'kidney_disease': '',
-    'heart_disease': '',
-    'diabetes': '',
-    'past_surgery': '',
+    'liver_disease': false,
+    'kidney_disease': false,
+    'heart_disease': false,
+    'diabetes': false,
+    'past_surgery': false,
     'past_surgery_desc': '',
     'smoke': '',
     'drink': '',
-    'history_osteoporosis': '',
+    'history_osteoporosis': false,
     'history_osteoporosis_desc': '',
     'activity': '',
   };
@@ -71,6 +71,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
     setState(() {
       _isLoading = true;
     });
+    print(_data);
+  
     try {
       String url = 'https://fitknees.herokuapp.com/auth/patient/';
 
@@ -81,11 +83,15 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
           'content_type': 'application/json',
           "Accept": "application/json",
         },
-        body: _data,
+        body: json.encode(_data)
       );
       final responseBody = response.body;
       print(responseBody);
       print(response.statusCode);
+      if(response.statusCode==200){
+      Navigator.of(context).push(MaterialPageRoute(builder: (ctx) =>PatientRouter()));
+      await Provider.of<Auth>(context, listen: false).changeEntryLevel();
+      }
     } catch (e) {
       print(e);
     }
@@ -351,9 +357,9 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                     onChanged: (_) {
                       _formKey.currentState.validate();
                     },
-                    // onSaved: (val) {
-                    //   _authData['email'] = val;
-                    // },
+                    onSaved: (val) {
+                      _data['occupation'] = val;
+                    },
                   ),
                   SizedBox(
                     height: 15,

@@ -67,7 +67,7 @@ class Auth with ChangeNotifier {
 
 
   Future<void> startConsult() async{
-   String url = 'https://fitknees.herokuapp.com/auth/token/login/';
+   String url = 'https://fitknees.herokuapp.com/auth/consult/';
     print("sfc");
     try {
       final response = await http.post(url,headers: {
@@ -76,15 +76,15 @@ class Auth with ChangeNotifier {
         'docId':_docId,
       });
       final responseBody = json.decode(response.body);
-      print(responseBody);
+      print("Response : "+responseBody.toString());
       print(response.statusCode);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         _consulId = responseBody['consul_id'];
         consulStatus =responseBody['case_closed'];
         consulApproval = responseBody['doc_approval'];
         notifyListeners();
       } else {
-        throw HttpException('Unable to start consultation');
+        throw HttpException('No Cash in your wallet');
       }
     } on HttpException catch (e) {
       print(e);

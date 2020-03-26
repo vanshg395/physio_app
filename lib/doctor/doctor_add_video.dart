@@ -75,8 +75,13 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
               children: <Widget>[
                 Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: TextField(
+                    child: TextFormField(
                       controller: _nameC,
+                      validator: (val) {
+                          if (val == '') {
+                            return 'This Field is required.';
+                          }
+                        },
                       decoration: InputDecoration(
                         labelText: 'Name',
                         labelStyle: TextStyle(color: Colors.grey),
@@ -95,13 +100,19 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
                       ),
                       keyboardType: TextInputType.text,
                       keyboardAppearance: Brightness.light,
+                      
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: TextField(
-                      maxLines: 3,
+                    child: TextFormField(
+                      maxLines: 2,
                       controller: _noteC,
+                      validator: (val) {
+                      if (val == '') {
+                        return 'This Field is required.';
+                      }
+                    },
                       decoration: InputDecoration(
                         labelText: 'Description',
                         labelStyle: TextStyle(color: Colors.grey),
@@ -126,6 +137,7 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
                     onPressed:(){_getVideo();},
                     child: Text('Add Video'),
                     ),
+                  SizedBox(height:20),
                   RaisedButton(
                     onPressed:(){_submit();},
                     child: Text('Submit'),

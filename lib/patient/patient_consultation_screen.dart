@@ -29,7 +29,9 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
       }
 
   Future<void> _startConsultation() async{
-    
+    setState(() {
+      _isLoading = true;
+    });
     try {
       await Provider.of<Auth>(context, listen: false).startConsult();
     } catch (error) {
@@ -69,6 +71,9 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
         ),
       );
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   Future<void> getDoctor() async{
@@ -93,14 +98,16 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
       _hospital = resBody['hospital'];
       _image=resBody['image'];
       _docID = resBody['docId'];
-      try {
+      print(resBody);
+      
       await Provider.of<Auth>(context, listen: false).addDocID(_docID);
-    } catch (error) {
+      }
+     catch (error) {
       print(error);
     }
 
 
-    } catch (e) {}
+   
     setState(() {
       _isLoading = false;
     });
