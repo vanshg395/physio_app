@@ -18,11 +18,11 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
   String filePath='';
   final GlobalKey<FormState> _formKey = GlobalKey();
   bool _isLoading=false;
+
+  String file_loc='';
   
   Future<void> _submit() async{
-    setState(() {
-      _isLoading = true;
-    });
+    
     print('started sumbission');
     Map<String, String> headers = { 
       'Authorization': Provider.of<Auth>(context, listen: false).token,
@@ -31,6 +31,9 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
       return;
     }
     _formKey.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
     final apiUrl = 'https://fitknees.herokuapp.com/auth/upload/video/';
     final name = _nameC.text;
     final notes = _noteC.text;
@@ -64,6 +67,9 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
   Future<void> _getVideo() async {
     filePath = await FilePicker.getFilePath(type: FileType.any);
     print(filePath+'   ===> Filepath');
+    setState(() {
+      file_loc = filePath;
+    });
 
   }
   @override
@@ -144,13 +150,13 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
                     child: Text('Add Video'),
                     ),
                   SizedBox(height:20),
-                  Text("Current File : ${filePath.split('.')[-1]}"),
+                  filePath.isEmpty ? Text("No file selected"):Text("Current File : $file_loc"),
 
                   SizedBox(height:20),
-                  _isLoading ? RaisedButton(
+                  _isLoading ? CircularProgressIndicator() :RaisedButton(
                     onPressed:(){_submit();},
                     child: Text('Submit'),
-                  ):CircularProgressIndicator()
+                  )
               ],
             ),
           ),
