@@ -13,6 +13,14 @@ class Auth with ChangeNotifier {
   String _name;
   String _entryLevel;
   String _id;
+  String _consulId;
+  String _docId;
+  bool consulStatus;
+  bool consulApproval;
+  bool consulRejection;
+  bool _patID;
+  int _consolStatusCode;
+
 
   bool get isAuth {
     return token != null;
@@ -21,6 +29,8 @@ class Auth with ChangeNotifier {
   String get id {
     return _id;
   }
+
+
 
   String get token {
     return _token;
@@ -38,9 +48,97 @@ class Auth with ChangeNotifier {
     return _name;
   }
 
+
+  String get getDocID{
+    return _docId;
+  }
+
   String get entryLevel {
     return _entryLevel;
   }
+
+  int get consulstatusget{
+    return _consolStatusCode;
+  }
+
+  Future<void> addDocID(String id){
+    _docId = id;
+  }
+
+
+  Future<void> startConsult() async{
+   String url = 'https://fitknees.herokuapp.com/auth/token/login/';
+
+    try {
+      final response = await http.post(url,headers: {
+        'Authorization': _token
+      }, body: {
+        'docId':_docId,
+      });
+      final responseBody = json.decode(response.body);
+      print(responseBody);
+      if (response.statusCode == 200) {
+        _consulId = responseBody['consul_id'];
+        consulStatus =responseBody['case_closed'];
+        consulApproval = responseBody['doc_approval'];
+        notifyListeners();
+      } else {
+        throw HttpException('Unable to start consultation');
+      }
+    } on HttpException catch (e) {
+      print(e);
+      throw e;
+    }
+  }
+
+
+
+  Future<void> getConsol() async{
+   String url = 'https://fitknees.herokuapp.com/auth/consult/';
+
+    try {
+      final response = await http.get(url,
+      headers:{
+        'Authorization': _token
+      }  );
+      print(response.statusCode);
+      final responseBody = json.decode(response.body);
+      print("sdxfghjk     :"+responseBody.length);
+      print("\n\n\\nn\nrfxghbJANSu    ::"+responseBody);
+      if (response.statusCode == 200) {
+        
+        if(responseBody.length!=0){
+          consulRejection = responseBody[0]['doc_rejection'];
+          if(consulRejection==true){
+            _consolStatusCode=1;
+          }
+          else{
+          consulApproval = responseBody[0]['doc_approval'];
+          
+            if(consulApproval==true){
+              _consolStatusCode=3;
+            _consulId = responseBody[0]['consul_id'];
+            _patID = responseBody[0]['pat_id'];
+            }
+            else{
+              _consolStatusCode=2;
+            }
+          }
+        }
+        else{
+          _consolStatusCode=0;
+        }
+        print("\n\n\nStatus Code ::     "+_consolStatusCode.toString());
+        notifyListeners();
+      } else {
+        throw HttpException('Unable to log in with provided credentials.');
+      }
+    } on HttpException catch (e) {
+      print(e);
+      throw e;
+    }
+  }
+
 
   Future<void> login(String username, String password) async {
     String url = 'https://fitknees.herokuapp.com/auth/token/login/';

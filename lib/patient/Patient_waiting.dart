@@ -6,12 +6,12 @@ import '../providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-class PatientConsultationScreen extends StatefulWidget {
+class PatientwaitingScreen extends StatefulWidget {
   @override
-  _PatientConsultationScreenState createState() => _PatientConsultationScreenState();
+  _PatientwaitingScreenState createState() => _PatientwaitingScreenState();
 }
 
-class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
+class _PatientwaitingScreenState extends State<PatientwaitingScreen> {
 
 
   bool _isLoading = false;
@@ -154,16 +154,10 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
                 SizedBox(
                   height: 20,
                 ),
-
-                RaisedButton(
-                  onPressed:(){ _startConsultation();},
-                  child: Text(
-                    "Start Consultation"
-                  ),
-                  )
-
-                
-
+                Text("Please wait till doctor approves your request.",style: TextStyle(
+                  fontSize:15
+                ),
+                ),
               ]
             )
           )
@@ -171,6 +165,7 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
     );
   }
 }
+
 
 
 

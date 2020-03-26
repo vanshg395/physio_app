@@ -26,7 +26,7 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
       return;
     }
     _formKey.currentState.save();
-    final apiUrl = '';
+    final apiUrl = 'https://fitknees.herokuapp.com/auth/upload/video/';
     final name = _nameC.text;
     final notes = _noteC.text;
     final multipartRequest = new http.MultipartRequest('POST', Uri.parse(apiUrl));
@@ -35,12 +35,12 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
     multipartRequest.fields['description']=notes;
     multipartRequest.fields['doctor']=Provider.of<Auth>(context, listen: false).id;
 
-    var multipartFile = await MultipartFile.fromPath("package", filePath);
+    var multipartFile = await MultipartFile.fromPath("video", filePath);
     multipartRequest.files.add(multipartFile);
     var response = await multipartRequest.send();
     print(response.statusCode);
     
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       print("Done");
       Navigator.of(context).pop();
     } else {

@@ -6,12 +6,12 @@ import '../providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-class PatientConsultationScreen extends StatefulWidget {
+class ReConsultationScreen extends StatefulWidget {
   @override
-  _PatientConsultationScreenState createState() => _PatientConsultationScreenState();
+  _ReConsultationScreenState createState() => _ReConsultationScreenState();
 }
 
-class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
+class _ReConsultationScreenState extends State<ReConsultationScreen> {
 
 
   bool _isLoading = false;
@@ -154,7 +154,9 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
                 SizedBox(
                   height: 20,
                 ),
-
+                Text("Doctor Cancelled your consultation please start a new consultation. Your Money will be refunded into your wallet.",style: TextStyle(
+                  fontSize:15
+                ),),
                 RaisedButton(
                   onPressed:(){ _startConsultation();},
                   child: Text(
