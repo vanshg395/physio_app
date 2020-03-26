@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:physio_app/patient/router.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +112,9 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
     setState(() {
       _isLoading = false;
     });
-
+Navigator.of(context).push(
+          MaterialPageRoute(builder: (ctx) => PatientRouter()),
+        );
 
 }
       

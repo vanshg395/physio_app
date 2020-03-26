@@ -21,6 +21,8 @@ class Auth with ChangeNotifier {
   bool _patID;
   int _consolStatusCode = 0;
 
+  String _patientID;
+
   bool get isAuth {
     return token != null;
   }
@@ -94,6 +96,7 @@ class Auth with ChangeNotifier {
       final response = await http.get(url, headers: {'Authorization': _token});
       print(response.statusCode);
       final responseBody = json.decode(response.body);
+      print(responseBody);
       if (response.statusCode == 200) {
         if (responseBody.length != 0) {
           consulRejection = responseBody[0]['doc_rejection'];
@@ -105,7 +108,7 @@ class Auth with ChangeNotifier {
             if (consulApproval == true) {
               _consolStatusCode = 3;
               _consulId = responseBody[0]['consul_id'];
-              _patID = responseBody[0]['pat_id'];
+              _patientID = responseBody[0]['pat_id'];
             } else {
               _consolStatusCode = 2;
             }
@@ -113,7 +116,7 @@ class Auth with ChangeNotifier {
         } else {
           _consolStatusCode = 0;
         }
-        print("\n\n\nStatus Code ::     " + _consolStatusCode.toString());
+        
         notifyListeners();
       } else {
         throw HttpException('Unable to log in with provided credentials.');

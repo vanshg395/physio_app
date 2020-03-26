@@ -42,80 +42,6 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
     });
   }
 
-  Future<void> _approve(String id) async {
-    String url = 'https://fitknees.herokuapp.com/auth/approve/';
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      final response = await http.post(url, headers: {
-        'Authorization': Provider.of<Auth>(context, listen: false).token,
-      }, body: {
-        'consolId': id,
-      });
-      final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        _consults = responseBody;
-      }
-    } catch (e) {
-      print(e);
-    }
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _disApprove(String id) async {
-    String url = 'https://fitknees.herokuapp.com/auth/disapprove/';
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      final response = await http.post(url, headers: {
-        'Authorization': Provider.of<Auth>(context, listen: false).token,
-      }, body: {
-        'consolId': id,
-      });
-      final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        _consults = responseBody;
-      }
-    } catch (e) {
-      print(e);
-    }
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _closeCase(String id) async {
-    String url = 'https://fitknees.herokuapp.com/auth/close/';
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      final response = await http.post(url, headers: {
-        'Authorization': Provider.of<Auth>(context, listen: false).token,
-      }, body: {
-        'consolId': id,
-      });
-      final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        _consults = responseBody;
-      }
-    } catch (e) {
-      print(e);
-    }
-    setState(() {
-      _isLoading = false;
-    });
-  }
 
   @override
   void initState() {
@@ -193,13 +119,16 @@ void _settingModalBottomSheet(context, String id) {
       new ListTile(
             leading: new Icon(Icons.add),
             title: new Text('Approve'),
-            onTap:()=>{ _approve(id, context)
-            }
+            onTap:()async{await _approve(id,context);
+                Navigator.of(context).pop();
+            }       
           ),
           new ListTile(
             leading: new Icon(Icons.remove),
             title: new Text('Dis Approve'),
-            onTap:()=>{ _disApprove(id, context),}          
+            onTap:()async{await _disApprove(id,context);
+                Navigator.of(context).pop();
+            }         
           ),
             ],
           ),
@@ -217,7 +146,11 @@ void _settingModalBottomSheet1(context, String id) {
             new ListTile(
             leading: new Icon(Icons.close),
             title: new Text('Close Case'),
-            onTap: ()=>{_closeCase(id,context)}                   
+
+            onTap: ()async{await _closeCase(id,context);
+                Navigator.of(context).pop();
+            }                   
+
             ),
             new ListTile(
               leading: new Icon(Icons.cancel),
@@ -243,7 +176,7 @@ _approve(String id, context) async {
     print(responseBody);
     print(response.statusCode);
     if (response.statusCode == 200) {
-      Navigator.of(context).pop();
+      print('done');
     }
   } catch (e) {
     print(e);
@@ -263,7 +196,7 @@ _disApprove(String id, context) async {
     print(responseBody);
     print(response.statusCode);
     if (response.statusCode == 200) {
-      Navigator.of(context).pop();
+      print('done');
     }
   } catch (e) {
     print(e);
@@ -283,7 +216,8 @@ _closeCase(String id, context) async {
     print(responseBody);
     print(response.statusCode);
     if (response.statusCode == 200) {
-      Navigator.of(context).pop();
+      print('done');
+
     }
   } catch (e) {
     print(e);

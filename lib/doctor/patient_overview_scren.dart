@@ -241,6 +241,7 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
                         child: Row(
                           children: <Widget>[
                             Expanded(
+                              
                               child: FlatButton.icon(
                                 textColor: Colors.white,
                                 icon: Icon(Icons.directions_run),
@@ -256,7 +257,7 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
                               child: FlatButton.icon(
                                 textColor: Colors.white,
                                 icon: Icon(Icons.rate_review),
-                                label: Text('Patient Review'),
+                                label: Text('Reports'),
                                 onPressed: () {},
                               ),
                             ),

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-
+import './router.dart';
 class ReConsultationScreen extends StatefulWidget {
   @override
   _ReConsultationScreenState createState() => _ReConsultationScreenState();
@@ -69,6 +69,9 @@ class _ReConsultationScreenState extends State<ReConsultationScreen> {
         ),
       );
     }
+     Navigator.of(context).push(
+          MaterialPageRoute(builder: (ctx) => PatientRouter()),
+        );
   }
 
   Future<void> getDoctor() async{

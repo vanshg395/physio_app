@@ -1,17 +1,13 @@
-import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:physio_app/providers/auth.dart';
-import 'package:provider/provider.dart';
+
 
 import './patient_profile_screen.dart';
 import './patient_exercise_screen.dart';
 import './patient_consultation_screen.dart';
 import './patients_reports.dart';
-import './patient_consult_doctor_cancelled.dart';
-import './Patient_waiting.dart';
+
 
 class PatientTabsScreen extends StatefulWidget {
   @override
@@ -23,12 +19,9 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
   int _selectedPageIndex = 1;
 
   @override
-  void initState() async {
+  void initState() {
     _pages = [
-      {
-        'page': PatientConsultationScreen(),
-        'title': 'PatConsult',
-      },
+       
       {
         'page': PatientExerciseScreen(),
         'title': 'PatExercise',
@@ -42,18 +35,6 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         'title': 'Profile',
       },
 
-      // {
-      //   'page': AllTeamsScreen(),
-      //   'title': 'All Teams',
-      // },
-      // {
-      //   'page': Message(),
-      //   'title': 'Messages',
-      // },
-      // {
-      //   'page': EssentialsScreen(),
-      //   'title': 'Profile',
-      // },
     ];
     super.initState();
   }
@@ -66,6 +47,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('object');
     return Scaffold(
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
@@ -75,21 +57,8 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         currentIndex: _selectedPageIndex,
         selectedFontSize: 12,
         unselectedFontSize: 12,
-        type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.local_hospital,
-              size: 33,
-              color: Colors.grey,
-            ),
-            activeIcon: Icon(
-              Icons.local_hospital,
-              size: 33,
-              color: Color(0xff3284ff),
-            ),
-            title: Text('Consultation'),
-          ),
+          
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.dumbbell,
@@ -103,25 +72,8 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
             ),
             title: Text('Excercise'),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.assessment,
-              size: 33,
-              color: Colors.grey,
-            ),
-            activeIcon: Icon(
-              Icons.assessment,
-              size: 33,
-              color: Color(0xff3284ff),
-            ),
-            title: FittedBox(
-              child: Text(
-                'Reports',
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          BottomNavigationBarItem(
+          
+            BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
               size: 33,
