@@ -11,27 +11,28 @@ class DoctorScheduleScreen extends StatefulWidget {
 }
 
 class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
-
   List<dynamic> _consults = [];
-  bool _isLoading=false;
+  bool _isLoading = false;
 
   var _res;
 
-Future<void> _getConsults() async {
+  Future<void> _getConsults() async {
     String url = 'https://fitknees.herokuapp.com/auth/myconsults/';
     setState(() {
       _isLoading = true;
     });
     try {
-      final response = await http.get(url, headers: {
-        'Authorization': Provider.of<Auth>(context, listen: false).token,
-      },);
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': Provider.of<Auth>(context, listen: false).token,
+        },
+      );
       final responseBody = json.decode(response.body);
       print(responseBody);
       print(response.statusCode);
-      if (response.statusCode==200)
-      {
-        _consults=responseBody;
+      if (response.statusCode == 200) {
+        _consults = responseBody;
       }
     } catch (e) {
       print(e);
@@ -39,7 +40,6 @@ Future<void> _getConsults() async {
     setState(() {
       _isLoading = false;
     });
-    
   }
 
   Future<void> _approve(String id) async {
@@ -50,15 +50,14 @@ Future<void> _getConsults() async {
     try {
       final response = await http.post(url, headers: {
         'Authorization': Provider.of<Auth>(context, listen: false).token,
-      },body:{
-        'consolId':id,
+      }, body: {
+        'consolId': id,
       });
       final responseBody = json.decode(response.body);
       print(responseBody);
       print(response.statusCode);
-      if (response.statusCode==200)
-      {
-        _consults=responseBody;
+      if (response.statusCode == 200) {
+        _consults = responseBody;
       }
     } catch (e) {
       print(e);
@@ -66,9 +65,9 @@ Future<void> _getConsults() async {
     setState(() {
       _isLoading = false;
     });
-    
   }
-Future<void> _disApprove(String id) async {
+
+  Future<void> _disApprove(String id) async {
     String url = 'https://fitknees.herokuapp.com/auth/disapprove/';
     setState(() {
       _isLoading = true;
@@ -76,15 +75,14 @@ Future<void> _disApprove(String id) async {
     try {
       final response = await http.post(url, headers: {
         'Authorization': Provider.of<Auth>(context, listen: false).token,
-      },body:{
-        'consolId':id,
+      }, body: {
+        'consolId': id,
       });
       final responseBody = json.decode(response.body);
       print(responseBody);
       print(response.statusCode);
-      if (response.statusCode==200)
-      {
-        _consults=responseBody;
+      if (response.statusCode == 200) {
+        _consults = responseBody;
       }
     } catch (e) {
       print(e);
@@ -92,8 +90,8 @@ Future<void> _disApprove(String id) async {
     setState(() {
       _isLoading = false;
     });
-    
   }
+
   Future<void> _closeCase(String id) async {
     String url = 'https://fitknees.herokuapp.com/auth/close/';
     setState(() {
@@ -102,15 +100,14 @@ Future<void> _disApprove(String id) async {
     try {
       final response = await http.post(url, headers: {
         'Authorization': Provider.of<Auth>(context, listen: false).token,
-      },body:{
-        'consolId':id,
+      }, body: {
+        'consolId': id,
       });
       final responseBody = json.decode(response.body);
       print(responseBody);
       print(response.statusCode);
-      if (response.statusCode==200)
-      {
-        _consults=responseBody;
+      if (response.statusCode == 200) {
+        _consults = responseBody;
       }
     } catch (e) {
       print(e);
@@ -118,8 +115,8 @@ Future<void> _disApprove(String id) async {
     setState(() {
       _isLoading = false;
     });
-    
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -140,10 +137,18 @@ Future<void> _disApprove(String id) async {
                 fontSize: 26,
               ),
             ),
-            _isLoading?CircularProgressIndicator()
-            :Flexible(child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (ctx, i) => Column(
+            _isLoading
+                ? Expanded(child: Center(child: CircularProgressIndicator()))
+                : _consults.length == 0
+                    ? Expanded(
+                        child: Center(
+                          child: Text('No Consultations for You'),
+                        ),
+                      )
+                    : Flexible(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemBuilder: (ctx, i) => Column(
                             children: <Widget>[
                               Card(
                                 color: Colors.grey[100],
@@ -169,28 +174,21 @@ Future<void> _disApprove(String id) async {
                             ],
                           ),
                           itemCount: _consults.length,
-                        
-              ),
-              )
-            
-            
-
+                        ),
+                      )
           ],
-
         ),
       ),
     );
   }
 }
 
-
-
-void _settingModalBottomSheet(context,String id){
-    showModalBottomSheet(
+void _settingModalBottomSheet(context, String id) {
+  showModalBottomSheet(
       context: context,
-      builder: (BuildContext bc){
-          return Container(
-            child: new Wrap(
+      builder: (BuildContext bc) {
+        return Container(
+          child: new Wrap(
             children: <Widget>[
       new ListTile(
             leading: new Icon(Icons.add),
@@ -205,20 +203,18 @@ void _settingModalBottomSheet(context,String id){
           ),
             ],
           ),
-          );
-      }
-    );
+        );
+      });
 }
 
-
-
-void _settingModalBottomSheet1(context,String id){
-    showModalBottomSheet(
+void _settingModalBottomSheet1(context, String id) {
+  showModalBottomSheet(
       context: context,
-      builder: (BuildContext bc){
-          return Container(
-            child: new Wrap(
+      builder: (BuildContext bc) {
+        return Container(
+          child: new Wrap(
             children: <Widget>[
+<<<<<<< HEAD
             new ListTile(
             leading: new Icon(Icons.close),
             title: new Text('Close Case'),
@@ -242,63 +238,79 @@ void _settingModalBottomSheet1(context,String id){
     try {
       final response = await http.post(url,body:{
         'consolId':id,
+=======
+              new ListTile(
+                  leading: new Icon(Icons.music_note),
+                  title: new Text('Close Case'),
+                  onTap: () => {
+                        _closeCase(id, context),
+                      }),
+              new ListTile(
+                leading: new Icon(Icons.videocam),
+                title: new Text('Cancel'),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+>>>>>>> 26263b6ead4081253d5c7361c733730a894d2e8d
       });
-      final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
-      if (response.statusCode==200)
-      {
-        Navigator.of(context).pop();
-      }
-    } catch (e) {
-      print(e);
-    }
-    
-    
-  }
- _disApprove(String id,context) async {
-    String url = 'https://fitknees.herokuapp.com/auth/disapprove/';
-    
-    try {
-      final response = await http.post(url, headers: {
-        'Authorization': Provider.of<Auth>(context, listen: false).token,
-      },body:{
-        'consolId':id,
-      });
-      final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
-      if (response.statusCode==200)
-      {
-          Navigator.of(context).pop();
+}
 
-      }
-    } catch (e) {
-      print(e);
-    }
-    
-    
-  }
-  _closeCase(String id,context) async {
-    String url = 'https://fitknees.herokuapp.com/auth/close/';
-    
-    try {
-      final response = await http.post(url, headers: {
-        'Authorization': Provider.of<Auth>(context, listen: false).token,
-      },body:{
-        'consolId':id,
-      });
-      final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
-      if (response.statusCode==200)
-      {
-        Navigator.of(context).pop();
+_approve(String id, context) async {
+  String url = 'https://fitknees.herokuapp.com/auth/approve/';
 
-      }
-    } catch (e) {
-      print(e);
+  try {
+    final response = await http.post(url, body: {
+      'consolId': id,
+    });
+    final responseBody = json.decode(response.body);
+    print(responseBody);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      Navigator.of(context).pop();
     }
-    
-    
+  } catch (e) {
+    print(e);
   }
+}
+
+_disApprove(String id, context) async {
+  String url = 'https://fitknees.herokuapp.com/auth/disapprove/';
+
+  try {
+    final response = await http.post(url, headers: {
+      'Authorization': Provider.of<Auth>(context, listen: false).token,
+    }, body: {
+      'consolId': id,
+    });
+    final responseBody = json.decode(response.body);
+    print(responseBody);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      Navigator.of(context).pop();
+    }
+  } catch (e) {
+    print(e);
+  }
+}
+
+_closeCase(String id, context) async {
+  String url = 'https://fitknees.herokuapp.com/auth/close/';
+
+  try {
+    final response = await http.post(url, headers: {
+      'Authorization': Provider.of<Auth>(context, listen: false).token,
+    }, body: {
+      'consolId': id,
+    });
+    final responseBody = json.decode(response.body);
+    print(responseBody);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      Navigator.of(context).pop();
+    }
+  } catch (e) {
+    print(e);
+  }
+}
