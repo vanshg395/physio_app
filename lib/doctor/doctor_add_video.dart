@@ -16,8 +16,11 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
   TextEditingController _noteC = TextEditingController();
   String filePath='';
   final GlobalKey<FormState> _formKey = GlobalKey();
-
+  var _isLoading=false;
   Future<void> _submit() async{
+    setState(() {
+      _isLoading = true;
+    });
     print('started sumbission');
     Map<String, String> headers = { 
       'Authorization': Provider.of<Auth>(context, listen: false).token,
@@ -46,6 +49,11 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
     } else {
       print("Upload Failed");
     }
+    Navigator.of(context).pop();
+    
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   Future<void> _getVideo() async {

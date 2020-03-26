@@ -77,7 +77,8 @@ class Auth with ChangeNotifier {
       });
       final responseBody = json.decode(response.body);
       print(responseBody);
-      if (response.statusCode == 200) {
+      print(response.statusCode);
+      if (response.statusCode == 201) {
         _consulId = responseBody['consul_id'];
         consulStatus =responseBody['case_closed'];
         consulApproval = responseBody['doc_approval'];
