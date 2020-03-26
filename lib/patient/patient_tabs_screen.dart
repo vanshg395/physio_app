@@ -6,11 +6,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:physio_app/providers/auth.dart';
 import 'package:provider/provider.dart';
 
+import './patient_profile_screen.dart';
 import './patient_exercise_screen.dart';
 import './patient_consultation_screen.dart';
 import './patients_reports.dart';
 import './patient_consult_doctor_cancelled.dart';
 import './Patient_waiting.dart';
+
 class PatientTabsScreen extends StatefulWidget {
   @override
   _PatientTabsScreenState createState() => _PatientTabsScreenState();
@@ -21,7 +23,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
   int _selectedPageIndex = 1;
 
   @override
-  void initState() async{
+  void initState() async {
     _pages = [
       {
         'page': PatientConsultationScreen(),
@@ -35,6 +37,11 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         'page': PatientReports(),
         'title': 'Schedule',
       },
+      {
+        'page': PatientProfileScreen(),
+        'title': 'Profile',
+      },
+
       // {
       //   'page': AllTeamsScreen(),
       //   'title': 'All Teams',
@@ -49,7 +56,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
       // },
     ];
     super.initState();
-    await getConsols();
+    getConsols();
   }
 
   void _selectPage(int index) {
@@ -58,7 +65,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
     });
   }
 
-  Future<void> getConsols() async{
+  Future<void> getConsols() async {
     try {
       print('FUCKK');
       await Provider.of<Auth>(context, listen: false).getConsol();
@@ -67,31 +74,22 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
 
         //
         Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (ctx) =>PatientConsultationScreen()
-                ),
-          );
-      }
-      else if(statusCode==1){
+          MaterialPageRoute(builder: (ctx) => PatientConsultationScreen()),
+        );
+      } else if (statusCode == 1) {
         Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (ctx) =>ReConsultationScreen()
-                ),
-          );
-      }
-      else if(statusCode==2){
+          MaterialPageRoute(builder: (ctx) => ReConsultationScreen()),
+        );
+      } else if (statusCode == 2) {
         Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (ctx) =>PatientwaitingScreen()
-                ),
-          );
+          MaterialPageRoute(builder: (ctx) => PatientwaitingScreen()),
+        );
       }
-      
     } catch (error) {
       print(error);
       String errorMessage;
       errorMessage = error.toString();
-      
+
       showDialog(
         context: context,
         builder: (context) => Platform.isIOS
@@ -100,33 +98,30 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
                 content: Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Text(errorMessage),
-          ),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        )
-      : AlertDialog(
-          backgroundColor: Colors.grey,
-          title: Text(errorMessage),
-          content: Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Text(errorMessage),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        ),
+                ),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              )
+            : AlertDialog(
+                backgroundColor: Colors.grey,
+                title: Text(errorMessage),
+                content: Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(errorMessage),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
       );
     }
-    
-
-
   }
 
   @override
@@ -140,6 +135,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         currentIndex: _selectedPageIndex,
         selectedFontSize: 12,
         unselectedFontSize: 12,
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             icon: Icon(
@@ -179,10 +175,29 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
               color: Color(0xff3284ff),
             ),
             title: FittedBox(
-                child: Text(
-              'Reports',
-              textAlign: TextAlign.center,
-            )),
+              child: Text(
+                'Reports',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              size: 33,
+              color: Colors.grey,
+            ),
+            activeIcon: Icon(
+              Icons.person,
+              size: 33,
+              color: Color(0xff3284ff),
+            ),
+            title: FittedBox(
+              child: Text(
+                'Profile',
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
         ],
       ),

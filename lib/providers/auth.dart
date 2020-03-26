@@ -197,6 +197,34 @@ class Auth with ChangeNotifier {
     return true;
   }
 
+  Future<void> changePass(
+      String currentPass, String newPass, String newConfirmPass) async {
+    print('checkpointttttt');
+    String url = 'https://fitknees.herokuapp.com/auth/users/set_password/';
+    try {
+      final response = await http.post(url, headers: {
+        'Authorization': _token
+      }, body: {
+        'current_password': currentPass,
+        'new_password': newPass,
+        're_new_password': newConfirmPass
+      });
+      print(response.body);
+      // final responseBody = json.decode(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 204) {
+        print('OK');
+        notifyListeners();
+      } else {
+        throw HttpException(
+            'Unable to change password with provided credentials.');
+      }
+    } on HttpException catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> changeEntryLevel() async {
     _entryLevel = 'Not First';
     final prefs = await SharedPreferences.getInstance();
