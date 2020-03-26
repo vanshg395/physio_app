@@ -158,8 +158,8 @@ Future<void> _disApprove(String id) async {
                                     ),
                                     
                                     onTap: (){
-                                      _consults[i]['doc_approval']?_settingModalBottomSheet(context,_consults[i]['consul_id']):
-                                      _settingModalBottomSheet1(context,_consults[i]['consul_id']);
+                                      _consults[i]['doc_approval']?_settingModalBottomSheet1(context,_consults[i]['consul_id']):
+                                      _settingModalBottomSheet(context,_consults[i]['consul_id']);
 
                                     }
                                   ),
@@ -193,13 +193,13 @@ void _settingModalBottomSheet(context,String id){
             child: new Wrap(
             children: <Widget>[
       new ListTile(
-            leading: new Icon(Icons.music_note),
+            leading: new Icon(Icons.add),
             title: new Text('Approve'),
             onTap:()=>{ _approve(id, context)
             }
           ),
           new ListTile(
-            leading: new Icon(Icons.videocam),
+            leading: new Icon(Icons.remove),
             title: new Text('Dis Approve'),
             onTap:()=>{ _disApprove(id, context),}          
           ),
@@ -220,12 +220,12 @@ void _settingModalBottomSheet1(context,String id){
             child: new Wrap(
             children: <Widget>[
             new ListTile(
-            leading: new Icon(Icons.music_note),
+            leading: new Icon(Icons.close),
             title: new Text('Close Case'),
             onTap: ()=>{_closeCase(id,context),}                   
             ),
             new ListTile(
-              leading: new Icon(Icons.videocam),
+              leading: new Icon(Icons.cancel),
               title: new Text('Cancel'),
               onTap: () => Navigator.of(context).pop(),
             ),
