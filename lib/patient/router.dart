@@ -35,11 +35,11 @@ class _PatientRouterState extends State<PatientRouter> {
 
         //
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (ctx) => PatientConsultationScreen()),
+          MaterialPageRoute(builder: (ctx) => ReConsultationScreen()),
         );
       } else if (statusCode == 1) {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (ctx) => ReConsultationScreen()),
+          MaterialPageRoute(builder: (ctx) => PatientConsultationScreen()),
         );
       } else if (statusCode == 2) {
         Navigator.of(context).push(

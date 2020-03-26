@@ -7,7 +7,7 @@ import './patient_profile_screen.dart';
 import './patient_exercise_screen.dart';
 import './patient_consultation_screen.dart';
 import './patients_reports.dart';
-
+import './temp_video.dart';
 
 class PatientTabsScreen extends StatefulWidget {
   @override
@@ -27,7 +27,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         'title': 'PatExercise',
       },
       {
-        'page': PatientReports(),
+        'page': VideoPatientScreen(),
         'title': 'Schedule',
       },
       {
@@ -72,6 +72,20 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
             ),
             title: Text('Excercise'),
           ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              FontAwesomeIcons.video,
+              size: 33,
+              color: Colors.grey,
+            ),
+            activeIcon: Icon(
+              FontAwesomeIcons.video,
+              size: 33,
+              color: Color(0xff3284ff),
+            ),
+            title: Text('Video Chat'),
+          ),
+          
           
             BottomNavigationBarItem(
             icon: Icon(
@@ -96,3 +110,4 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
     );
   }
 }
+//FGUw1XWwNchVGnbeI4
