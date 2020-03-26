@@ -19,7 +19,7 @@ class Auth with ChangeNotifier {
   bool consulApproval;
   bool consulRejection;
   bool _patID;
-  int _consolStatusCode;
+  int _consolStatusCode=0;
 
 
   bool get isAuth {
@@ -68,7 +68,7 @@ class Auth with ChangeNotifier {
 
   Future<void> startConsult() async{
    String url = 'https://fitknees.herokuapp.com/auth/token/login/';
-
+    print("sfc");
     try {
       final response = await http.post(url,headers: {
         'Authorization': _token
@@ -77,7 +77,8 @@ class Auth with ChangeNotifier {
       });
       final responseBody = json.decode(response.body);
       print(responseBody);
-      if (response.statusCode == 200) {
+      print(response.statusCode);
+      if (response.statusCode == 201) {
         _consulId = responseBody['consul_id'];
         consulStatus =responseBody['case_closed'];
         consulApproval = responseBody['doc_approval'];
@@ -95,7 +96,7 @@ class Auth with ChangeNotifier {
 
   Future<void> getConsol() async{
    String url = 'https://fitknees.herokuapp.com/auth/consult/';
-
+    print("I'm dead");
     try {
       final response = await http.get(url,
       headers:{
@@ -103,8 +104,6 @@ class Auth with ChangeNotifier {
       }  );
       print(response.statusCode);
       final responseBody = json.decode(response.body);
-      print("sdxfghjk     :"+responseBody.length);
-      print("\n\n\\nn\nrfxghbJANSu    ::"+responseBody);
       if (response.statusCode == 200) {
         
         if(responseBody.length!=0){
