@@ -55,8 +55,8 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
       //   'title': 'Profile',
       // },
     ];
-    super.initState();
     getConsols();
+    super.initState();
   }
 
   void _selectPage(int index) {
