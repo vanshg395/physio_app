@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:physio_app/helpers/http_exception.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
@@ -16,7 +17,8 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
   TextEditingController _noteC = TextEditingController();
   String filePath='';
   final GlobalKey<FormState> _formKey = GlobalKey();
-  var _isLoading=false;
+  bool _isLoading=false;
+  
   Future<void> _submit() async{
     setState(() {
       _isLoading = true;
@@ -32,6 +34,9 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
     final apiUrl = 'https://fitknees.herokuapp.com/auth/upload/video/';
     final name = _nameC.text;
     final notes = _noteC.text;
+    if(filePath==''){
+      throw HttpException('Please choose a video');
+    }
     final multipartRequest = new http.MultipartRequest('POST', Uri.parse(apiUrl));
     multipartRequest.headers.addAll(headers);
     multipartRequest.fields['name']=name;
@@ -59,6 +64,7 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
   Future<void> _getVideo() async {
     filePath = await FilePicker.getFilePath(type: FileType.any);
     print(filePath+'   ===> Filepath');
+
   }
   @override
   Widget build(BuildContext context) {
@@ -138,10 +144,13 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
                     child: Text('Add Video'),
                     ),
                   SizedBox(height:20),
-                  RaisedButton(
+                  Text("Current File : ${filePath.split('.')[-1]}"),
+
+                  SizedBox(height:20),
+                  _isLoading ? RaisedButton(
                     onPressed:(){_submit();},
                     child: Text('Submit'),
-                  ),
+                  ):CircularProgressIndicator()
               ],
             ),
           ),
