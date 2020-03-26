@@ -214,11 +214,10 @@ void _settingModalBottomSheet1(context, String id) {
         return Container(
           child: new Wrap(
             children: <Widget>[
-<<<<<<< HEAD
             new ListTile(
             leading: new Icon(Icons.close),
             title: new Text('Close Case'),
-            onTap: ()=>{_closeCase(id,context),}                   
+            onTap: ()=>{_closeCase(id,context)}                   
             ),
             new ListTile(
               leading: new Icon(Icons.cancel),
@@ -232,31 +231,7 @@ void _settingModalBottomSheet1(context, String id) {
       );
   }
             
-   _approve(String id,context) async {
-    String url = 'https://fitknees.herokuapp.com/auth/approve/';
-    
-    try {
-      final response = await http.post(url,body:{
-        'consolId':id,
-=======
-              new ListTile(
-                  leading: new Icon(Icons.music_note),
-                  title: new Text('Close Case'),
-                  onTap: () => {
-                        _closeCase(id, context),
-                      }),
-              new ListTile(
-                leading: new Icon(Icons.videocam),
-                title: new Text('Cancel'),
-                onTap: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
->>>>>>> 26263b6ead4081253d5c7361c733730a894d2e8d
-      });
-}
-
+   
 _approve(String id, context) async {
   String url = 'https://fitknees.herokuapp.com/auth/approve/';
 
