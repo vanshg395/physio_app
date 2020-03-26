@@ -7,12 +7,12 @@ import 'package:provider/provider.dart';
 import './change_password_screen.dart';
 import '../providers/auth.dart';
 
-class DoctorProfileScreen extends StatefulWidget {
+class PatientProfileScreen extends StatefulWidget {
   @override
-  _DoctorProfileScreenState createState() => _DoctorProfileScreenState();
+  _PatientProfileScreenState createState() => _PatientProfileScreenState();
 }
 
-class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
+class _PatientProfileScreenState extends State<PatientProfileScreen> {
   bool _isLoading = false;
   Map<String, dynamic> _details;
 
@@ -27,7 +27,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
       _isLoading = true;
     });
     try {
-      String url = 'https://fitknees.herokuapp.com/auth/doctor/profile/';
+      String url = 'https://fitknees.herokuapp.com/auth/patient/profile/';
 
       final response = await http.get(
         url,

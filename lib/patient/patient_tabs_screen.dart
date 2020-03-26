@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import './patient_profile_screen.dart';
 import './patient_exercise_screen.dart';
 import './patient_consultation_screen.dart';
+import './patient_report_screen.dart';
 
 class PatientTabsScreen extends StatefulWidget {
   @override
@@ -24,14 +26,14 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         'page': PatientExerciseScreen(),
         'title': 'PatExercise',
       },
-      // {
-      //   'page': DoctorScheduleScreen(),
-      //   'title': 'Schedule',
-      // },
-      // {
-      //   'page': AllTeamsScreen(),
-      //   'title': 'All Teams',
-      // },
+      {
+        'page': PatientsReportScreen(),
+        'title': 'Report',
+      },
+      {
+        'page': PatientProfileScreen(),
+        'title': 'Profile',
+      },
       // {
       //   'page': Message(),
       //   'title': 'Messages',
@@ -61,6 +63,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         currentIndex: _selectedPageIndex,
         selectedFontSize: 12,
         unselectedFontSize: 12,
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             icon: Icon(
@@ -100,10 +103,29 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
               color: Color(0xff3284ff),
             ),
             title: FittedBox(
-                child: Text(
-              'Reports',
-              textAlign: TextAlign.center,
-            )),
+              child: Text(
+                'Reports',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              size: 33,
+              color: Colors.grey,
+            ),
+            activeIcon: Icon(
+              Icons.person,
+              size: 33,
+              color: Color(0xff3284ff),
+            ),
+            title: FittedBox(
+              child: Text(
+                'Profile',
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
         ],
       ),
