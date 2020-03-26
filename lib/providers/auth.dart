@@ -103,8 +103,6 @@ class Auth with ChangeNotifier {
       }  );
       print(response.statusCode);
       final responseBody = json.decode(response.body);
-      print("sdxfghjk     :"+responseBody.length);
-      print("\n\n\\nn\nrfxghbJANSu    ::"+responseBody);
       if (response.statusCode == 200) {
         
         if(responseBody.length!=0){

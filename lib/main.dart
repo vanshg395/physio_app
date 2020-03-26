@@ -7,6 +7,7 @@ import './patient/patient_register_screen.dart';
 import './patient/patient_tabs_screen.dart';
 import './login_screen.dart';
 import './providers/auth.dart';
+import './patient/router.dart';
 
 //IndexPage()    ---- Video Calling
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
                         : PatientRegisterScreen()
                     : auth.userType == 'Doctor'
                         ? DoctorTabsScreen()
-                        : PatientTabsScreen()
+                        : PatientRouter()
                 : FutureBuilder(
                     future: auth.tryAutoLogin(),
                     builder: (ctx, res) {
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
                                   : PatientRegisterScreen()
                               : auth.userType == 'Doctor'
                                   ? DoctorTabsScreen()
-                                  : PatientTabsScreen();
+                                  : PatientRouter();
                         } else {
                           return LoginScreen();
                         }

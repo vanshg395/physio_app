@@ -56,7 +56,6 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
       // },
     ];
     super.initState();
-    getConsols();
   }
 
   void _selectPage(int index) {
@@ -65,64 +64,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
     });
   }
 
-  Future<void> getConsols() async {
-    try {
-      print('FUCKK');
-      await Provider.of<Auth>(context, listen: false).getConsol();
-      int statusCode = Provider.of<Auth>(context, listen: false).consulstatusget;
-      if(statusCode==0){
-
-        //
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (ctx) => PatientConsultationScreen()),
-        );
-      } else if (statusCode == 1) {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (ctx) => ReConsultationScreen()),
-        );
-      } else if (statusCode == 2) {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (ctx) => PatientwaitingScreen()),
-        );
-      }
-    } catch (error) {
-      print(error);
-      String errorMessage;
-      errorMessage = error.toString();
-
-      showDialog(
-        context: context,
-        builder: (context) => Platform.isIOS
-            ? CupertinoAlertDialog(
-                title: Text(errorMessage),
-                content: Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text(errorMessage),
-                ),
-                actions: <Widget>[
-                  CupertinoDialogAction(
-                    child: Text('OK'),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ],
-              )
-            : AlertDialog(
-                backgroundColor: Colors.grey,
-                title: Text(errorMessage),
-                content: Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text(errorMessage),
-                ),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text('OK'),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ],
-              ),
-      );
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
