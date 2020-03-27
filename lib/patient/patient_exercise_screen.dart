@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
+import './exercise_overview_screen.dart';
 import '../providers/auth.dart';
 import './video_screen.dart';
 
@@ -46,6 +47,7 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
       for (var i = 0; i < _exerciseData.length; i++) {
         _exerciseDone.add(false);
       }
+      print('DATA');
       print(_exerciseData[1]);
     } catch (e) {
       print('err');
@@ -84,44 +86,22 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
                           margin: EdgeInsets.symmetric(vertical: 5),
                           elevation: 3,
                           child: ListTile(
-                              leading: IconButton(
-                                icon: Icon(
-                                  Icons.play_circle_outline,
-                                  size: 30,
-                                ),
-                                onPressed: () {
-                                  print('hey');
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (ctx) => VideoScreen(
-                                          _exerciseData[i][0]['chart_root']
-                                              ['name'],
-                                          _exerciseData[i][0]['video_handler']
-                                              ['video']),
-                                    ),
-                                  );
-                                },
-                              ),
-                              title: Text(
-                                  _exerciseData[i][0]['chart_root']['name']),
-                              subtitle: Text(
-                                  _exerciseData[i][0]['sets'].toString() +
-                                      ' Sets X ' +
-                                      _exerciseData[i][0]['reps'].toString() +
-                                      ' Reps'),
-                              trailing: _exerciseDone[i]
-                                  ? Icon(
-                                      Icons.done,
-                                      color: Colors.green,
-                                    )
-                                  : IconButton(
-                                      icon: Icon(Icons.hourglass_empty),
-                                      onPressed: () {
-                                        setState(() {
-                                          _exerciseDone[i] = true;
-                                        });
-                                      },
-                                    )),
+                            title: Text(_exerciseData[i]['name']),
+                            subtitle: Text(_exerciseData[i]['des']),
+                            trailing: IconButton(
+                              icon: Icon(Icons.arrow_forward_ios),
+                              onPressed: () {
+                                print('hey');
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ExerciseOverviewScreen(
+                                            _exerciseData[i]['data']),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ),
                         itemCount: _exerciseData.length,
                       ),
