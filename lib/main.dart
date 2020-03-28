@@ -22,44 +22,47 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: Auth(),
       child: Consumer<Auth>(
-        builder: (ctx, auth, _) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: auth.isAuth
-                ? auth.entryLevel == 'First'
-                    ? auth.userType == 'Doctor'
-                        ? DoctorRegisterScreen()
-                        : PatientRegisterScreen()
-                    : auth.userType == 'Doctor'
-                        ? DoctorTabsScreen()
-                        : PatientRouter()
-                : FutureBuilder(
-                    future: auth.tryAutoLogin(),
-                    builder: (ctx, res) {
-                      if (res.connectionState == ConnectionState.waiting) {
-                        return Scaffold(
-                          body: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      } else {
-                        if (res.data) {
-                          return auth.entryLevel == 'First'
-                              ? auth.userType == 'Doctor'
-                                  ? DoctorRegisterScreen()
-                                  : PatientRegisterScreen()
-                              : auth.userType == 'Doctor'
-                                  ? DoctorTabsScreen()
-                                  : PatientRouter();
+        builder: (ctx, auth, _) {
+          print('rerun');
+          return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: auth.isAuth
+                  ? auth.entryLevel == 'First'
+                      ? auth.userType == 'Doctor'
+                          ? DoctorRegisterScreen()
+                          : PatientRegisterScreen()
+                      : auth.userType == 'Doctor'
+                          ? DoctorTabsScreen()
+                          : PatientRouter()
+                  : FutureBuilder(
+                      future: auth.tryAutoLogin(),
+                      builder: (ctx, res) {
+                        if (res.connectionState == ConnectionState.waiting) {
+                          return Scaffold(
+                            body: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
                         } else {
-                          return LoginScreen();
+                          if (res.data) {
+                            return auth.entryLevel == 'First'
+                                ? auth.userType == 'Doctor'
+                                    ? DoctorRegisterScreen()
+                                    : PatientRegisterScreen()
+                                : auth.userType == 'Doctor'
+                                    ? DoctorTabsScreen()
+                                    : PatientRouter();
+                          } else {
+                            return LoginScreen();
+                          }
                         }
-                      }
-                    },
-                  )
-            // home: PatientRegisterScreen(),
-            // home: DoctorRegisterScreen(),
-            // home: DoctorTabsScreen(),
-            ),
+                      },
+                    )
+              // home: PatientRegisterScreen(),
+              // home: DoctorRegisterScreen(),
+              // home: DoctorTabsScreen(),
+              );
+        },
       ),
     );
   }

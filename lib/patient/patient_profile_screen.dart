@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
+import '../login_screen.dart';
 import './change_password_screen.dart';
 import '../providers/auth.dart';
 
@@ -187,6 +188,9 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                     await Provider.of<Auth>(context,
                                             listen: false)
                                         .logout();
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (ctx) => LoginScreen()));
                                   },
                                 ),
                         ),
