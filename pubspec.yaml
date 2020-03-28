@@ -37,6 +37,8 @@ dependencies:
   file_picker: ^1.5.0+2
   chewie: ^0.9.10
   video_player: ^0.10.8+1
+  firebase_messaging: ^6.0.13
+
 
   
 dev_dependencies:
