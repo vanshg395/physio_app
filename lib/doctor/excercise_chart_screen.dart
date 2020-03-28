@@ -8,6 +8,9 @@ import '../providers/auth.dart';
 import './doctor_add_video.dart';
 
 class ExcerciseChartScreen extends StatefulWidget {
+  final String consolId;
+
+  const ExcerciseChartScreen({Key key, this.consolId}) : super(key: key);
   @override
   _ExcerciseChartScreenState createState() => _ExcerciseChartScreenState();
 }
@@ -63,7 +66,7 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
         body: json.encode({
           'name': _nameC.text,
           'notes': _noteC.text,
-          'consolId': 'e37a6b92-5018-455a-8bae-3d1f9e587d4f',
+          'consolId': widget.consolId,
           'data': assignedExercises,
         }),
       );

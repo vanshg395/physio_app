@@ -28,10 +28,35 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
   bool _isLoading = false;
   Map<String, dynamic> _userData;
 
+  String _consulID;
+
   @override
   void initState() {
     super.initState();
     getPatDetails();
+  }
+
+  Future<void> getConsolID() async{
+    String url = 'https://fitknees.herokuapp.com/auth/getconsul/';
+    
+    try {
+      final response = await http.post(url, headers: {
+        'Authorization': Provider.of<Auth>(context, listen: false).token,
+      },body: {
+          'doc_id': widget.docId, 
+          'pat_id': widget.patId,
+        },);
+      final responseBody = json.decode(response.body);
+      print(responseBody);
+      if(response.statusCode==200)
+      {
+        _consulID=responseBody['consol'];
+        print(_consulID);
+      }
+    } catch (e) {
+      print(e);
+    }
+    
   }
 
   Future<void> getPatDetails() async {
@@ -54,6 +79,7 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
     } catch (e) {
       print(e);
     }
+    await getConsolID();
     setState(() {
       _isLoading = false;
     });
@@ -249,7 +275,9 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (ctx) =>
-                                          ExcerciseChartScreen()));
+                                          ExcerciseChartScreen(
+                                            consolId: _consulID,
+                                          )));
                                 },
                               ),
                             ),
