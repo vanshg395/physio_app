@@ -69,10 +69,35 @@ class Auth with ChangeNotifier {
     _messaging.getToken().then((token) {
           print('Tokennnnn >>>>>>  ');
           print(token);
-
+          sendReg(token);
         });
 
   }
+  Future<void> sendReg(String deviceId) async {
+    String url = 'http://fitknees.herokuapp.com/auth/notify/';
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Authorization': _token},
+        body: {'device_id': deviceId},
+      );
+      print(response.body);
+      // final responseBody = json.decode(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 204) {
+        print('OK');
+        notifyListeners();
+      } else {
+        throw HttpException(
+            'Unable to login.');
+      }
+    } on HttpException catch (e) {
+      // throw e;
+      print(e.toString());
+    }
+  }
+
 
   Future<void> startConsult() async {
     String url = 'https://fitknees.herokuapp.com/auth/consult/';
@@ -169,9 +194,23 @@ class Auth with ChangeNotifier {
         _pushNotifications();
         notifyListeners();
       } else {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.clear();
+        _token = null;
+        _userType = null;
+        _username = null;
+        _name = null;
+        _id = null;
         throw HttpException('Unable to log in with provided credentials.');
       }
     } on HttpException catch (e) {
+      final prefs = await SharedPreferences.getInstance();
+        prefs.clear();
+        _token = null;
+        _userType = null;
+        _username = null;
+        _name = null;
+        _id = null;
       print(e);
       throw e;
     }

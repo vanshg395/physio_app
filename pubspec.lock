@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.8"
-  agora_rtm:
-    dependency: "direct main"
-    description:
-      name: agora_rtm
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.10"
   archive:
     dependency: transitive
     description:
