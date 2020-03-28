@@ -153,6 +153,46 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        height: 40,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: _isLoading
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation(
+                                      Colors.grey,
+                                    ),
+                                  ),
+                                )
+                              : RaisedButton(
+                                  color: Colors.grey[350],
+                                  textColor: Colors.black,
+                                  child: Text(
+                                    'Logout',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'SFProTextSemiMed',
+                                    ),
+                                  ),
+                                  // onPressed: _submit,
+                                  onPressed: () {
+                                    // await changePassword();
+                                    Provider.of<Auth>(context, listen: false)
+                                        .logout();
+                                  },
+                                ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
                   ],
                 ),
               ),

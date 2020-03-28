@@ -74,7 +74,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ],
               )
             : AlertDialog(
-                backgroundColor: Colors.grey,
                 title: Text('Authentication Error'),
                 content: Padding(
                   padding: EdgeInsets.only(top: 10),
@@ -98,7 +97,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF030D18),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
@@ -111,7 +109,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   padding: const EdgeInsets.only(top: 30.0),
                   child: Text(
                     'CHANGE PASSWORD',
-                    style: Theme.of(context).textTheme.headline1,
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 SizedBox(
@@ -134,7 +135,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       },
                     ),
                     labelText: 'Current Password',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.black),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue),
                     ),
@@ -178,7 +179,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       },
                     ),
                     labelText: 'New Password',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.black),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue),
                     ),
@@ -222,7 +223,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       },
                     ),
                     labelText: 'Confirm New Password',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.black),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue),
                     ),
