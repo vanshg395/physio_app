@@ -36,27 +36,29 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
     getPatDetails();
   }
 
-  Future<void> getConsolID() async{
+  Future<void> getConsolID() async {
     String url = 'https://fitknees.herokuapp.com/auth/getconsul/';
-    
+
     try {
-      final response = await http.post(url, headers: {
-        'Authorization': Provider.of<Auth>(context, listen: false).token,
-      },body: {
-          'doc_id': widget.docId, 
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': Provider.of<Auth>(context, listen: false).token,
+        },
+        body: {
+          'doc_id': widget.docId,
           'pat_id': widget.patId,
-        },);
+        },
+      );
       final responseBody = json.decode(response.body);
       print(responseBody);
-      if(response.statusCode==200)
-      {
-        _consulID=responseBody['consol'];
+      if (response.statusCode == 200) {
+        _consulID = responseBody['consol'];
         print(_consulID);
       }
     } catch (e) {
       print(e);
     }
-    
   }
 
   Future<void> getPatDetails() async {
@@ -151,9 +153,11 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
         ],
       ),
       body: _isLoading
-          ? Container(
-              child: Center(
-                child: CircularProgressIndicator(),
+          ? SingleChildScrollView(
+              child: Container(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
             )
           : _userData == null
@@ -267,15 +271,13 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
                         child: Row(
                           children: <Widget>[
                             Expanded(
-                              
                               child: FlatButton.icon(
                                 textColor: Colors.white,
                                 icon: Icon(Icons.directions_run),
                                 label: Text('Excercise Chart'),
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (ctx) =>
-                                          ExcerciseChartScreen(
+                                      builder: (ctx) => ExcerciseChartScreen(
                                             consolId: _consulID,
                                           )));
                                 },
