@@ -14,6 +14,7 @@ class PatientProfileScreen extends StatefulWidget {
 
 class _PatientProfileScreenState extends State<PatientProfileScreen> {
   bool _isLoading = false;
+  bool _isLoading2 = false;
   Map<String, dynamic> _details;
 
   @override
@@ -162,7 +163,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                         height: 40,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: _isLoading
+                          child: _isLoading2
                               ? Center(
                                   child: CircularProgressIndicator(
                                     valueColor: AlwaysStoppedAnimation(
@@ -181,9 +182,10 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                     ),
                                   ),
                                   // onPressed: _submit,
-                                  onPressed: () {
+                                  onPressed: () async {
                                     // await changePassword();
-                                    Provider.of<Auth>(context, listen: false)
+                                    await Provider.of<Auth>(context,
+                                            listen: false)
                                         .logout();
                                   },
                                 ),

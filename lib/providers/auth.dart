@@ -116,7 +116,7 @@ class Auth with ChangeNotifier {
         } else {
           _consolStatusCode = 0;
         }
-        
+
         notifyListeners();
       } else {
         throw HttpException('Unable to log in with provided credentials.');
@@ -194,7 +194,6 @@ class Auth with ChangeNotifier {
       }, body: {
         'current_password': currentPass,
         'new_password': newPass,
-        're_new_password': newConfirmPass
       });
       print(response.body);
       // final responseBody = json.decode(response.body);
@@ -229,9 +228,10 @@ class Auth with ChangeNotifier {
 
   Future<void> logout() async {
     print(1);
-    String url = 'https://fitknees.herokuapp.com/auth/token/login/';
-    final response = await http.get(url, headers: {'Authorization': _token});
+    String url = 'https://fitknees.herokuapp.com/auth/token/logout/';
+    final response = await http.post(url, headers: {'Authorization': _token});
     print(response.statusCode);
+    print(response.body);
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
     _token = null;
@@ -240,5 +240,6 @@ class Auth with ChangeNotifier {
     _name = null;
     _id = null;
     notifyListeners();
+    print('called');
   }
 }

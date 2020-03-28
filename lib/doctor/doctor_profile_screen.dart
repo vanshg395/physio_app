@@ -14,6 +14,7 @@ class DoctorProfileScreen extends StatefulWidget {
 
 class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
   bool _isLoading = false;
+  bool _isLoading2 = false;
   Map<String, dynamic> _details;
 
   @override
@@ -152,6 +153,47 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                                 ),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        height: 40,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: _isLoading2
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation(
+                                      Colors.grey,
+                                    ),
+                                  ),
+                                )
+                              : RaisedButton(
+                                  color: Colors.grey[350],
+                                  textColor: Colors.black,
+                                  child: Text(
+                                    'Logout',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'SFProTextSemiMed',
+                                    ),
+                                  ),
+                                  // onPressed: _submit,
+                                  onPressed: () async {
+                                    // await changePassword();
+                                    await Provider.of<Auth>(context,
+                                            listen: false)
+                                        .logout();
+                                  },
+                                ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
                     ),
                   ],
                 ),

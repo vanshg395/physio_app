@@ -1,244 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:provider/provider.dart';
-
-// import '../providers/auth.dart';
-
-// class ChangePasswordScreen extends StatefulWidget {
-//   @override
-//   _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
-// }
-
-// class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
-//   List<TextEditingController> _passControllers = [
-//     TextEditingController(),
-//     TextEditingController(),
-//     TextEditingController(),
-//   ];
-//   final GlobalKey<FormState> _formKey = GlobalKey();
-//   List<bool> visiblePassword = [false, false, false];
-//   Map<String, String> _data = {
-//     'current_password': '',
-//     'new_password': '',
-//   };
-//   bool _isLoading = false;
-
-//   Future<void> _submit() async {
-//     if (!_formKey.currentState.validate()) {
-//       return;
-//     }
-//     _formKey.currentState.save();
-//     setState(() {
-//       _isLoading = true;
-//     });
-//     try {
-//       String url = 'https://fitknees.herokuapp.com/auth/users/set_password/';
-//       final response = await http.post(
-//         url,
-//         headers: {'Authorization': Provider.of<Auth>(context).token},
-//         body: _data,
-//       );
-//       print(response.body);
-//     } catch (e) {}
-//     _isLoading = false;
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Change Password'),
-//       ),
-//       body: Container(
-//         padding: EdgeInsets.symmetric(horizontal: 20),
-//         child: Form(
-//           key: _formKey,
-//           child: Column(
-//             children: <Widget>[
-//               SizedBox(
-//                 height: 50,
-//               ),
-//               TextFormField(
-//                 controller: _passControllers[0],
-//                 decoration: InputDecoration(
-//                   suffixIcon: IconButton(
-//                     icon: Icon(
-//                       visiblePassword[0]
-//                           ? FontAwesomeIcons.eye
-//                           : FontAwesomeIcons.eyeSlash,
-//                       color: Colors.grey,
-//                     ),
-//                     onPressed: () {
-//                       setState(() {
-//                         visiblePassword[0] = !visiblePassword[0];
-//                       });
-//                     },
-//                   ),
-//                   labelText: 'Current Password',
-//                   labelStyle: TextStyle(color: Colors.grey),
-//                   focusedBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.blue),
-//                   ),
-//                   errorBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.blue),
-//                   ),
-//                   focusedErrorBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.blue),
-//                   ),
-//                   enabledBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.grey),
-//                   ),
-//                 ),
-//                 keyboardType: TextInputType.emailAddress,
-//                 keyboardAppearance: Brightness.light,
-//                 obscureText: !visiblePassword[0],
-//                 validator: (val) {
-//                   if (val == '') {
-//                     return 'This Field is required.';
-//                   }
-//                 },
-//                 onSaved: (val) {
-//                   print('val' + val);
-//                   _data['current_password'] = val;
-//                 },
-//               ),
-//               SizedBox(
-//                 height: 30,
-//               ),
-//               TextFormField(
-//                 controller: _passControllers[1],
-//                 decoration: InputDecoration(
-//                   suffixIcon: IconButton(
-//                     icon: Icon(
-//                       visiblePassword[1]
-//                           ? FontAwesomeIcons.eye
-//                           : FontAwesomeIcons.eyeSlash,
-//                       color: Colors.grey,
-//                     ),
-//                     onPressed: () {
-//                       setState(() {
-//                         visiblePassword[1] = !visiblePassword[1];
-//                       });
-//                     },
-//                   ),
-//                   labelText: 'New Password',
-//                   labelStyle: TextStyle(color: Colors.grey),
-//                   focusedBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.blue),
-//                   ),
-//                   errorBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.blue),
-//                   ),
-//                   focusedErrorBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.blue),
-//                   ),
-//                   enabledBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.grey),
-//                   ),
-//                 ),
-//                 keyboardType: TextInputType.emailAddress,
-//                 keyboardAppearance: Brightness.light,
-//                 obscureText: !visiblePassword[1],
-//                 validator: (val) {
-//                   if (val == '') {
-//                     return 'This Field is required.';
-//                   }
-//                 },
-//                 onSaved: (val) {
-//                   _data['new_password'] = val;
-//                 },
-//               ),
-//               SizedBox(
-//                 height: 30,
-//               ),
-//               TextFormField(
-//                 controller: _passControllers[2],
-//                 decoration: InputDecoration(
-//                   suffixIcon: IconButton(
-//                     icon: Icon(
-//                       visiblePassword[1]
-//                           ? FontAwesomeIcons.eye
-//                           : FontAwesomeIcons.eyeSlash,
-//                       color: Colors.grey,
-//                     ),
-//                     onPressed: () {
-//                       setState(() {
-//                         visiblePassword[2] = !visiblePassword[2];
-//                       });
-//                     },
-//                   ),
-//                   labelText: 'Confirm New Password',
-//                   labelStyle: TextStyle(color: Colors.grey),
-//                   focusedBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.blue),
-//                   ),
-//                   errorBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.blue),
-//                   ),
-//                   focusedErrorBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.blue),
-//                   ),
-//                   enabledBorder: OutlineInputBorder(
-//                     borderSide: BorderSide(color: Colors.grey),
-//                   ),
-//                 ),
-//                 keyboardType: TextInputType.emailAddress,
-//                 keyboardAppearance: Brightness.light,
-//                 obscureText: !visiblePassword[2],
-//                 validator: (val) {
-//                   if (val == '') {
-//                     return 'This Field is required.';
-//                   }
-//                   if (val != _passControllers[1].text) {
-//                     return 'Passwords do not match';
-//                   }
-//                 },
-//                 onSaved: (val) {
-//                   _data['new_password'] = val;
-//                 },
-//               ),
-//               SizedBox(
-//                 height: 50,
-//               ),
-//               Center(
-//                 child: Container(
-//                   width: MediaQuery.of(context).size.width * 0.6,
-//                   height: 40,
-//                   child: ClipRRect(
-//                     borderRadius: BorderRadius.circular(50),
-//                     child: _isLoading
-//                         ? Center(
-//                             child: CircularProgressIndicator(
-//                               valueColor: AlwaysStoppedAnimation(
-//                                 Colors.grey,
-//                               ),
-//                             ),
-//                           )
-//                         : RaisedButton(
-//                             color: Colors.grey[350],
-//                             textColor: Colors.black,
-//                             child: Text(
-//                               'Submit',
-//                               style: TextStyle(
-//                                 fontSize: 18,
-//                                 fontFamily: 'SFProTextSemiMed',
-//                               ),
-//                             ),
-//                             onPressed: _submit,
-//                             // onPressed: () => _submit,
-//                           ),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -246,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import 'dart:io';
-// import 'tabsScreen.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   @override
@@ -339,7 +97,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF030D18),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
@@ -348,11 +105,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                SizedBox(
+                  height: 20,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 30.0),
                   child: Text(
                     'CHANGE PASSWORD',
-                    style: Theme.of(context).textTheme.headline1,
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 SizedBox(
@@ -375,7 +138,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       },
                     ),
                     labelText: 'Current Password',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.black),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue),
                     ),
@@ -419,7 +182,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       },
                     ),
                     labelText: 'New Password',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.black),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue),
                     ),
@@ -463,7 +226,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       },
                     ),
                     labelText: 'Confirm New Password',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.black),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue),
                     ),
