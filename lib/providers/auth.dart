@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,6 +62,14 @@ class Auth with ChangeNotifier {
 
   Future<void> addDocID(String id) {
     _docId = id;
+  }
+
+  Future<void> _pushNotifications(){
+    final FirebaseMessaging _messaging = FirebaseMessaging();
+    _messaging.getToken().then((token) {
+          print(token);
+        });
+
   }
 
   Future<void> startConsult() async {
@@ -155,6 +164,7 @@ class Auth with ChangeNotifier {
           'entryLevel': _entryLevel,
         });
         prefs.setString('userData', data);
+        _pushNotifications();
         notifyListeners();
       } else {
         throw HttpException('Unable to log in with provided credentials.');
