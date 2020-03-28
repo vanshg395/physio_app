@@ -83,7 +83,7 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
       print(responseBody);
       print(response.statusCode);
       final channelName = responseBody[0]['channel'];
-  
+
       await Navigator.push(
         context,
         MaterialPageRoute(

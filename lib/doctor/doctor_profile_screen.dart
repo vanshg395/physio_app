@@ -23,6 +23,17 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
     getData();
   }
 
+  Future<void> _logout() async {
+    setState(() {
+      _isLoading2 = true;
+    });
+    // await changePassword();
+    await Provider.of<Auth>(context, listen: false).logout();
+    setState(() {
+      _isLoading2 = false;
+    });
+  }
+
   Future<void> getData() async {
     setState(() {
       _isLoading = true;
@@ -182,13 +193,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                                     ),
                                   ),
                                   // onPressed: _submit,
-                                  onPressed: () async {
-                                    // await changePassword();
-                                    await Provider.of<Auth>(context,
-                                            listen: false)
-                                        .logout();
-                                  },
-                                ),
+                                  onPressed: _logout),
                         ),
                       ),
                     ),
