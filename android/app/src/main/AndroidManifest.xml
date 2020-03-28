@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.physio_app">
+    package="com.ashvaweartech.fitknees">
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -16,7 +16,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="physio_app"
+        android:label="Fitknees-My physio app"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
