@@ -124,7 +124,7 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
                       child: CircularProgressIndicator(),
                     ),
                   )
-                : _patients.length == 0
+                : (_patients.length == 0 || _patients == null)
                     ? Expanded(
                         child: Center(
                           child: Text('There are no patients for you.'),

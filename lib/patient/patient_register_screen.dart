@@ -72,25 +72,24 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
       _isLoading = true;
     });
     print(_data);
-  
+
     try {
       String url = 'https://fitknees.herokuapp.com/auth/patient/';
 
-      final response = await http.post(
-        url,
-        headers: {
-          'Authorization': Provider.of<Auth>(context, listen: false).token,
-          'content_type': 'application/json',
-          "Accept": "application/json",
-        },
-        body: json.encode(_data)
-      );
+      final response = await http.post(url,
+          headers: {
+            'Authorization': Provider.of<Auth>(context, listen: false).token,
+            'content_type': 'application/json',
+            "Accept": "application/json",
+          },
+          body: json.encode(_data));
       final responseBody = response.body;
       print(responseBody);
       print(response.statusCode);
-      if(response.statusCode==200){
-      Navigator.of(context).push(MaterialPageRoute(builder: (ctx) =>PatientRouter()));
-      await Provider.of<Auth>(context, listen: false).changeEntryLevel();
+      if (response.statusCode == 200) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (ctx) => PatientRouter()));
+        await Provider.of<Auth>(context, listen: false).changeEntryLevel();
       }
     } catch (e) {
       print(e);
@@ -310,23 +309,55 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  InternationalPhoneNumberInput.withCustomBorder(
-                    onInputChanged: (PhoneNumber number) {
-                      print(number.phoneNumber);
-                      _data['country_code'] = number.dialCode;
-                      _data['phone_number'] = number.phoneNumber;
-                    },
-                    // isEnabled: true,
-                    autoValidate: true,
-                    formatInput: true,
-                    inputBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
+                  TextFormField(
+                    // controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Phone Number',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
                     ),
-                    hintText: 'Enter your Phone Number',
-                    onInputValidated: (_) {},
-                    selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                    initialCountry2LetterCode: 'IN',
+                    keyboardAppearance: Brightness.light,
+                    keyboardType: TextInputType.number,
+                    validator: (val) {
+                      if (val == '') {
+                        return 'This Field is required.';
+                      }
+                    },
+                    onChanged: (_) {
+                      _formKey.currentState.validate();
+                    },
+                    onSaved: (val) {
+                      _data['phone_number'] = val;
+                    },
                   ),
+                  // InternationalPhoneNumberInput.withCustomBorder(
+                  //   onInputChanged: (PhoneNumber number) {
+                  //     print(number.phoneNumber);
+                  //     _data['country_code'] = number.dialCode;
+                  //     _data['phone_number'] = number.phoneNumber;
+                  //   },
+                  //   // isEnabled: true,
+                  //   autoValidate: true,
+                  //   formatInput: true,
+                  //   inputBorder: OutlineInputBorder(
+                  //     borderSide: BorderSide(color: Colors.grey),
+                  //   ),
+                  //   hintText: 'Enter your Phone Number',
+                  //   onInputValidated: (_) {},
+                  //   selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                  //   initialCountry2LetterCode: 'IN',
+                  // ),
                   SizedBox(
                     height: 15,
                   ),
