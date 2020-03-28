@@ -20,7 +20,6 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
     );
   }
 
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String title = "Hello User,";
   String helper = "Please wait for the video call";
   bool video_call=false;
@@ -30,33 +29,7 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
   void initState() {
     super.initState();
     _handleCameraAndMic();
-    _firebaseMessaging.configure(
-      onMessage: (message) async{
-        setState(() {
-          video_call=false;
-          
-          if(title=="Video Call"){
-            video_call=true;
-          }
-        });
 
-      },
-      onResume: (message) async{
-        setState(() {
-          video_call=false;
-          if(title=="Video Call"){
-            video_call=true;
-            title = message["data"]["title"];
-            helper = message["notification"]["body"];
-            title = message["notification"]["title"];
-            helper = message["notification"]["body"];
-          }
-          
-        });
-
-      },
-
-    );
   }
 
 
@@ -97,7 +70,7 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text("$helper, Join the video call"),
-              _isLoading?RaisedButton(child: Text("Start Video Call"),
+              RaisedButton(child: Text("Start Video Call"),
               onPressed: ()async{
                 setState(() {
                   video_call=false;
@@ -111,7 +84,7 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
                     ),
                   ),
               );
-              },):CircularProgressIndicator()
+              },)
             ],
           )
         ),
