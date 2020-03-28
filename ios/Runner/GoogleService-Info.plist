@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1073563422656-4jvm006h3l7qcucd3d236bntkc11gfpl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1073563422656-4jvm006h3l7qcucd3d236bntkc11gfpl</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAc_Yxu1m4Q_yVJRkEy848x7-Fbgfsxdog</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1073563422656</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ashvaweartech.fitknees</string>
+	<key>PROJECT_ID</key>
+	<string>fitknees-my-physio</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fitknees-my-physio.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1073563422656:ios:942e3c009d35ecbe0e8225</string>
+	<key>DATABASE_URL</key>
+	<string>https://fitknees-my-physio.firebaseio.com</string>
+</dict>
+</plist>

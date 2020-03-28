@@ -15,8 +15,7 @@ class PatientRouter extends StatefulWidget {
 }
 
 class _PatientRouterState extends State<PatientRouter> {
-  
-  int statusCode=0;
+  int statusCode = 0;
 
   @override
   void initState() {
@@ -24,30 +23,28 @@ class _PatientRouterState extends State<PatientRouter> {
     super.initState();
   }
 
-
   Future<void> getConsols() async {
     try {
       print('FUCKK');
       await Provider.of<Auth>(context, listen: false).getConsol();
       statusCode = Provider.of<Auth>(context, listen: false).consulstatusget;
       print(statusCode);
-      if(statusCode==0){
-
+      if (statusCode == 0) {
         //
-        Navigator.of(context).push(
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => ReConsultationScreen()),
         );
       } else if (statusCode == 1) {
-        Navigator.of(context).push(
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => PatientConsultationScreen()),
         );
       } else if (statusCode == 2) {
-        Navigator.of(context).push(
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => PatientwaitingScreen()),
         );
-      }
-      else{
-        Navigator.of(context).push(
+      } else {
+        print('doin change');
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => PatientTabsScreen()),
         );
       }
@@ -89,12 +86,9 @@ class _PatientRouterState extends State<PatientRouter> {
       );
     }
   }
-  
-  
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      
-    );
+    return Scaffold();
   }
 }

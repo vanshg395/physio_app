@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 
 import './patient_profile_screen.dart';
 import './patient_exercise_screen.dart';
@@ -16,12 +14,12 @@ class PatientTabsScreen extends StatefulWidget {
 
 class _PatientTabsScreenState extends State<PatientTabsScreen> {
   List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 1;
+  int _selectedPageIndex = 0;
 
   @override
   void initState() {
+    print('initS');
     _pages = [
-       
       {
         'page': PatientExerciseScreen(),
         'title': 'PatExercise',
@@ -34,7 +32,6 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         'page': PatientProfileScreen(),
         'title': 'Profile',
       },
-
     ];
     super.initState();
   }
@@ -47,7 +44,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('object');
+    print('objectss');
     return Scaffold(
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
@@ -58,7 +55,6 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         selectedFontSize: 12,
         unselectedFontSize: 12,
         items: [
-          
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.dumbbell,
@@ -85,9 +81,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
             ),
             title: Text('Video Chat'),
           ),
-          
-          
-            BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
               size: 33,
@@ -110,4 +104,3 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
     );
   }
 }
-//FGUw1XWwNchVGnbeI4
