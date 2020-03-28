@@ -67,7 +67,9 @@ class Auth with ChangeNotifier {
   Future<void> _pushNotifications(){
     final FirebaseMessaging _messaging = FirebaseMessaging();
     _messaging.getToken().then((token) {
-          print('Token   :'+token.toString());
+          print('Tokennnnn >>>>>>  ');
+          print(token);
+
         });
 
   }
