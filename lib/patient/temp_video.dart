@@ -62,14 +62,12 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
 
       body: Container(
         child: Center(
-          child:!video_call?Container(
-            child: Text("Please wait for your doctor's call"),
-          ):
+          child:
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("$helper, Join the video call"),
+              Text("Doctor will join you to video call. Please join when he invites you for a video call"),
               RaisedButton(child: Text("Start Video Call"),
               onPressed: ()async{
                 setState(() {
