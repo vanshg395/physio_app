@@ -14,6 +14,10 @@
 	<string>Fitknees</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>NSCameraUsageDescription</key>
+	<string>${PRODUCT_NAME} requires permission to use your camera.</string>
+	 <key>NSMicrophoneUsageDescription</key>
+	<string>${PRODUCT_NAME} requires permission to use your microphone.</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
