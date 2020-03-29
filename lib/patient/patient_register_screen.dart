@@ -158,6 +158,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         lastDate: DateTime.now(),
                       );
                       dateCtl.text = DateFormat.yMMMMd().format(date);
+                      _data['user'] = Provider.of<Auth>(context).id;
                       _data['date_of_birth'] =
                           DateFormat('yyyy-MM-dd').format(date);
                       print(_data);
@@ -330,41 +331,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                   ),
                   SizedBox(
                     height: 15,
-                  ),
-                  TextFormField(
-                    // controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: TextStyle(color: Colors.grey),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                    ),
-                    keyboardAppearance: Brightness.light,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (val) {
-                      if (val == '') {
-                        return 'This Field is required.';
-                      }
-                    },
-                    onChanged: (_) {
-                      _formKey.currentState.validate();
-                    },
-                    onSaved: (val) {
-                      _data['email'] = val;
-                    },
-                  ),
-                  SizedBox(
-                    height: 25,
                   ),
                   Text(
                     'Gender',
