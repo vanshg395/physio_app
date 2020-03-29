@@ -42,6 +42,110 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
     });
   }
 
+  void _settingModalBottomSheet(context, String id) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                    leading: new Icon(Icons.add),
+                    title: new Text('Approve'),
+                    onTap: () async {
+                      await _approve(id, context);
+                      Navigator.of(context).pop();
+                    }),
+                new ListTile(
+                    leading: new Icon(Icons.remove),
+                    title: new Text('Dis Approve'),
+                    onTap: () async {
+                      await _disApprove(id, context);
+                      Navigator.of(context).pop();
+                    }),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _settingModalBottomSheet1(context, String id) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                    leading: new Icon(Icons.close),
+                    title: new Text('Close Consultation'),
+                    onTap: () async {
+                      await _closeCase(id, context);
+                      Navigator.of(context).pop();
+                    }),
+                new ListTile(
+                  leading: new Icon(Icons.cancel),
+                  title: new Text('Cancel'),
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  _approve(String id, context) async {
+    String url = 'https://fitknees.herokuapp.com/auth/approve/';
+
+    try {
+      final response = await http.post(url, body: {
+        'consolId': id,
+      });
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print('done');
+        await _getConsults();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  _disApprove(String id, context) async {
+    String url = 'https://fitknees.herokuapp.com/auth/disapprove/';
+
+    try {
+      final response = await http.post(url, headers: {
+        'Authorization': Provider.of<Auth>(context, listen: false).token,
+      }, body: {
+        'consolId': id,
+      });
+      if (response.statusCode == 200) {
+        print('done');
+        await _getConsults();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  _closeCase(String id, context) async {
+    String url = 'https://fitknees.herokuapp.com/auth/close/';
+
+    try {
+      final response = await http.post(url, headers: {
+        'Authorization': Provider.of<Auth>(context, listen: false).token,
+      }, body: {
+        'consolId': id,
+      });
+      if (response.statusCode == 200) {
+        print('done');
+        await _getConsults();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void initState() {
@@ -64,7 +168,11 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
               ),
             ),
             _isLoading
-                ? Expanded(child: Center(child: CircularProgressIndicator()))
+                ? Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
                 : _consults.length == 0
                     ? Expanded(
                         child: Center(
@@ -82,18 +190,20 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 5.0),
                                   child: ListTile(
-                                    title: Text(_consults[i]['name']),
-                                    subtitle: _consults[i]['doc_approval']?Text('Approved'):Text('Not Approved'),
-                                    leading: CircleAvatar(
-                                      child: Text(''),
-                                    ),
-                                    
-                                    onTap: (){
-                                      _consults[i]['doc_approval']?_settingModalBottomSheet1(context,_consults[i]['consul_id']):
-                                      _settingModalBottomSheet(context,_consults[i]['consul_id']);
-
-                                    }
-                                  ),
+                                      title: Text(_consults[i]['name']),
+                                      subtitle: _consults[i]['doc_approval']
+                                          ? Text('Approved')
+                                          : Text('Not Approved'),
+                                      leading: CircleAvatar(
+                                        child: Text(''),
+                                      ),
+                                      onTap: () {
+                                        _consults[i]['doc_approval']
+                                            ? _settingModalBottomSheet1(context,
+                                                _consults[i]['consul_id'])
+                                            : _settingModalBottomSheet(context,
+                                                _consults[i]['consul_id']);
+                                      }),
                                 ),
                               ),
                               Divider(),
@@ -106,120 +216,5 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
         ),
       ),
     );
-  }
-}
-
-void _settingModalBottomSheet(context, String id) {
-  showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return Container(
-          child: new Wrap(
-            children: <Widget>[
-      new ListTile(
-            leading: new Icon(Icons.add),
-            title: new Text('Approve'),
-            onTap:()async{await _approve(id,context);
-                Navigator.of(context).pop();
-            }       
-          ),
-          new ListTile(
-            leading: new Icon(Icons.remove),
-            title: new Text('Dis Approve'),
-            onTap:()async{await _disApprove(id,context);
-                Navigator.of(context).pop();
-            }         
-          ),
-            ],
-          ),
-        );
-      });
-}
-
-void _settingModalBottomSheet1(context, String id) {
-  showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return Container(
-          child: new Wrap(
-            children: <Widget>[
-            new ListTile(
-            leading: new Icon(Icons.close),
-            title: new Text('Close Case'),
-
-            onTap: ()async{await _closeCase(id,context);
-                Navigator.of(context).pop();
-            }                   
-
-            ),
-            new ListTile(
-              leading: new Icon(Icons.cancel),
-              title: new Text('Cancel'),
-              onTap: () => Navigator.of(context).pop(),
-            ),
-              ],
-            ),
-            );
-        }
-      );
-  }
-            
-   
-_approve(String id, context) async {
-  String url = 'https://fitknees.herokuapp.com/auth/approve/';
-
-  try {
-    final response = await http.post(url, body: {
-      'consolId': id,
-    });
-    final responseBody = json.decode(response.body);
-    print(responseBody);
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      print('done');
-    }
-  } catch (e) {
-    print(e);
-  }
-}
-
-_disApprove(String id, context) async {
-  String url = 'https://fitknees.herokuapp.com/auth/disapprove/';
-
-  try {
-    final response = await http.post(url, headers: {
-      'Authorization': Provider.of<Auth>(context, listen: false).token,
-    }, body: {
-      'consolId': id,
-    });
-    final responseBody = json.decode(response.body);
-    print(responseBody);
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      print('done');
-    }
-  } catch (e) {
-    print(e);
-  }
-}
-
-_closeCase(String id, context) async {
-  String url = 'https://fitknees.herokuapp.com/auth/close/';
-
-  try {
-    final response = await http.post(url, headers: {
-      'Authorization': Provider.of<Auth>(context, listen: false).token,
-    }, body: {
-      'consolId': id,
-    });
-    final responseBody = json.decode(response.body);
-    print(responseBody);
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      print('done');
-
-    }
-  } catch (e) {
-    print(e);
   }
 }
