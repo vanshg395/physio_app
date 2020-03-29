@@ -12,12 +12,10 @@ class PatientwaitingScreen extends StatefulWidget {
 }
 
 class _PatientwaitingScreenState extends State<PatientwaitingScreen> {
-
-
   bool _isLoading = false;
   String _fullname = '';
   String _depart = '';
-  String _designation='';
+  String _designation = '';
   String _hospital = '';
   String _image = '';
   String _docID = '';
@@ -26,17 +24,16 @@ class _PatientwaitingScreenState extends State<PatientwaitingScreen> {
   void initState() {
     super.initState();
     getDoctor();
-      }
+  }
 
-  Future<void> _startConsultation() async{
-    
+  Future<void> _startConsultation() async {
     try {
       await Provider.of<Auth>(context, listen: false).startConsult();
     } catch (error) {
       print(error);
       String errorMessage;
       errorMessage = error.toString();
-      
+
       showDialog(
         context: context,
         builder: (context) => Platform.isIOS
@@ -45,33 +42,33 @@ class _PatientwaitingScreenState extends State<PatientwaitingScreen> {
                 content: Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Text(errorMessage),
-          ),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        )
-      : AlertDialog(
-          backgroundColor: Colors.grey,
-          title: Text(errorMessage),
-          content: Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Text(errorMessage),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        ),
+                ),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              )
+            : AlertDialog(
+                backgroundColor: Colors.grey,
+                title: Text(errorMessage),
+                content: Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(errorMessage),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
       );
     }
   }
 
-  Future<void> getDoctor() async{
+  Future<void> getDoctor() async {
     setState(() {
       _isLoading = true;
     });
@@ -91,81 +88,84 @@ class _PatientwaitingScreenState extends State<PatientwaitingScreen> {
       _depart = resBody['department'];
       _designation = resBody['designation'];
       _hospital = resBody['hospital'];
-      _image=resBody['image'];
+      _image = resBody['image'];
       _docID = resBody['docId'];
       try {
-      await Provider.of<Auth>(context, listen: false).addDocID(_docID);
-    } catch (error) {
-      print(error);
-    }
-
-
+        await Provider.of<Auth>(context, listen: false).addDocID(_docID);
+      } catch (error) {
+        print(error);
+      }
     } catch (e) {}
     setState(() {
       _isLoading = false;
     });
-
-
-}
-      
-    
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _isLoading ? CircularProgressIndicator() : Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                // Image.asset(
-                //   'logo/doctor.jpeg',
-                //   fit: BoxFit.fitHeight,
-                // ),
+        child: _isLoading
+            ? CircularProgressIndicator()
+            : Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Image.asset(
+                    //   'logo/doctor.jpeg',
+                    //   fit: BoxFit.fitHeight,
+                    // ),
 
-                Text("Name : $_fullname",style: TextStyle(
-                  fontSize:20
-                ),),
-
-                SizedBox(
-                  height: 20,
+                    Card(
+                      color: Colors.grey[200],
+                      elevation: 3,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 30,
+                          horizontal: 20,
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "Name : $_fullname",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Designation : $_designation",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Department : $_depart",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Hospital : $_hospital",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Please wait till doctor approves your request.",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
                 ),
-
-                Text("Designation : $_designation",style: TextStyle(
-                  fontSize:20
-                ),),
-
-                SizedBox(
-                  height: 20,
-                ),
-
-                Text("Department : $_depart",style: TextStyle(
-                  fontSize:20
-                ),),
-
-                SizedBox(
-                  height: 20,
-                ),
-
-
-                Text("Hospital : $_hospital",style: TextStyle(
-                  fontSize:20
-                ),),
-                SizedBox(
-                  height: 20,
-                ),
-                Text("Please wait till doctor approves your request.",style: TextStyle(
-                  fontSize:15
-                ),
-                ),
-              ]
-            )
-          )
+              ),
       ),
     );
   }
 }
-
-
-
-

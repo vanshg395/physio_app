@@ -9,16 +9,15 @@ import 'dart:io';
 
 class PatientConsultationScreen extends StatefulWidget {
   @override
-  _PatientConsultationScreenState createState() => _PatientConsultationScreenState();
+  _PatientConsultationScreenState createState() =>
+      _PatientConsultationScreenState();
 }
 
 class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
-
-
   bool _isLoading = false;
   String _fullname = '';
   String _depart = '';
-  String _designation='';
+  String _designation = '';
   String _hospital = '';
   String _image = '';
   String _docID = '';
@@ -27,9 +26,9 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
   void initState() {
     super.initState();
     getDoctor();
-      }
+  }
 
-  Future<void> _startConsultation() async{
+  Future<void> _startConsultation() async {
     setState(() {
       _isLoading = true;
     });
@@ -39,7 +38,7 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
       print(error);
       String errorMessage;
       errorMessage = error.toString();
-      
+
       showDialog(
         context: context,
         builder: (context) => Platform.isIOS
@@ -48,28 +47,28 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
                 content: Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Text(errorMessage),
-          ),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        )
-      : AlertDialog(
-          backgroundColor: Colors.grey,
-          title: Text(errorMessage),
-          content: Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Text(errorMessage),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        ),
+                ),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              )
+            : AlertDialog(
+                backgroundColor: Colors.grey,
+                title: Text(errorMessage),
+                content: Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(errorMessage),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
       );
     }
     setState(() {
@@ -77,7 +76,7 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
     });
   }
 
-  Future<void> getDoctor() async{
+  Future<void> getDoctor() async {
     setState(() {
       _isLoading = true;
     });
@@ -97,90 +96,108 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
       _depart = resBody['department'];
       _designation = resBody['designation'];
       _hospital = resBody['hospital'];
-      _image=resBody['image'];
+      _image = resBody['image'];
       _docID = resBody['docId'];
       print(resBody);
-      
+
       await Provider.of<Auth>(context, listen: false).addDocID(_docID);
-      }
-     catch (error) {
+    } catch (error) {
       print(error);
     }
 
-
-   
     setState(() {
       _isLoading = false;
     });
-Navigator.of(context).push(
-          MaterialPageRoute(builder: (ctx) => PatientRouter()),
-        );
-
-}
-      
-    
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (ctx) => PatientRouter()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _isLoading ? CircularProgressIndicator() : Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                // Image.asset(
-                //   'logo/doctor.jpeg',
-                //   fit: BoxFit.fitHeight,
-                // ),
+        child: _isLoading
+            ? CircularProgressIndicator()
+            : Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Image.asset(
+                    //   'logo/doctor.jpeg',
+                    //   fit: BoxFit.fitHeight,
+                    // ),
 
-                Text("Name : $_fullname",style: TextStyle(
-                  fontSize:20
-                ),),
+                    Card(
+                      color: Colors.grey[200],
+                      elevation: 3,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 30,
+                          horizontal: 20,
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "Name : $_fullname",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Designation : $_designation",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Department : $_depart",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Hospital : $_hospital",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
 
-                SizedBox(
-                  height: 20,
+                    Text(
+                      "Hospital : $_hospital",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+
+                    _isLoading
+                        ? Container(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : RaisedButton(
+                            onPressed: () async {
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              await _startConsultation();
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            },
+                            child: Text("Start Consultation"),
+                          ),
+                  ],
                 ),
-
-                Text("Designation : $_designation",style: TextStyle(
-                  fontSize:20
-                ),),
-
-                SizedBox(
-                  height: 20,
-                ),
-
-                Text("Department : $_depart",style: TextStyle(
-                  fontSize:20
-                ),),
-
-                SizedBox(
-                  height: 20,
-                ),
-
-
-                Text("Hospital : $_hospital",style: TextStyle(
-                  fontSize:20
-                ),),
-                SizedBox(
-                  height: 20,
-                ),
-
-                RaisedButton(
-                  onPressed:(){ _startConsultation();},
-                  child: Text(
-                    "Start Consultation"
-                  ),
-                  )
-
-                
-
-              ]
-            )
-          )
+              ),
       ),
     );
   }
 }
-
-
-
