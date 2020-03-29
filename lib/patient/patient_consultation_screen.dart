@@ -104,13 +104,9 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
     } catch (error) {
       print(error);
     }
-
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (ctx) => PatientRouter()),
-    );
   }
 
   @override
@@ -168,10 +164,7 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
                       ),
                     ),
 
-                    Text(
-                      "Hospital : $_hospital",
-                      style: TextStyle(fontSize: 20),
-                    ),
+
                     SizedBox(
                       height: 20,
                     ),
@@ -184,13 +177,41 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
                           )
                         : RaisedButton(
                             onPressed: () async {
-                              setState(() {
-                                _isLoading = true;
-                              });
+                              showDialog(
+                                context: context,
+                                builder: (context) => Platform.isIOS
+                                    ? CupertinoAlertDialog(
+                                  title: Text("Please contact doctor to approve your request"),
+                                  content: Padding(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Text("Please contact doctor to approve your request"),
+                                  ),
+                                  actions: <Widget>[
+                                    CupertinoDialogAction(
+                                      child: Text('OK'),
+                                      onPressed: () => Navigator.of(context).pop(),
+                                    ),
+                                  ],
+                                )
+                                    : AlertDialog(
+                                  backgroundColor: Colors.grey,
+                                  title: Text("Please contact doctor to approve your request"),
+                                  content: Padding(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Text("Please contact doctor to approve your request"),
+                                  ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('OK'),
+                                      onPressed: () => Navigator.of(context).pop(),
+                                    ),
+                                  ],
+                                ),
+                              );
                               await _startConsultation();
-                              setState(() {
-                                _isLoading = false;
-                              });
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (ctx) => PatientRouter()),
+                              );
                             },
                             child: Text("Start Consultation"),
                           ),

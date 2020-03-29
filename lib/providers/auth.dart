@@ -150,12 +150,12 @@ class Auth with ChangeNotifier {
             }
           }
         } else {
-          _consolStatusCode = 0;
+          _consolStatusCode = 1;
         }
 
         notifyListeners();
       } else {
-        throw HttpException('Unable to log in with provided credentials.');
+        throw HttpException('Error retrieving consultation');
       }
     } on HttpException catch (e) {
       print(e);
