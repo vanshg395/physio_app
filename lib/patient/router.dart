@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:physio_app/patient/patient_tabs_screen1.dart';
-import 'package:physio_app/patient/patient_tabs_screen2.dart';
-import 'package:physio_app/patient/patient_tabs_screen3.dart';
+import 'package:physio_app/patient/Patient_waiting.dart';
+import 'package:physio_app/patient/patient_consult_doctor_cancelled.dart';
+import 'package:physio_app/patient/patient_consultation_screen.dart';
 import 'package:physio_app/providers/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:physio_app/patient/patient_tabs_screen.dart';
@@ -31,20 +31,20 @@ class _PatientRouterState extends State<PatientRouter> {
       print(statusCode);
       if (statusCode == 0) {
         //
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (ctx) => PatientTabsScreen1()),
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => ReConsultationScreen()),
         );
       } else if (statusCode == 1) {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (ctx) => PatientTabsScreen3()),
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => PatientConsultationScreen()),
         );
       } else if (statusCode == 2) {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (ctx) => PatientTabsScreen2()),
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => PatientwaitingScreen()),
         );
       } else {
         print('doin change');
-        Navigator.of(context).push(
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => PatientTabsScreen()),
         );
       }
