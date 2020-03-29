@@ -33,7 +33,7 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
       print(id);
       print(Provider.of<Auth>(context, listen: false).token);
       String url =
-          'https://fitknees.herokuapp.com/auth/excercise/?id=e37a6b92-5018-455a-8bae-3d1f9e587d4f';
+          'https://fitknees.herokuapp.com/auth/excercise/';
 
       final response = await http.get(
         url,
