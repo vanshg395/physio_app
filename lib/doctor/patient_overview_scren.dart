@@ -135,7 +135,11 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
         title: Text(widget.name),
         actions: <Widget>[
           _isLoading2
-              ? CircularProgressIndicator()
+              ? CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(
+                    Colors.grey,
+                  ),
+                )
               : IconButton(
                   icon: Icon(
                     Icons.video_call,

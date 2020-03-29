@@ -16,7 +16,6 @@ class ExistingPatientScreen extends StatefulWidget {
 
 class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
   bool _isLoading = false;
-  bool _isLoading2 = false;
   List<dynamic> _patients = [];
   String _docId;
 
@@ -77,40 +76,6 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
     return initials;
   }
 
-  Future<void> makeVideoCall(docId, patientId) async {
-    String url = 'https://fitknees.herokuapp.com/auth/patient/vcall/';
-
-    try {
-      setState(() {
-        _isLoading2 = true;
-      });
-      final response = await http.post(url, headers: {
-        'Authorization': Provider.of<Auth>(context, listen: false).token,
-      }, body: {
-        'doctor': docId,
-        'patient': patientId,
-      });
-      final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
-      final channelName = responseBody[0]['channel'];
-
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CallPage(
-            channelName: channelName,
-          ),
-        ),
-      );
-    } catch (e) {
-      print(e);
-    }
-    setState(() {
-      _isLoading2 = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -135,7 +100,11 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
             _isLoading
                 ? Expanded(
                     child: Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(
+                          Colors.grey,
+                        ),
+                      ),
                     ),
                   )
                 : (_patients.length == 0 || _patients == null)
@@ -159,22 +128,6 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
                                     leading: CircleAvatar(
                                       child: Text(''),
                                     ),
-                                    trailing: _isLoading2
-                                        ? CircularProgressIndicator()
-                                        : IconButton(
-                                            icon: Icon(
-                                              Icons.video_call,
-                                              size: 30,
-                                            ),
-                                            onPressed: () async {
-                                              await makeVideoCall(
-                                                  Provider.of<Auth>(context,
-                                                          listen: false)
-                                                      .id,
-                                                  _patients[i]['patHandlerID']);
-                                            },
-                                            color: Colors.green,
-                                          ),
                                     onTap: () {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
