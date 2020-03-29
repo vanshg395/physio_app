@@ -61,7 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               )
             : AlertDialog(
-                backgroundColor: Colors.grey,
                 title: Text('Authentication Error'),
                 content: Padding(
                   padding: EdgeInsets.only(top: 10),

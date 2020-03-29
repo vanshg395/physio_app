@@ -2,11 +2,7 @@ PODS:
   - agora_rtc_engine (1.0.8):
     - AgoraRtcEngine_iOS (= 2.9.1)
     - Flutter
-  - agora_rtm (0.9.10):
-    - AgoraRtm_iOS (= 1.1.0)
-    - Flutter
   - AgoraRtcEngine_iOS (2.9.1)
-  - AgoraRtm_iOS (1.1.0)
   - file_picker (0.0.1):
     - Flutter
   - Firebase/Core (6.21.0):
@@ -120,7 +116,6 @@ PODS:
 
 DEPENDENCIES:
   - agora_rtc_engine (from `.symlinks/plugins/agora_rtc_engine/ios`)
-  - agora_rtm (from `.symlinks/plugins/agora_rtm/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
@@ -137,7 +132,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AgoraRtcEngine_iOS
-    - AgoraRtm_iOS
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -159,8 +153,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   agora_rtc_engine:
     :path: ".symlinks/plugins/agora_rtc_engine/ios"
-  agora_rtm:
-    :path: ".symlinks/plugins/agora_rtm/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   firebase_messaging:
@@ -188,9 +180,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   agora_rtc_engine: 481d11cbbee6728aa192ba42ab8981abba9f09a5
-  agora_rtm: 05ca0fa31dc73b088207a93a6ac2d37c3916f923
   AgoraRtcEngine_iOS: b2eedd8f9ab47b71163f3285e836bd23feb43fff
-  AgoraRtm_iOS: 9192a2c904b2171614ab0b0886f1bee126313baf
   file_picker: 408623be2125b79a4539cf703be3d4b3abe5e245
   Firebase: f378c80340dd41c0ad0914af740c021eb282a04b
   firebase_messaging: cffb57ce40958c6204f03fb0c81713e4cd1e240c
@@ -223,4 +213,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
 
-COCOAPODS: 1.9.0
+COCOAPODS: 1.8.4

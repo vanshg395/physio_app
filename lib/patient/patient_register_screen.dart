@@ -124,72 +124,8 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                   SizedBox(
                     height: 30,
                   ),
-                  TextFormField(
-                    // controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'First Name',
-                      labelStyle: TextStyle(color: Colors.grey),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                    ),
-                    keyboardAppearance: Brightness.light,
-                    validator: (val) {
-                      if (val == '') {
-                        return 'This Field is required.';
-                      }
-                    },
-                    onChanged: (_) {
-                      _formKey.currentState.validate();
-                    },
-                    onSaved: (val) {
-                      _data['user'] =
-                          Provider.of<Auth>(context, listen: false).id;
-                    },
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextFormField(
-                    // controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Last Name',
-                      labelStyle: TextStyle(color: Colors.grey),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                    ),
-                    keyboardAppearance: Brightness.light,
-                    validator: (val) {
-                      if (val == '') {
-                        return 'This Field is required.';
-                      }
-                    },
-                    onChanged: (_) {
-                      _formKey.currentState.validate();
-                    },
-                    // onSaved: (val) {
-                    //   _authData['email'] = val;
-                    // },
-                  ),
+                  Text('Hey'),
+                  Text(Provider.of<Auth>(context).name),
                   SizedBox(
                     height: 15,
                   ),

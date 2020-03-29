@@ -56,7 +56,12 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
   Future<void> assign() async {
     try {
       String url = 'https://fitknees.herokuapp.com/auth/excercise/';
-
+      print({
+        'name': _nameC.text,
+        'notes': _noteC.text,
+        'consolId': widget.consolId,
+        'data': assignedExercises,
+      });
       final response = await http.post(
         url,
         headers: {
@@ -70,6 +75,7 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
           'data': assignedExercises,
         }),
       );
+      print(response.statusCode);
       if (response.statusCode >= 200 && response.statusCode < 299) {
         Navigator.of(context).pop();
       }

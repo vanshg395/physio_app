@@ -153,11 +153,9 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
         ],
       ),
       body: _isLoading
-          ? SingleChildScrollView(
-              child: Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
+          ? Container(
+              child: Center(
+                child: CircularProgressIndicator(),
               ),
             )
           : _userData == null

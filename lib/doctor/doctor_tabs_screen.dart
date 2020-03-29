@@ -107,7 +107,7 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
             ),
             title: FittedBox(
               child: Text(
-                'Calendar',
+                'Consultations',
                 textAlign: TextAlign.center,
               ),
             ),

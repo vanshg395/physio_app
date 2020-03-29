@@ -48,7 +48,7 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
         _exerciseDone.add(false);
       }
       print('DATA');
-      print(_exerciseData[1]);
+      print(_exerciseData.length);
     } catch (e) {
       print('err');
       print(e);
@@ -78,35 +78,41 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Flexible(
-                    child: Container(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemBuilder: (ctx, i) => Card(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          elevation: 3,
-                          child: ListTile(
-                            title: Text(_exerciseData[i]['name']),
-                            subtitle: Text(_exerciseData[i]['des']),
-                            trailing: IconButton(
-                              icon: Icon(Icons.arrow_forward_ios),
-                              onPressed: () {
-                                print('hey');
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ExerciseOverviewScreen(
-                                            _exerciseData[i]['data']),
+                  _exerciseData.length == 0
+                      ? Expanded(
+                          child: Center(
+                            child: Text('No Exercises for you!'),
+                          ),
+                        )
+                      : Flexible(
+                          child: Container(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemBuilder: (ctx, i) => Card(
+                                margin: EdgeInsets.symmetric(vertical: 5),
+                                elevation: 3,
+                                child: ListTile(
+                                  title: Text(_exerciseData[i]['name']),
+                                  subtitle: Text(_exerciseData[i]['des']),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.arrow_forward_ios),
+                                    onPressed: () {
+                                      print('hey');
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ExerciseOverviewScreen(
+                                                  _exerciseData[i]['data']),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              },
+                                ),
+                              ),
+                              itemCount: _exerciseData.length,
                             ),
                           ),
                         ),
-                        itemCount: _exerciseData.length,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
