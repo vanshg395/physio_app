@@ -157,7 +157,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         lastDate: DateTime.now(),
                       );
                       dateCtl.text = DateFormat.yMMMMd().format(date);
-                      _data['user'] = Provider.of<Auth>(context).id;
+                      
                       _data['date_of_birth'] =
                           DateFormat('yyyy-MM-dd').format(date);
                       print(_data);
@@ -1102,7 +1102,10 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                   fontFamily: 'SFProTextSemiMed',
                                 ),
                               ),
-                              onPressed: _submit,
+                              onPressed: (){
+                                _data['user'] = Provider.of<Auth>(context).id;
+                              _submit();
+                              }
                               // onPressed: () {},
                             ),
                     ),
