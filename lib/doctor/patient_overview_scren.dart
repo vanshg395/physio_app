@@ -108,6 +108,9 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
       print(responseBody);
       print(response.statusCode);
       final channelName = responseBody[0]['channel'];
+      setState(() {
+        _isLoading2 = false;
+      });
       await PermissionHandler().requestPermissions(
         [PermissionGroup.camera, PermissionGroup.microphone],
       );
@@ -123,9 +126,7 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
       print('error:');
       print(e);
     }
-    setState(() {
-      _isLoading2 = true;
-    });
+
   }
 
   @override
