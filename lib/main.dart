@@ -94,11 +94,7 @@ class MyApp extends StatelessWidget {
                           }
                         }
                       },
-                    )
-              // home: PatientRegisterScreen(),
-              // home: DoctorRegisterScreen(),
-              // home: DoctorTabsScreen(),
-              );
+                    ));
         },
       ),
     );

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import './forgot_password/forgot_password_screen.dart';
 import './providers/auth.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -245,7 +246,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             'FORGOT PASSWORD',
                             style: TextStyle(color: Colors.red),
                           ),
-                          onPressed: () {},
+                          onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (ctx) => ForgotPasswordScreen(),
+                            ),
+                          ),
                         ),
                       ],
                     ),
