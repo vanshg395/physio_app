@@ -159,8 +159,9 @@ class _PatientwaitingScreenState extends State<PatientwaitingScreen> {
                       height: 20,
                     ),
                     Text(
-                      "Please wait till doctor approves your request.",
+                      "Please contact your doctor to get your consultation request approved.",
                       style: TextStyle(fontSize: 15),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
