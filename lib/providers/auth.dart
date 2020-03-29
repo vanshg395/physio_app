@@ -163,6 +163,31 @@ class Auth with ChangeNotifier {
     }
   }
 
+  Future<void> makeVideoCall(docId, patientId) async {
+    String url = 'https://fitknees.herokuapp.com/auth/patient/vcall/';
+
+    try {
+      
+      final response = await http.post(url, headers: {
+        'Authorization': _token,
+      }, body: {
+        'doctor': docId,
+        'patient': patientId,
+      });
+      final responseBody = json.decode(response.body);
+      print(responseBody);
+      print(response.statusCode);
+      final channelName = responseBody[0]['channel'];
+
+      }
+      catch (e) {
+        throw HttpException('Unable to log in with provided credentials.');
+
+    }
+
+  }
+
+
   Future<void> login(String username, String password) async {
     String url = 'https://fitknees.herokuapp.com/auth/token/login/';
 
