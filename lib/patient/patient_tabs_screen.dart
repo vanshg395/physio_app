@@ -21,12 +21,12 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
     print('initS');
     _pages = [
       {
-        'page': PatientExerciseScreen(),
-        'title': 'PatExercise',
-      },
-      {
         'page': VideoPatientScreen(),
         'title': 'Schedule',
+      },
+      {
+        'page': PatientExerciseScreen(),
+        'title': 'PatExercise',
       },
       {
         'page': PatientProfileScreen(),
@@ -57,19 +57,6 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.dumbbell,
-              size: 33,
-              color: Colors.grey,
-            ),
-            activeIcon: Icon(
-              FontAwesomeIcons.dumbbell,
-              size: 33,
-              color: Color(0xff3284ff),
-            ),
-            title: Text('Excercise'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
               FontAwesomeIcons.video,
               size: 33,
               color: Colors.grey,
@@ -80,6 +67,19 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
               color: Color(0xff3284ff),
             ),
             title: Text('Video Chat'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              FontAwesomeIcons.dumbbell,
+              size: 33,
+              color: Colors.grey,
+            ),
+            activeIcon: Icon(
+              FontAwesomeIcons.dumbbell,
+              size: 33,
+              color: Color(0xff3284ff),
+            ),
+            title: Text('Excercise'),
           ),
           BottomNavigationBarItem(
             icon: Icon(

@@ -29,7 +29,6 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
   void initState() {
     super.initState();
     _handleCameraAndMic();
-
   }
 
 
@@ -68,12 +67,14 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text("Doctor will join you to video call. Please join when he invites you for a video call"),
-              RaisedButton(child: Text("Start Video Call"),
+              RaisedButton(child: Text("Join Video Call"),
               onPressed: ()async{
+                await _getChannel();
                 setState(() {
                   video_call=false;
                   _isLoading=true;
                 });
+                print(channelName);
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
