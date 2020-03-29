@@ -31,20 +31,20 @@ class _PatientRouterState extends State<PatientRouter> {
       print(statusCode);
       if (statusCode == 0) {
         //
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).push(
           MaterialPageRoute(builder: (ctx) => PatientTabsScreen1()),
         );
       } else if (statusCode == 1) {
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).push(
           MaterialPageRoute(builder: (ctx) => PatientTabsScreen3()),
         );
       } else if (statusCode == 2) {
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).push(
           MaterialPageRoute(builder: (ctx) => PatientTabsScreen2()),
         );
       } else {
         print('doin change');
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).push(
           MaterialPageRoute(builder: (ctx) => PatientTabsScreen()),
         );
       }
