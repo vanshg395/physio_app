@@ -26,6 +26,7 @@ class PatientOverviewScreen extends StatefulWidget {
 
 class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
   bool _isLoading = false;
+  bool _isLoading2 = false;
   Map<String, dynamic> _userData;
 
   String _consulID;
@@ -88,6 +89,9 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
   }
 
   Future<void> makeVideoCall(docId, patientId) async {
+    setState(() {
+      _isLoading2 = true;
+    });
     try {
       String url = 'https://fitknees.herokuapp.com/auth/patient/vcall/';
       final response = await http.post(
@@ -119,6 +123,9 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
       print('error:');
       print(e);
     }
+    setState(() {
+      _isLoading2 = true;
+    });
   }
 
   @override
@@ -127,17 +134,19 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
       appBar: AppBar(
         title: Text(widget.name),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.video_call,
-              size: 30,
-            ),
-            onPressed: () async {
-              print('hey');
-              await makeVideoCall(widget.docId, widget.patId);
-            },
-            color: Colors.green,
-          ),
+          _isLoading2
+              ? CircularProgressIndicator()
+              : IconButton(
+                  icon: Icon(
+                    Icons.video_call,
+                    size: 30,
+                  ),
+                  onPressed: () async {
+                    print('hey');
+                    await makeVideoCall(widget.docId, widget.patId);
+                  },
+                  color: Colors.green,
+                ),
         ],
       ),
       body: _isLoading

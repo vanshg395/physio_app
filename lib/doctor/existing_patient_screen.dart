@@ -16,6 +16,7 @@ class ExistingPatientScreen extends StatefulWidget {
 
 class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
   bool _isLoading = false;
+  bool _isLoading2 = false;
   List<dynamic> _patients = [];
   String _docId;
 
@@ -24,13 +25,14 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
     super.initState();
     getPatients();
     _handleCameraAndMic();
-
   }
+
   Future<void> _handleCameraAndMic() async {
     await PermissionHandler().requestPermissions(
       [PermissionGroup.camera, PermissionGroup.microphone],
     );
   }
+
   Future<void> getPatients() async {
     setState(() {
       _isLoading = true;
@@ -79,6 +81,9 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
     String url = 'https://fitknees.herokuapp.com/auth/patient/vcall/';
 
     try {
+      setState(() {
+        _isLoading2 = true;
+      });
       final response = await http.post(url, headers: {
         'Authorization': Provider.of<Auth>(context, listen: false).token,
       }, body: {
@@ -101,6 +106,9 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
     } catch (e) {
       print(e);
     }
+    setState(() {
+      _isLoading2 = false;
+    });
   }
 
   @override
@@ -151,20 +159,22 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
                                     leading: CircleAvatar(
                                       child: Text(''),
                                     ),
-                                    trailing: IconButton(
-                                      icon: Icon(
-                                        Icons.video_call,
-                                        size: 30,
-                                      ),
-                                      onPressed: () async {
-                                        await makeVideoCall(
-                                            Provider.of<Auth>(context,
-                                                    listen: false)
-                                                .id,
-                                            _patients[i]['patHandlerID']);
-                                      },
-                                      color: Colors.green,
-                                    ),
+                                    trailing: _isLoading2
+                                        ? CircularProgressIndicator()
+                                        : IconButton(
+                                            icon: Icon(
+                                              Icons.video_call,
+                                              size: 30,
+                                            ),
+                                            onPressed: () async {
+                                              await makeVideoCall(
+                                                  Provider.of<Auth>(context,
+                                                          listen: false)
+                                                      .id,
+                                                  _patients[i]['patHandlerID']);
+                                            },
+                                            color: Colors.green,
+                                          ),
                                     onTap: () {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
