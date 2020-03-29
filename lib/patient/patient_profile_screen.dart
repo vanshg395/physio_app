@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../login_screen.dart';
 import './change_password_screen.dart';
 import '../providers/auth.dart';
+import '../main.dart';
 
 class PatientProfileScreen extends StatefulWidget {
   @override
@@ -185,12 +186,16 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                   // onPressed: _submit,
                                   onPressed: () async {
                                     // await changePassword();
+                                    setState(() {
+                                      _isLoading2 = true;
+                                    });
                                     await Provider.of<Auth>(context,
                                             listen: false)
                                         .logout();
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (ctx) => LoginScreen()));
+                                    setState(() {
+                                      _isLoading2 = false;
+                                    });
+                                    RestartWidget.restartApp(context);
                                   },
                                 ),
                         ),

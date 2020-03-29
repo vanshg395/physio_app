@@ -234,25 +234,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     ),
                                     onPressed: _submit,
-                                    // onPressed: () {},
                                   ),
                           ),
                         ),
                         SizedBox(
                           height: 50,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text('Don\'t have an account?'),
-                            FlatButton(
-                              child: Text(
-                                'SIGNUP HERE',
-                                style: TextStyle(color: Color(0xFF607EEA)),
-                              ),
-                              onPressed: () {},
-                            ),
-                          ],
                         ),
                         FlatButton(
                           child: Text(

@@ -12,7 +12,7 @@ class DoctorTabsScreen extends StatefulWidget {
 
 class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
   List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 1;
+  int _selectedPageIndex = 0;
 
   @override
   void initState() {
@@ -107,7 +107,7 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
             ),
             title: FittedBox(
               child: Text(
-                'Consultations',
+                'Requests',
                 textAlign: TextAlign.center,
               ),
             ),

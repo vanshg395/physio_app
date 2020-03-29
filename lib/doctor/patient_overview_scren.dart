@@ -104,18 +104,6 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
       print(responseBody);
       print(response.statusCode);
       final channelName = responseBody[0]['channel'];
-      await showDialog(
-        context: context,
-        child: AlertDialog(
-          content: Text(channelName),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            )
-          ],
-        ),
-      );
       await PermissionHandler().requestPermissions(
         [PermissionGroup.camera, PermissionGroup.microphone],
       );
