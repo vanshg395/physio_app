@@ -23,8 +23,14 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
   void initState() {
     super.initState();
     getPatients();
-  }
+    _handleCameraAndMic();
 
+  }
+  Future<void> _handleCameraAndMic() async {
+    await PermissionHandler().requestPermissions(
+      [PermissionGroup.camera, PermissionGroup.microphone],
+    );
+  }
   Future<void> getPatients() async {
     setState(() {
       _isLoading = true;
