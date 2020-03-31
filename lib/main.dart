@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import './doctor/doctor_tabs_screen.dart';
 import './doctor/doctor_register_screen.dart';
 import './patient/patient_register_screen.dart';
-import './patient/patient_tabs_screen.dart';
 import './login_screen.dart';
 import './providers/auth.dart';
 import './patient/router.dart';
@@ -35,6 +34,42 @@ class RestartWidget extends StatefulWidget {
 class _RestartWidgetState extends State<RestartWidget> {
   Key key = UniqueKey();
 
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+bool videoCall = false;
+@override
+  void initState() {
+    super.initState();
+   _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("YO MAMA 0");
+        print("onMessage: $message");
+        print(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("YO MAMA 1");
+        print("onLaunch: $message");
+        print(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("YO MAMA 2");
+        print("onResume: $message");
+        print(message);
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      print(token);
+
+    });
+    }
+
   void restartApp() {
     setState(() {
       key = UniqueKey();
@@ -60,7 +95,6 @@ class MyApp extends StatelessWidget {
       value: Auth(),
       child: Consumer<Auth>(
         builder: (ctx, auth, _) {
-          print('rerun');
           return MaterialApp(
               debugShowCheckedModeBanner: false,
               home: auth.isAuth
