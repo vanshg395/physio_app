@@ -2,23 +2,29 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:physio_app/providers/auth.dart';
 import 'package:physio_app/videocall/pages/call.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:vibration/vibration.dart';
 import 'package:wakelock/wakelock.dart';
 
-class VideoPatientScreen extends StatefulWidget {
+class IntializeVideoCall extends StatefulWidget {
   @override
-  _VideoPatientScreenState createState() => _VideoPatientScreenState();
+  _IntializeVideoCallState createState() => _IntializeVideoCallState();
 }
 
-class _VideoPatientScreenState extends State<VideoPatientScreen> {
+class _IntializeVideoCallState extends State<IntializeVideoCall> {
   Future<void> _handleCameraAndMic() async {
     await PermissionHandler().requestPermissions(
       [PermissionGroup.camera, PermissionGroup.microphone],
     );
+    if (await Vibration.hasVibrator()) {
+        Vibration.vibrate();
+      }
+    FlutterRingtonePlayer.playNotification();
   }
 
   String title = "Hello User,";
@@ -27,10 +33,12 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
   bool _isLoading = false;
   String channelName = 'test';
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
     _handleCameraAndMic();
   }
+
+
 
   Future<void> _getChannel() async {
     String url = 'https://fitknees.herokuapp.com/auth/patient/vcall/';
@@ -58,24 +66,23 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.withOpacity(0.7),
       body: Container(
         child: Center(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                "Doctor will join you to video call. Please join when HE invites you",
-                textAlign: TextAlign.center,
-              ),
-            ),
-            RaisedButton(
-              child: Text("Join Video Call"),
-              onPressed: () async {
+            Text("Doctor is calling you. Please lift the call....",style: TextStyle(
+              fontSize:25
+            ),),
+            IconButton(icon: Icon(Icons.phone), 
+            iconSize: 40,
+            onPressed: () async {
                 await Wakelock.enable();
                 await _getChannel();
+                Vibration.cancel();
+                FlutterRingtonePlayer.stop();
                 setState(() {
                   video_call = false;
                   _isLoading = true;
@@ -90,8 +97,8 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
                   ),
                 );
                 await Wakelock.disable();
-              },
-            )
+              },),
+            
           ],
         )),
       ),

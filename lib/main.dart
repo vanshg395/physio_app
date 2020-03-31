@@ -1,5 +1,8 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:physio_app/videocall/intializeCall.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:edge_alert/edge_alert.dart';
@@ -35,63 +38,8 @@ class RestartWidget extends StatefulWidget {
 class _RestartWidgetState extends State<RestartWidget> {
   Key key = UniqueKey();
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   bool videoCall = false;
-  @override
-  void initState() {
-    super.initState();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("YO MAMA 0");
-        print("onMessage: $message");
-        print(message);
-        print("chlna chahiye");
-        EdgeAlert.show(
-          context,
-          title: 'Incoming Video Call',
-          description: 'Your Physiotherapist is calling you',
-          gravity: EdgeAlert.TOP,
-          backgroundColor: Colors.red,
-        );
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("YO MAMA 1");
-        print("onLaunch: $message");
-        print(message);
-        EdgeAlert.show(
-          context,
-          title: 'Incoming Video Call',
-          description: 'Your Physiotherapist is calling you',
-          gravity: EdgeAlert.TOP,
-          backgroundColor: Colors.red,
-        );
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("YO MAMA 2");
-        print("onResume: $message");
-        print(message);
-        EdgeAlert.show(
-          context,
-          title: 'Incoming Video Call',
-          description: 'Your Physiotherapist is calling you',
-          gravity: EdgeAlert.TOP,
-          backgroundColor: Colors.red,
-        );
-      },
-    );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(
-            sound: true, badge: true, alert: true, provisional: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
-      print(token);
-    });
-  }
-
+  
   void restartApp() {
     setState(() {
       key = UniqueKey();
@@ -107,18 +55,29 @@ class _RestartWidgetState extends State<RestartWidget> {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+    FirebaseAnalytics analytics = FirebaseAnalytics();
+
     return ChangeNotifierProvider.value(
       value: Auth(),
       child: Consumer<Auth>(
         builder: (ctx, auth, _) {
           return MaterialApp(
               debugShowCheckedModeBanner: false,
+              navigatorObservers: [
+                  FirebaseAnalyticsObserver(analytics: analytics),
+                ],
               theme: ThemeData.light().copyWith(
                 primaryColor: Color(0xFF607EEA),
               ),

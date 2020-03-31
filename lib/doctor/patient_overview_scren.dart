@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:edge_alert/edge_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -38,7 +39,7 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
     super.initState();
     getPatDetails();
   }
-
+  bool consulBool = true;
   Future<void> getConsolID() async {
     String url = 'https://fitknees.herokuapp.com/auth/getconsul/';
 
@@ -53,11 +54,17 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
           'pat_id': widget.patId,
         },
       );
+      print(response.statusCode);
       final responseBody = json.decode(response.body);
-      print(responseBody);
       if (response.statusCode == 200) {
         _consulID = responseBody['consol'];
         print(_consulID);
+      }
+      else{
+        setState(() {
+          consulBool=false;
+        });
+        print(consulBool);
       }
     } catch (e) {
       print(e);
@@ -285,13 +292,21 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
                                 icon: Icon(Icons.directions_run),
                                 label: Text('Excercise Chart'),
                                 onPressed: () {
+                                  consulBool?
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (ctx) => ExcerciseChartScreen(
                                         consolId: _consulID,
                                       ),
                                     ),
-                                  );
+                                  ):EdgeAlert.show(
+                                  context,
+                                  title: 'Consultation Not found',
+                                  description: 'Sorry, Can\'t assign exercise chat without a ongoing consultation',
+                                  gravity: EdgeAlert.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                );
+
                                 },
                               ),
                             ),

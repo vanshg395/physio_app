@@ -41,6 +41,7 @@ dependencies:
   vibration: ^1.2.4
   flutter_ringtone_player: ^2.0.0
   wakelock: ^0.1.4+1
+  firebase_analytics: ^5.0.11
 
   
 dev_dependencies:

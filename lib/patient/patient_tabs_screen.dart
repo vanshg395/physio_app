@@ -1,5 +1,8 @@
+import 'package:edge_alert/edge_alert.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:physio_app/videocall/intializeCall.dart';
 
 import './patient_profile_screen.dart';
 import './patient_exercise_screen.dart';
@@ -15,10 +18,75 @@ class PatientTabsScreen extends StatefulWidget {
 class _PatientTabsScreenState extends State<PatientTabsScreen> {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
-    print('initS');
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("YO MAMA 0");
+        print("onMessage: $message");
+        print(message);
+        print("chlna chahiye");
+        print("Context    :"+context.toString());
+        print("chlna chahiy");
+        // EdgeAlert.show(
+        //   context,
+        //   title: 'Incoming Video Call',
+        //   description: 'Your Physiotherapist is calling you',
+        //   gravity: EdgeAlert.TOP,
+        //   backgroundColor: Colors.red,
+        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => IntializeVideoCall(
+              
+            ),
+          ),
+        );
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("YO MAMA 1");
+        print("onLaunch: $message");
+        print(message);
+        EdgeAlert.show(
+          context,
+          title: 'Incoming Video Call',
+          description: 'Your Physiotherapist is calling you',
+          gravity: EdgeAlert.TOP,
+          backgroundColor: Colors.red,
+        );
+        print("Context    :"+context.toString());
+
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("YO MAMA 2");
+        print("onResume: $message");
+        print(message);
+        EdgeAlert.show(
+          context,
+          title: 'Incoming Video Call',
+          description: 'Your Physiotherapist is calling you',
+          gravity: EdgeAlert.TOP,
+          backgroundColor: Colors.red,
+        );
+        print("Context    :"+context.toString());
+
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      print(token);
+    });
     _pages = [
       {
         'page': VideoPatientScreen(),
@@ -33,9 +101,9 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
         'title': 'Profile',
       },
     ];
-    super.initState();
   }
 
+  
   void _selectPage(int index) {
     setState(() {
       _selectedPageIndex = index;
