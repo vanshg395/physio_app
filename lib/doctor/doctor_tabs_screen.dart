@@ -61,7 +61,7 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
-        backgroundColor: Color(0xFF072031),
+        backgroundColor: Color(0xFF607EEA),
         unselectedItemColor: Colors.white,
         currentIndex: _selectedPageIndex,
         selectedFontSize: 12,
@@ -77,9 +77,12 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
             activeIcon: Icon(
               Icons.person_add,
               size: 33,
-              color: Color(0xff3284ff),
+              color: Colors.white,
             ),
-            title: Text('Add Patient'),
+            title: Text(
+              'Add Patient',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -90,9 +93,12 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
             activeIcon: Icon(
               Icons.people,
               size: 33,
-              color: Color(0xff3284ff),
+              color: Colors.white,
             ),
-            title: Text('Existing Patients'),
+            title: Text(
+              'Existing Patients',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -103,12 +109,13 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
             activeIcon: Icon(
               Icons.schedule,
               size: 33,
-              color: Color(0xff3284ff),
+              color: Colors.white,
             ),
             title: FittedBox(
               child: Text(
                 'Requests',
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),
@@ -121,9 +128,12 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
             activeIcon: Icon(
               Icons.person,
               size: 33,
-              color: Color(0xff3284ff),
+              color: Colors.white,
             ),
-            title: Text('Profile'),
+            title: Text(
+              'Profile',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),

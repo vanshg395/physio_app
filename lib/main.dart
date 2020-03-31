@@ -97,6 +97,9 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, _) {
           return MaterialApp(
               debugShowCheckedModeBanner: false,
+              theme: ThemeData.light().copyWith(
+                primaryColor: Color(0xFF607EEA),
+              ),
               home: auth.isAuth
                   ? auth.entryLevel == 'First'
                       ? auth.userType == 'Doctor'

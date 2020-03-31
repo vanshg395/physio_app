@@ -126,7 +126,9 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
                                   child: ListTile(
                                     title: Text(_patients[i]['fullName']),
                                     leading: CircleAvatar(
-                                      child: Text(''),
+                                      child: Text(
+                                        getInitials(_patients[i]['fullName']),
+                                      ),
                                     ),
                                     onTap: () {
                                       Navigator.of(context).push(
