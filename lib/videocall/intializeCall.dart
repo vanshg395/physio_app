@@ -74,7 +74,7 @@ class _IntializeVideoCallState extends State<IntializeVideoCall> {
             Text("Doctor is calling you. Please lift the call....",style: TextStyle(
               fontSize:25,color: Colors.white
             ),),
-            SizedBox(50)
+            SizedBox(height:50),
             IconButton(icon: Icon(Icons.phone,color: Colors.white,), 
             iconSize: 40,
             onPressed: () async {
