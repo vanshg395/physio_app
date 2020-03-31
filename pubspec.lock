@@ -400,7 +400,7 @@ packages:
     source: hosted
     version: "0.1.2+1"
   wakelock:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: wakelock
       url: "https://pub.dartlang.org"

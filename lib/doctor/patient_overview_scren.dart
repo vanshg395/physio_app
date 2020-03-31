@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../providers/auth.dart';
 import '../videocall/pages/call.dart';
@@ -92,6 +93,7 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
     setState(() {
       _isLoading2 = true;
     });
+    await Wakelock.enable();
     try {
       String url = 'https://fitknees.herokuapp.com/auth/patient/vcall/';
       final response = await http.post(
@@ -122,6 +124,7 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
           ),
         ),
       );
+      await Wakelock.disable();
     } catch (e) {
       print('error:');
       print(e);
