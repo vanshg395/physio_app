@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -205,7 +206,7 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
                   ),
                 ),
                 Container(
-                  height: 60,
+                  height: Platform.isAndroid ? 60 : 80,
                   width: double.infinity,
                   color: Color(0xFF607EEA),
                   child: SafeArea(

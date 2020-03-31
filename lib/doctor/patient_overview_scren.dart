@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -139,9 +140,12 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
         actions: <Widget>[
           _isLoading2
               ? Container(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(
-                      Colors.grey,
+                  padding: EdgeInsets.only(right: 20),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(
+                        Colors.grey,
+                      ),
                     ),
                   ),
                 )
@@ -268,11 +272,12 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
                       child: SizedBox(),
                     ),
                     Container(
-                      height: 60,
+                      height: Platform.isAndroid ? 60 : 80,
                       width: double.infinity,
                       color: Color(0xFF607EEA),
                       child: SafeArea(
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             Expanded(
                               child: FlatButton.icon(
@@ -280,10 +285,13 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
                                 icon: Icon(Icons.directions_run),
                                 label: Text('Excercise Chart'),
                                 onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
                                       builder: (ctx) => ExcerciseChartScreen(
-                                            consolId: _consulID,
-                                          )));
+                                        consolId: _consulID,
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
                             ),

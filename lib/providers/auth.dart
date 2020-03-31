@@ -282,6 +282,7 @@ class Auth with ChangeNotifier {
   Future<void> changeEntryLevel() async {
     _entryLevel = 'Not First';
     final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
     final data = json.encode({
       'token': _token,
       'userType': _userType,
@@ -301,7 +302,7 @@ class Auth with ChangeNotifier {
     // print(response.statusCode);
     // print(response.body);
     final prefs = await SharedPreferences.getInstance();
-    prefs.clear();
+    await prefs.clear();
     _token = null;
     _userType = null;
     _username = null;

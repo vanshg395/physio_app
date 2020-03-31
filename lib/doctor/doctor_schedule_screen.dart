@@ -13,6 +13,7 @@ class DoctorScheduleScreen extends StatefulWidget {
 class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
   List<dynamic> _consults = [];
   bool _isLoading = false;
+  bool _isLoading2 = false;
 
   var _res;
 
@@ -49,13 +50,23 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
           return Container(
             child: new Wrap(
               children: <Widget>[
-                new ListTile(
-                    leading: new Icon(Icons.add),
-                    title: new Text('Approve'),
-                    onTap: () async {
-                      await _approve(id, context);
-                      Navigator.of(context).pop();
-                    }),
+                _isLoading2
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : new ListTile(
+                        leading: new Icon(Icons.add),
+                        title: new Text('Approve'),
+                        onTap: () async {
+                          setState(() {
+                            _isLoading2 = true;
+                          });
+                          Navigator.of(context).pop();
+                          await _approve(id, context);
+                          setState(() {
+                            _isLoading2 = false;
+                          });
+                        }),
                 new ListTile(
                     leading: new Icon(Icons.remove),
                     title: new Text('Dis Approve'),
@@ -76,13 +87,23 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
           return Container(
             child: new Wrap(
               children: <Widget>[
-                new ListTile(
-                    leading: new Icon(Icons.close),
-                    title: new Text('Close Consultation'),
-                    onTap: () async {
-                      await _closeCase(id, context);
-                      Navigator.of(context).pop();
-                    }),
+                _isLoading2
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : new ListTile(
+                        leading: new Icon(Icons.close),
+                        title: new Text('Close Consultation'),
+                        onTap: () async {
+                          setState(() {
+                            _isLoading2 = true;
+                          });
+                          Navigator.of(context).pop();
+                          await _closeCase(id, context);
+                          setState(() {
+                            _isLoading2 = false;
+                          });
+                        }),
                 new ListTile(
                   leading: new Icon(Icons.cancel),
                   title: new Text('Cancel'),
@@ -177,6 +198,9 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
+            SizedBox(
+              height: 30,
+            ),
             Text(
               'Consultations',
               textAlign: TextAlign.center,
@@ -190,47 +214,55 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
                       child: CircularProgressIndicator(),
                     ),
                   )
-                : _consults.length == 0
+                : _isLoading2
                     ? Expanded(
                         child: Center(
-                          child: Text('No Consultations for You'),
+                          child: CircularProgressIndicator(),
                         ),
                       )
-                    : Flexible(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemBuilder: (ctx, i) => Column(
-                            children: <Widget>[
-                              Card(
-                                color: Colors.grey[100],
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 5.0),
-                                  child: ListTile(
-                                      title: Text(_consults[i]['name']),
-                                      subtitle: _consults[i]['doc_approval']
-                                          ? Text('Approved')
-                                          : Text('Not Approved'),
-                                      leading: CircleAvatar(
-                                        child: Text(
-                                          getInitials(_consults[i]['name']),
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        _consults[i]['doc_approval']
-                                            ? _settingModalBottomSheet1(context,
-                                                _consults[i]['consul_id'])
-                                            : _settingModalBottomSheet(context,
-                                                _consults[i]['consul_id']);
-                                      }),
-                                ),
+                    : _consults.length == 0
+                        ? Expanded(
+                            child: Center(
+                              child: Text('No Consultations for You'),
+                            ),
+                          )
+                        : Flexible(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemBuilder: (ctx, i) => Column(
+                                children: <Widget>[
+                                  Card(
+                                    color: Colors.grey[100],
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5.0),
+                                      child: ListTile(
+                                          title: Text(_consults[i]['name']),
+                                          subtitle: _consults[i]['doc_approval']
+                                              ? Text('Approved')
+                                              : Text('Not Approved'),
+                                          leading: CircleAvatar(
+                                            child: Text(
+                                              getInitials(_consults[i]['name']),
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            _consults[i]['doc_approval']
+                                                ? _settingModalBottomSheet1(
+                                                    context,
+                                                    _consults[i]['consul_id'])
+                                                : _settingModalBottomSheet(
+                                                    context,
+                                                    _consults[i]['consul_id']);
+                                          }),
+                                    ),
+                                  ),
+                                  Divider(),
+                                ],
                               ),
-                              Divider(),
-                            ],
-                          ),
-                          itemCount: _consults.length,
-                        ),
-                      )
+                              itemCount: _consults.length,
+                            ),
+                          )
           ],
         ),
       ),

@@ -7,6 +7,7 @@ import 'package:physio_app/providers/auth.dart';
 import 'package:physio_app/videocall/pages/call.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:wakelock/wakelock.dart';
 
 class VideoPatientScreen extends StatefulWidget {
   @override
@@ -73,6 +74,7 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
             RaisedButton(
               child: Text("Join Video Call"),
               onPressed: () async {
+                await Wakelock.enable();
                 await _getChannel();
                 setState(() {
                   video_call = false;
@@ -87,6 +89,7 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
                     ),
                   ),
                 );
+                await Wakelock.disable();
               },
             )
           ],
