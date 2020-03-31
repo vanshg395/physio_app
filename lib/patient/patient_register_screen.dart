@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import './router.dart';
@@ -158,7 +157,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         lastDate: DateTime.now(),
                       );
                       dateCtl.text = DateFormat.yMMMMd().format(date);
-                      _data['user'] = Provider.of<Auth>(context).id;
+                      
                       _data['date_of_birth'] =
                           DateFormat('yyyy-MM-dd').format(date);
                       print(_data);
@@ -1103,7 +1102,10 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                   fontFamily: 'SFProTextSemiMed',
                                 ),
                               ),
-                              onPressed: _submit,
+                              onPressed: (){
+                                _data['user'] = Provider.of<Auth>(context).id;
+                              _submit();
+                              }
                               // onPressed: () {},
                             ),
                     ),

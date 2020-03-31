@@ -28,24 +28,25 @@ class _PatientRouterState extends State<PatientRouter> {
       print('FUCKK');
       await Provider.of<Auth>(context, listen: false).getConsol();
       statusCode = Provider.of<Auth>(context, listen: false).consulstatusget;
+      print("ok");
       print(statusCode);
-      if (statusCode == 0) {
-        //
+       if (statusCode == 3) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => ReConsultationScreen()),
-        );
-      } else if (statusCode == 1) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => PatientConsultationScreen()),
+          MaterialPageRoute(builder: (ctx) => PatientTabsScreen()),
         );
       } else if (statusCode == 2) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => PatientwaitingScreen()),
         );
-      } else {
+      } else if(statusCode==0){
+         Navigator.of(context).pushReplacement(
+           MaterialPageRoute(builder: (ctx) => PatientConsultationScreen()),
+         );
+       }
+       else {
         print('doin change');
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => PatientTabsScreen()),
+          MaterialPageRoute(builder: (ctx) => PatientConsultationScreen()),
         );
       }
     } catch (error) {
