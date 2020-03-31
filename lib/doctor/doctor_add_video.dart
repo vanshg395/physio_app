@@ -15,18 +15,17 @@ class DoctorVideoAdd extends StatefulWidget {
 class _DoctorVideoAddState extends State<DoctorVideoAdd> {
   TextEditingController _nameC = TextEditingController();
   TextEditingController _noteC = TextEditingController();
-  String filePath='';
+  String filePath = '';
   final GlobalKey<FormState> _formKey = GlobalKey();
-  bool _isLoading=false;
+  bool _isLoading = false;
 
-  String file_loc='';
-  
-  Future<void> _submit() async{
-    
+  String file_loc = '';
+
+  Future<void> _submit() async {
     print('started sumbission');
-    Map<String, String> headers = { 
+    Map<String, String> headers = {
       'Authorization': Provider.of<Auth>(context, listen: false).token,
-     };
+    };
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -37,41 +36,43 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
     final apiUrl = 'https://fitknees.herokuapp.com/auth/upload/video/';
     final name = _nameC.text;
     final notes = _noteC.text;
-    if(filePath==''){
+    if (filePath == '') {
       throw HttpException('Please choose a video');
     }
-    final multipartRequest = new http.MultipartRequest('POST', Uri.parse(apiUrl));
+    final multipartRequest =
+        new http.MultipartRequest('POST', Uri.parse(apiUrl));
     multipartRequest.headers.addAll(headers);
-    multipartRequest.fields['name']=name;
-    multipartRequest.fields['description']=notes;
-    multipartRequest.fields['doctor']=Provider.of<Auth>(context, listen: false).id;
+    multipartRequest.fields['name'] = name;
+    multipartRequest.fields['description'] = notes;
+    multipartRequest.fields['doctor'] =
+        Provider.of<Auth>(context, listen: false).id;
 
     var multipartFile = await MultipartFile.fromPath("video", filePath);
     multipartRequest.files.add(multipartFile);
     var response = await multipartRequest.send();
     print(response.statusCode);
-    
+
     if (response.statusCode == 201) {
       print("Done");
       Navigator.of(context).pop();
     } else {
       print("Upload Failed");
+      Navigator.of(context).pop();
     }
-    Navigator.of(context).pop();
-    
+
     setState(() {
       _isLoading = false;
     });
   }
 
   Future<void> _getVideo() async {
-    filePath = await FilePicker.getFilePath(type: FileType.any);
-    print(filePath+'   ===> Filepath');
+    filePath = await FilePicker.getFilePath(type: FileType.video);
+    print(filePath + '   ===> Filepath');
     setState(() {
       file_loc = filePath;
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,83 +87,83 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
             child: Column(
               children: <Widget>[
                 Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      controller: _nameC,
-                      validator: (val) {
-                          if (val == '') {
-                            return 'This Field is required.';
-                          }
-                        },
-                      decoration: InputDecoration(
-                        labelText: 'Name',
-                        labelStyle: TextStyle(color: Colors.grey),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                      keyboardType: TextInputType.text,
-                      keyboardAppearance: Brightness.light,
-                      
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      maxLines: 2,
-                      controller: _noteC,
-                      validator: (val) {
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextFormField(
+                    controller: _nameC,
+                    validator: (val) {
                       if (val == '') {
                         return 'This Field is required.';
                       }
                     },
-                      decoration: InputDecoration(
-                        labelText: 'Description',
-                        labelStyle: TextStyle(color: Colors.grey),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
+                    decoration: InputDecoration(
+                      labelText: 'Name',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
-                      keyboardType: TextInputType.text,
-                      keyboardAppearance: Brightness.light,
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
                     ),
+                    keyboardType: TextInputType.text,
+                    keyboardAppearance: Brightness.light,
                   ),
-                  RaisedButton(
-                    onPressed:(){_getVideo();},
-                    child: Text('Add Video'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextFormField(
+                    maxLines: 2,
+                    controller: _noteC,
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
                     ),
-                  SizedBox(height:20),
-                  filePath.isEmpty ? Text("No file selected"):Text("Current File : $file_loc"),
-
-                  SizedBox(height:20),
-                  _isLoading ? CircularProgressIndicator() :RaisedButton(
-                    onPressed:(){_submit();},
-                    child: Text('Submit'),
-                  )
+                    keyboardType: TextInputType.text,
+                    keyboardAppearance: Brightness.light,
+                  ),
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    _getVideo();
+                  },
+                  child: Text('Add Video'),
+                ),
+                SizedBox(height: 20),
+                filePath.isEmpty
+                    ? Text("No file selected")
+                    : Text("Current File : $file_loc"),
+                SizedBox(height: 20),
+                _isLoading
+                    ? CircularProgressIndicator()
+                    : RaisedButton(
+                        onPressed: () {
+                          _submit();
+                        },
+                        child: Text('Submit'),
+                      )
               ],
             ),
           ),
         ),
       ),
-      
     );
   }
 }

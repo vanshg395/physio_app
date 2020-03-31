@@ -22,16 +22,19 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
     'lname': '',
     'email': '',
     'doctor': '',
+    'medical': '',
   };
   TextEditingController _fnameController = TextEditingController();
   TextEditingController _lnameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
+  TextEditingController _medController = TextEditingController();
 
   @override
   void dispose() {
     _fnameController.dispose();
     _lnameController.dispose();
     _emailController.dispose();
+    _medController.dispose();
     super.dispose();
   }
 
@@ -114,6 +117,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
       _fnameController.clear();
       _lnameController.clear();
       _emailController.clear();
+      _medController.clear();
       _isLoading = false;
     });
   }
@@ -123,150 +127,189 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                'New Patient',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 26,
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                SizedBox(
+                  height: 30,
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                controller: _fnameController,
-                decoration: InputDecoration(
-                  labelText: 'First Name',
-                  labelStyle: TextStyle(color: Colors.grey),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+                Text(
+                  'New Patient',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 26,
                   ),
                 ),
-                keyboardAppearance: Brightness.light,
-                validator: (val) {
-                  if (val == '') {
-                    return 'This Field is required.';
-                  }
-                },
-                onSaved: (val) {
-                  _data['fname'] = val;
-                  _data['doctor'] =
-                      Provider.of<Auth>(context, listen: false).id;
-                },
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              TextFormField(
-                controller: _lnameController,
-                decoration: InputDecoration(
-                  labelText: 'Last Name',
-                  labelStyle: TextStyle(color: Colors.grey),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
+                SizedBox(
+                  height: 30,
                 ),
-                keyboardAppearance: Brightness.light,
-                validator: (val) {
-                  if (val == '') {
-                    return 'This Field is required.';
-                  }
-                },
-                onSaved: (val) {
-                  _data['lname'] = val;
-                },
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email Id',
-                  labelStyle: TextStyle(color: Colors.grey),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                TextFormField(
+                  controller: _fnameController,
+                  decoration: InputDecoration(
+                    labelText: 'First Name',
+                    labelStyle: TextStyle(color: Colors.grey),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
                   ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
+                  keyboardAppearance: Brightness.light,
+                  validator: (val) {
+                    if (val == '') {
+                      return 'This Field is required.';
+                    }
+                  },
+                  onSaved: (val) {
+                    _data['fname'] = val;
+                    _data['doctor'] =
+                        Provider.of<Auth>(context, listen: false).id;
+                  },
                 ),
-                keyboardAppearance: Brightness.light,
-                keyboardType: TextInputType.emailAddress,
-                validator: (val) {
-                  if (val == '') {
-                    return 'This Field is required.';
-                  }
-                },
-                onSaved: (val) {
-                  _data['email'] = val;
-                },
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 40,
+                SizedBox(
+                  height: 15,
                 ),
-                height: 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: _isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(
-                              Colors.grey,
+                TextFormField(
+                  controller: _lnameController,
+                  decoration: InputDecoration(
+                    labelText: 'Last Name',
+                    labelStyle: TextStyle(color: Colors.grey),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  keyboardAppearance: Brightness.light,
+                  validator: (val) {
+                    if (val == '') {
+                      return 'This Field is required.';
+                    }
+                  },
+                  onSaved: (val) {
+                    _data['lname'] = val;
+                  },
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email Id',
+                    labelStyle: TextStyle(color: Colors.grey),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  keyboardAppearance: Brightness.light,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (val) {
+                    if (val == '') {
+                      return 'This Field is required.';
+                    }
+                    if (!RegExp(
+                            r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                        .hasMatch(val)) {
+                      return 'The email is invalid.';
+                    }
+                  },
+                  onSaved: (val) {
+                    _data['email'] = val.toLowerCase();
+                  },
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextFormField(
+                  controller: _medController,
+                  decoration: InputDecoration(
+                    labelText: 'Medical Condition',
+                    labelStyle: TextStyle(color: Colors.grey),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  keyboardAppearance: Brightness.light,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (val) {
+                    if (val == '') {
+                      return 'This Field is required.';
+                    }
+                  },
+                  onSaved: (val) {
+                    _data['medical'] = val;
+                  },
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 40,
+                  ),
+                  height: 40,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: _isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(
+                                Colors.grey,
+                              ),
                             ),
-                          ),
-                        )
-                      : RaisedButton(
-                          color: Colors.grey[350],
-                          textColor: Colors.black,
-                          child: Text(
-                            'SUBMIT',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'SFProTextSemiMed',
+                          )
+                        : RaisedButton(
+                            color: Colors.grey[350],
+                            textColor: Colors.black,
+                            child: Text(
+                              'SUBMIT',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'SFProTextSemiMed',
+                              ),
                             ),
+                            onPressed: _submit,
                           ),
-                          onPressed: _submit,
-                        ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

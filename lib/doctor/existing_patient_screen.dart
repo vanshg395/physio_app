@@ -137,6 +137,7 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
                                               PatientOverviewScreen(
                                             name: _patients[i]['fullName'],
                                             patId: _patients[i]['patHandlerID'],
+                                            medCond: _patients[i]['medical'],
                                             docId: _docId,
                                           ),
                                         ),
