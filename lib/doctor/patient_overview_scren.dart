@@ -107,6 +107,9 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
       final responseBody = json.decode(response.body);
       print(responseBody);
       print(response.statusCode);
+      setState(() {
+        _isLoading2 = false;
+      });
       final channelName = responseBody[0]['channel'];
       await PermissionHandler().requestPermissions(
         [PermissionGroup.camera, PermissionGroup.microphone],
@@ -123,9 +126,6 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
       print('error:');
       print(e);
     }
-    setState(() {
-      _isLoading2 = true;
-    });
   }
 
   @override
@@ -135,9 +135,11 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
         title: Text(widget.name),
         actions: <Widget>[
           _isLoading2
-              ? CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(
-                    Colors.grey,
+              ? Container(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(
+                      Colors.grey,
+                    ),
                   ),
                 )
               : IconButton(

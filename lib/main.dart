@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'package:edge_alert/edge_alert.dart';
 
 import './doctor/doctor_tabs_screen.dart';
 import './doctor/doctor_register_screen.dart';
@@ -44,16 +45,38 @@ class _RestartWidgetState extends State<RestartWidget> {
         print("YO MAMA 0");
         print("onMessage: $message");
         print(message);
+        print("chlna chahiye");
+        EdgeAlert.show(
+          context,
+          title: 'Incoming Video Call',
+          description: 'Your Physiotherapist is calling you',
+          gravity: EdgeAlert.TOP,
+          backgroundColor: Colors.red,
+        );
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("YO MAMA 1");
         print("onLaunch: $message");
         print(message);
+        EdgeAlert.show(
+          context,
+          title: 'Incoming Video Call',
+          description: 'Your Physiotherapist is calling you',
+          gravity: EdgeAlert.TOP,
+          backgroundColor: Colors.red,
+        );
       },
       onResume: (Map<String, dynamic> message) async {
         print("YO MAMA 2");
         print("onResume: $message");
         print(message);
+        EdgeAlert.show(
+          context,
+          title: 'Incoming Video Call',
+          description: 'Your Physiotherapist is calling you',
+          gravity: EdgeAlert.TOP,
+          backgroundColor: Colors.red,
+        );
       },
     );
     _firebaseMessaging.requestNotificationPermissions(

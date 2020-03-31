@@ -64,15 +64,15 @@ class Auth with ChangeNotifier {
     _docId = id;
   }
 
-  Future<void> _pushNotifications(){
+  Future<void> _pushNotifications() {
     final FirebaseMessaging _messaging = FirebaseMessaging();
     _messaging.getToken().then((token) {
-          print('Tokennnnn >>>>>>  ');
-          print(token);
-          sendReg(token);
-        });
-
+      print('Tokennnnn >>>>>>  ');
+      print(token);
+      sendReg(token);
+    });
   }
+
   Future<void> sendReg(String deviceId) async {
     String url = 'http://fitknees.herokuapp.com/auth/notify/';
     try {
@@ -89,15 +89,13 @@ class Auth with ChangeNotifier {
         print('OK');
         notifyListeners();
       } else {
-        throw HttpException(
-            'Unable to login.');
+        throw HttpException('Unable to login.');
       }
     } on HttpException catch (e) {
       // throw e;
       print(e.toString());
     }
   }
-
 
   Future<void> startConsult() async {
     String url = 'https://fitknees.herokuapp.com/auth/consult/';
@@ -167,7 +165,6 @@ class Auth with ChangeNotifier {
     String url = 'https://fitknees.herokuapp.com/auth/patient/vcall/';
 
     try {
-      
       final response = await http.post(url, headers: {
         'Authorization': _token,
       }, body: {
@@ -178,15 +175,10 @@ class Auth with ChangeNotifier {
       print(responseBody);
       print(response.statusCode);
       final channelName = responseBody[0]['channel'];
-
-      }
-      catch (e) {
-        throw HttpException('Unable to log in with provided credentials.');
-
+    } catch (e) {
+      throw HttpException('Unable to log in with provided credentials.');
     }
-
   }
-
 
   Future<void> login(String username, String password) async {
     String url = 'https://fitknees.herokuapp.com/auth/token/login/';
@@ -230,12 +222,12 @@ class Auth with ChangeNotifier {
       }
     } on HttpException catch (e) {
       final prefs = await SharedPreferences.getInstance();
-        prefs.clear();
-        _token = null;
-        _userType = null;
-        _username = null;
-        _name = null;
-        _id = null;
+      prefs.clear();
+      _token = null;
+      _userType = null;
+      _username = null;
+      _name = null;
+      _id = null;
       print(e);
       throw e;
     }
