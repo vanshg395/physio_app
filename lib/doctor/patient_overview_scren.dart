@@ -15,11 +15,13 @@ class PatientOverviewScreen extends StatefulWidget {
   final String name;
   final String patId;
   final String docId;
+  final String medCond;
 
   PatientOverviewScreen({
     @required this.name,
     @required this.patId,
     @required this.docId,
+    @required this.medCond,
   });
 
   @override

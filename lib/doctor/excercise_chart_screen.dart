@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:edge_alert/edge_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -79,6 +80,15 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
       print(response.statusCode);
       if (response.statusCode >= 200 && response.statusCode < 299) {
         Navigator.of(context).pop();
+      } else {
+        EdgeAlert.show(
+          context,
+          title: 'Invalid Consultation',
+          description:
+              'This patient doesn\'t have a consultation. Exercises could not be assigned.',
+          gravity: EdgeAlert.BOTTOM,
+          backgroundColor: Colors.red,
+        );
       }
       print(response.body);
     } catch (e) {
