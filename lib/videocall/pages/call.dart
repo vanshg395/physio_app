@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../utils/settings.dart';
 
 class CallPage extends StatefulWidget {
@@ -192,19 +193,19 @@ class _CallPageState extends State<CallPage> {
             onPressed: _onToggleMute,
             child: Icon(
               muted ? Icons.mic_off : Icons.mic,
-              color: muted ? Colors.white : Colors.blueAccent,
+              color: Colors.black,
               size: 20.0,
             ),
             shape: CircleBorder(),
             elevation: 2.0,
-            fillColor: muted ? Colors.blueAccent : Colors.white,
+            fillColor: Colors.transparent,
             padding: const EdgeInsets.all(12.0),
           ),
           RawMaterialButton(
             onPressed: () => _onCallEnd(context),
             child: Icon(
               Icons.call_end,
-              color: Colors.white,
+              color: Colors.black,
               size: 35.0,
             ),
             shape: CircleBorder(),
@@ -215,13 +216,13 @@ class _CallPageState extends State<CallPage> {
           RawMaterialButton(
             onPressed: _onSwitchCamera,
             child: Icon(
-              Icons.switch_camera,
-              color: Colors.blueAccent,
+              FontAwesomeIcons.syncAlt,
+              color: Colors.black,
               size: 20.0,
             ),
             shape: CircleBorder(),
             elevation: 2.0,
-            fillColor: Colors.white,
+            fillColor: Colors.transparent,
             padding: const EdgeInsets.all(12.0),
           )
         ],

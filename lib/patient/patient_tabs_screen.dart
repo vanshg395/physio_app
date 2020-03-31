@@ -31,13 +31,8 @@ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
         print("chlna chahiye");
         print("Context    :"+context.toString());
         print("chlna chahiy");
-        // EdgeAlert.show(
-        //   context,
-        //   title: 'Incoming Video Call',
-        //   description: 'Your Physiotherapist is calling you',
-        //   gravity: EdgeAlert.TOP,
-        //   backgroundColor: Colors.red,
-        // );
+        
+        if (message['data']['title']=="video-call-by-doc"){
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -46,6 +41,16 @@ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
             ),
           ),
         );
+        }
+        else{
+            EdgeAlert.show(
+            context,
+            title: message['notification']['title'],
+            description: message['notification']['body'],
+            gravity: EdgeAlert.TOP,
+            backgroundColor: Colors.green
+          );
+        }
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("YO MAMA 1");

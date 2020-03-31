@@ -27,13 +27,11 @@ class _IntializeVideoCallState extends State<IntializeVideoCall> {
     FlutterRingtonePlayer.playNotification();
   }
 
-  String title = "Hello User,";
-  String helper = "Please wait for the video call";
-  bool video_call = false;
+    bool video_call = false;
   bool _isLoading = false;
   String channelName = 'test';
   @override
-  Future<void> initState() async {
+  Future<void> initState() {
     super.initState();
     _handleCameraAndMic();
   }
@@ -66,7 +64,7 @@ class _IntializeVideoCallState extends State<IntializeVideoCall> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.withOpacity(0.7),
+      backgroundColor: Colors.grey.withOpacity(0.4),
       body: Container(
         child: Center(
             child: Column(
@@ -74,9 +72,10 @@ class _IntializeVideoCallState extends State<IntializeVideoCall> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text("Doctor is calling you. Please lift the call....",style: TextStyle(
-              fontSize:25
+              fontSize:25,color: Colors.white
             ),),
-            IconButton(icon: Icon(Icons.phone), 
+            SizedBox(50)
+            IconButton(icon: Icon(Icons.phone,color: Colors.white,), 
             iconSize: 40,
             onPressed: () async {
                 await Wakelock.enable();
