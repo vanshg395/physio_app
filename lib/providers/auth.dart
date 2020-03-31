@@ -295,11 +295,11 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> logout() async {
-    print(1);
-    String url = 'https://fitknees.herokuapp.com/auth/token/logout/';
-    final response = await http.post(url, headers: {'Authorization': _token});
-    print(response.statusCode);
-    print(response.body);
+    // print(1);
+    // String url = 'https://fitknees.herokuapp.com/auth/token/logout/';
+    // final response = await http.post(url, headers: {'Authorization': _token});
+    // print(response.statusCode);
+    // print(response.body);
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
     _token = null;
