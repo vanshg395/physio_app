@@ -241,7 +241,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     }
                   },
                   onSaved: (val) {
-                    _data['email'] = val;
+                    _data['email'] = val.toLowerCase();
                   },
                 ),
                 SizedBox(

@@ -18,6 +18,7 @@ class ExcerciseChartScreen extends StatefulWidget {
 }
 
 class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
   bool _isLoading = false;
   List _excercises = [];
   List<Map<String, dynamic>> assignedExercises = [];
@@ -39,6 +40,7 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
       });
     } else {
       final _res = await showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         builder: (ctx) => BottomSheet(),
       );
@@ -56,6 +58,12 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
   }
 
   Future<void> assign() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    if (assignedExercises == []) {
+      return;
+    }
     try {
       String url = 'https://fitknees.herokuapp.com/auth/excercise/';
       print({
@@ -135,120 +143,128 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
                 child: CircularProgressIndicator(),
               ),
             )
-          : Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: TextField(
-                    controller: _nameC,
-                    decoration: InputDecoration(
-                      labelText: 'Name',
-                      labelStyle: TextStyle(color: Colors.grey),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    keyboardAppearance: Brightness.light,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: TextField(
-                    maxLines: 3,
-                    controller: _noteC,
-                    decoration: InputDecoration(
-                      labelText: 'Notes',
-                      labelStyle: TextStyle(color: Colors.grey),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    keyboardAppearance: Brightness.light,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemBuilder: (ctx, i) => Card(
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.play_circle_outline,
-                            size: 40,
-                          ),
-                          title: Text(_excercises[i]['name']),
-                          subtitle: Text(_excercises[i]['description']),
-                          trailing: isSelected[i]
-                              ? Icon(
-                                  Icons.check,
-                                  color: Colors.blue,
-                                )
-                              : null,
-                          onTap: () => toggleSelection(
-                            _excercises[i]['id'],
-                            i,
-                          ),
+          : Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: TextFormField(
+                      controller: _nameC,
+                      decoration: InputDecoration(
+                        labelText: 'Name of Exercise List',
+                        labelStyle: TextStyle(color: Colors.grey),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                       ),
-                      itemCount: _excercises.length,
+                      keyboardType: TextInputType.emailAddress,
+                      keyboardAppearance: Brightness.light,
+                      validator: (val) {
+                        if (val == '') {
+                          return 'This field is required.';
+                        }
+                      },
                     ),
                   ),
-                ),
-                Container(
-                  height: Platform.isAndroid ? 60 : 80,
-                  width: double.infinity,
-                  color: Color(0xFF607EEA),
-                  child: SafeArea(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Expanded(
-                          child: FlatButton(
-                            textColor: Colors.white,
-                            child: Text('Add Video'),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (ctx) => DoctorVideoAdd()),
-                              );
-                            },
-                          ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: TextFormField(
+                      maxLines: 3,
+                      controller: _noteC,
+                      decoration: InputDecoration(
+                        labelText: 'Notes',
+                        labelStyle: TextStyle(color: Colors.grey),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
                         ),
-                        Expanded(
-                          child: FlatButton(
-                            textColor: Colors.white,
-                            child: Text('Assign'),
-                            onPressed: () async {
-                              await assign();
-                            },
-                          ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
                         ),
-                      ],
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      keyboardAppearance: Brightness.light,
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemBuilder: (ctx, i) => Card(
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.play_circle_outline,
+                              size: 40,
+                            ),
+                            title: Text(_excercises[i]['name']),
+                            subtitle: Text(_excercises[i]['description']),
+                            trailing: isSelected[i]
+                                ? Icon(
+                                    Icons.check,
+                                    color: Colors.blue,
+                                  )
+                                : null,
+                            onTap: () => toggleSelection(
+                              _excercises[i]['id'],
+                              i,
+                            ),
+                          ),
+                        ),
+                        itemCount: _excercises.length,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: Platform.isAndroid ? 60 : 80,
+                    width: double.infinity,
+                    color: Color(0xFF607EEA),
+                    child: SafeArea(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Expanded(
+                            child: FlatButton(
+                              textColor: Colors.white,
+                              child: Text('Add Video'),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (ctx) => DoctorVideoAdd()),
+                                );
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: FlatButton(
+                              textColor: Colors.white,
+                              child: Text('Assign'),
+                              onPressed: () async {
+                                await assign();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
     );
   }
@@ -267,91 +283,94 @@ class _BottomSheetState extends State<BottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height * 0.8,
       padding: EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 30,
       ),
-      child: Column(
-        children: <Widget>[
-          TextField(
-            controller: _setsC,
-            decoration: InputDecoration(
-              labelText: 'Sets',
-              labelStyle: TextStyle(color: Colors.grey),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: _setsC,
+              decoration: InputDecoration(
+                labelText: 'Sets',
+                labelStyle: TextStyle(color: Colors.grey),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
               ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-              ),
+              keyboardType: TextInputType.emailAddress,
+              keyboardAppearance: Brightness.light,
             ),
-            keyboardType: TextInputType.emailAddress,
-            keyboardAppearance: Brightness.light,
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          TextField(
-            controller: _repsC,
-            decoration: InputDecoration(
-              labelText: 'Reps',
-              labelStyle: TextStyle(color: Colors.grey),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-              ),
+            SizedBox(
+              height: 15,
             ),
-            keyboardType: TextInputType.emailAddress,
-            keyboardAppearance: Brightness.light,
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.6,
-            height: 40,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: _isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(
-                          Colors.grey,
+            TextField(
+              controller: _repsC,
+              decoration: InputDecoration(
+                labelText: 'Reps',
+                labelStyle: TextStyle(color: Colors.grey),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+              ),
+              keyboardType: TextInputType.emailAddress,
+              keyboardAppearance: Brightness.light,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: 40,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: _isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(
+                            Colors.grey,
+                          ),
                         ),
-                      ),
-                    )
-                  : RaisedButton(
-                      color: Colors.grey[350],
-                      textColor: Colors.black,
-                      child: Text(
-                        'ADD',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'SFProTextSemiMed',
+                      )
+                    : RaisedButton(
+                        color: Colors.grey[350],
+                        textColor: Colors.black,
+                        child: Text(
+                          'ADD',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'SFProTextSemiMed',
+                          ),
                         ),
+                        // onPressed: _submit,
+                        onPressed: () {
+                          Navigator.of(context).pop([_setsC.text, _repsC.text]);
+                        },
                       ),
-                      // onPressed: _submit,
-                      onPressed: () {
-                        Navigator.of(context).pop([_setsC.text, _repsC.text]);
-                      },
-                    ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
