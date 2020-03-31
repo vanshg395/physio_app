@@ -265,7 +265,7 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
                       child: SizedBox(),
                     ),
                     Container(
-                      height: 80,
+                      height: 60,
                       width: double.infinity,
                       color: Color(0xFF607EEA),
                       child: SafeArea(

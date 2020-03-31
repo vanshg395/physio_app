@@ -205,7 +205,7 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
                   ),
                 ),
                 Container(
-                  height: 80,
+                  height: 60,
                   width: double.infinity,
                   color: Color(0xFF607EEA),
                   child: SafeArea(
