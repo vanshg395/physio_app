@@ -147,6 +147,23 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
     }
   }
 
+  String getInitials(String name) {
+    String initials = '';
+    if (name == '') {
+      return '';
+    }
+    initials = name[0];
+    for (var i = 0; i < name.length; i++) {
+      if (name[i] == ' ') {
+        initials += name[i + 1];
+        break;
+      }
+    }
+    print(initials);
+    initials = initials.toUpperCase();
+    return initials;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -195,7 +212,9 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
                                           ? Text('Approved')
                                           : Text('Not Approved'),
                                       leading: CircleAvatar(
-                                        child: Text(''),
+                                        child: Text(
+                                          getInitials(_consults[i]['name']),
+                                        ),
                                       ),
                                       onTap: () {
                                         _consults[i]['doc_approval']

@@ -49,7 +49,7 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
-        backgroundColor: Color(0xFF072031),
+        backgroundColor: Color(0xFF607EEA),
         unselectedItemColor: Colors.white,
         currentIndex: _selectedPageIndex,
         selectedFontSize: 12,
@@ -64,9 +64,12 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
             activeIcon: Icon(
               FontAwesomeIcons.video,
               size: 33,
-              color: Color(0xff3284ff),
+              color: Colors.white,
             ),
-            title: Text('Video Chat'),
+            title: Text(
+              'Video Chat',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -77,9 +80,12 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
             activeIcon: Icon(
               FontAwesomeIcons.dumbbell,
               size: 33,
-              color: Color(0xff3284ff),
+              color: Colors.white,
             ),
-            title: Text('Excercise'),
+            title: Text(
+              'Excercise',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -90,12 +96,13 @@ class _PatientTabsScreenState extends State<PatientTabsScreen> {
             activeIcon: Icon(
               Icons.person,
               size: 33,
-              color: Color(0xff3284ff),
+              color: Colors.white,
             ),
             title: FittedBox(
               child: Text(
                 'Profile',
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),

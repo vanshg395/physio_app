@@ -175,7 +175,7 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
                     keyboardAppearance: Brightness.light,
                   ),
                 ),
-                Flexible(
+                Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: ListView.builder(
@@ -204,55 +204,39 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
                     ),
                   ),
                 ),
-                Column(
-                  children: <Widget>[
-                    InkWell(
-                        child: Container(
-                          alignment: Alignment.center,
-                          color: Colors.green,
-                          height: 80,
-                          width: double.infinity,
-                          child: SafeArea(
-                            child: Center(
-                              child: Text(
-                                'Add Video',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+                Container(
+                  height: 100,
+                  width: double.infinity,
+                  color: Color(0xFF607EEA),
+                  child: SafeArea(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Expanded(
+                          child: FlatButton(
+                            textColor: Colors.white,
+                            child: Text('Add Video'),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (ctx) => DoctorVideoAdd()),
+                              );
+                            },
                           ),
                         ),
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (ctx) => DoctorVideoAdd()),
-                          );
-                        }),
-                    InkWell(
-                      child: Container(
-                        color: Colors.red,
-                        height: 80,
-                        width: double.infinity,
-                        child: SafeArea(
-                          child: Center(
-                            child: Text(
-                              'Assign',
-                              style: TextStyle(
-                                fontSize: 30,
-                                color: Colors.white,
-                              ),
-                            ),
+                        Expanded(
+                          child: FlatButton(
+                            textColor: Colors.white,
+                            child: Text('Assign'),
+                            onPressed: () async {
+                              await assign();
+                            },
                           ),
                         ),
-                      ),
-                      onTap: () async {
-                        await assign();
-                      },
+                      ],
                     ),
-                  ],
-                )
+                  ),
+                ),
               ],
             ),
     );
