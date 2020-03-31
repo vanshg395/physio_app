@@ -22,7 +22,7 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
 
   String title = "Hello User,";
   String helper = "Please wait for the video call";
-  bool video_call=false;
+  bool video_call = false;
   bool _isLoading = false;
   String channelName = 'test';
   @override
@@ -31,48 +31,52 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
     _handleCameraAndMic();
   }
 
-
-  Future<void> _getChannel() async{
+  Future<void> _getChannel() async {
     String url = 'https://fitknees.herokuapp.com/auth/patient/vcall/';
 
     try {
-      final response = await http.get(url, headers: {
-        'Authorization': Provider.of<Auth>(context, listen: false).token,
-      },);
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': Provider.of<Auth>(context, listen: false).token,
+        },
+      );
       final responseBody = json.decode(response.body);
       print(responseBody);
       print(response.statusCode);
       final statusCode = response.statusCode;
-      if (statusCode==200){
+      if (statusCode == 200) {
         channelName = responseBody[0]['channel'];
         print(channelName);
       }
-
     } catch (e) {
       print(e);
     }
-
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Container(
         child: Center(
-          child:
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("Doctor will join you to video call. Please join when he invites you for a video call"),
-              RaisedButton(child: Text("Join Video Call"),
-              onPressed: ()async{
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                "Doctor will join you to video call. Please join when he invites you for a video call",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            RaisedButton(
+              child: Text("Join Video Call"),
+              onPressed: () async {
                 await _getChannel();
                 setState(() {
-                  video_call=false;
-                  _isLoading=true;
+                  video_call = false;
+                  _isLoading = true;
                 });
                 print(channelName);
                 await Navigator.push(
@@ -82,13 +86,12 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
                       channelName: channelName,
                     ),
                   ),
-              );
-              },)
-            ],
-          )
-        ),
+                );
+              },
+            )
+          ],
+        )),
       ),
-      
     );
   }
 }

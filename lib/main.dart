@@ -34,12 +34,12 @@ class RestartWidget extends StatefulWidget {
 class _RestartWidgetState extends State<RestartWidget> {
   Key key = UniqueKey();
 
-final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-bool videoCall = false;
-@override
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  bool videoCall = false;
+  @override
   void initState() {
     super.initState();
-   _firebaseMessaging.configure(
+    _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("YO MAMA 0");
         print("onMessage: $message");
@@ -66,9 +66,8 @@ bool videoCall = false;
     _firebaseMessaging.getToken().then((String token) {
       assert(token != null);
       print(token);
-
     });
-    }
+  }
 
   void restartApp() {
     setState(() {
