@@ -93,7 +93,9 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               ExerciseOverviewScreen(
-                                                  _exerciseData[i]['data']),
+                                            _exerciseData[i]['data'],
+                                            _exerciseData[i]['id'],
+                                          ),
                                         ),
                                       );
                                     },
