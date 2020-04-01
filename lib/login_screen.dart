@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           },
                           onSaved: (val) {
-                            _authData['email'] = val;
+                            _authData['email'] = val.toLowerCase();
                           },
                         ),
                         SizedBox(

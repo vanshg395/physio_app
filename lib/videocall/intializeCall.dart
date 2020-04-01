@@ -22,12 +22,12 @@ class _IntializeVideoCallState extends State<IntializeVideoCall> {
       [PermissionGroup.camera, PermissionGroup.microphone],
     );
     if (await Vibration.hasVibrator()) {
-        Vibration.vibrate();
-      }
+      Vibration.vibrate();
+    }
     FlutterRingtonePlayer.playNotification();
   }
 
-    bool video_call = false;
+  bool video_call = false;
   bool _isLoading = false;
   String channelName = 'test';
   @override
@@ -35,8 +35,6 @@ class _IntializeVideoCallState extends State<IntializeVideoCall> {
     super.initState();
     _handleCameraAndMic();
   }
-
-
 
   Future<void> _getChannel() async {
     String url = 'https://fitknees.herokuapp.com/auth/patient/vcall/';
@@ -71,13 +69,18 @@ class _IntializeVideoCallState extends State<IntializeVideoCall> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Doctor is calling you. Please lift the call....",style: TextStyle(
-              fontSize:25,color: Colors.white
-            ),),
-            SizedBox(height:50),
-            IconButton(icon: Icon(Icons.phone,color: Colors.white,), 
-            iconSize: 40,
-            onPressed: () async {
+            Text(
+              "Doctor is calling you. Please lift the call....",
+              style: TextStyle(fontSize: 25, color: Colors.white),
+            ),
+            SizedBox(height: 50),
+            IconButton(
+              icon: Icon(
+                Icons.phone,
+                color: Colors.white,
+              ),
+              iconSize: 40,
+              onPressed: () async {
                 await Wakelock.enable();
                 await _getChannel();
                 Vibration.cancel();
@@ -96,8 +99,8 @@ class _IntializeVideoCallState extends State<IntializeVideoCall> {
                   ),
                 );
                 await Wakelock.disable();
-              },),
-            
+              },
+            ),
           ],
         )),
       ),

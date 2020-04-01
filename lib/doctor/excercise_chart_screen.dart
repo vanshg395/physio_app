@@ -96,6 +96,7 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
               'This patient doesn\'t have a consultation. Exercises could not be assigned.',
           gravity: EdgeAlert.BOTTOM,
           backgroundColor: Colors.red,
+          duration: 5,
         );
       }
       print(response.body);
