@@ -52,17 +52,12 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
         headers: {
           'Authorization': Provider.of<Auth>(context, listen: false).token,
         },
-        // body: json.encode(_data),
         body: _data,
       );
-      final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         await Provider.of<Auth>(context, listen: false).changeEntryLevel();
       }
     } catch (e) {
-      print(e);
     }
     setState(() {
       _isLoading = false;
@@ -73,9 +68,6 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
     String url = 'https://fitknees.herokuapp.com/auth/hospitals/';
 
     try {
-      // setState(() {
-      //   _isLoading2 = true;
-      // });
       final response = await http.get(
         url,
         headers: {
@@ -83,16 +75,11 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
         },
       );
       final responseBody = json.decode(response.body);
-      print(responseBody);
       setState(() {
         _hospitals = responseBody;
       });
     } catch (e) {
-      print(e);
     }
-    // setState(() {
-    //   _isLoading2 = false;
-    // });
   }
 
   @override
@@ -121,7 +108,6 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                     height: 30,
                   ),
                   TextFormField(
-                    // controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'First Name',
                       labelStyle: TextStyle(color: Colors.grey),
@@ -176,9 +162,6 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                         return 'This Field is required.';
                       }
                     },
-                    // onSaved: (val) {
-                    //   _authData['email'] = val;
-                    // },
                   ),
                   SizedBox(
                     height: 15,
@@ -315,17 +298,6 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                       });
                     },
                     dataSource: [
-                      // {
-                      //   "display":
-                      //       "What was the name of your elementary school?",
-                      //   "value": "What was the name of your elementary school?",
-                      // },
-                      // {
-                      //   "display":
-                      //       "In what city or town does your nearest sibling live?",
-                      //   "value":
-                      //       "In what city or town does your nearest sibling live?",
-                      // },
                       {
                         "display": "What is your pet's name?",
                         "value": "What is your pet's name?",
@@ -347,7 +319,6 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                   ),
                   TextFormField(
                     maxLines: 1,
-                    // controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'Answer',
                       labelStyle: TextStyle(color: Colors.grey),
@@ -403,7 +374,6 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                                 ),
                               ),
                               onPressed: _submit,
-                              // onPressed: () {},
                             ),
                     ),
                   ),

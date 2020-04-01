@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:physio_app/providers/auth.dart';
@@ -23,8 +21,6 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
 
   String title = "Hello User,";
   String helper = "Please wait for the video call";
-  bool video_call = false;
-  bool _isLoading = false;
   String channelName = 'test';
   @override
   void initState() {
@@ -43,15 +39,11 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
         },
       );
       final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
       final statusCode = response.statusCode;
       if (statusCode == 200) {
         channelName = responseBody[0]['channel'];
-        print(channelName);
       }
     } catch (e) {
-      print(e);
     }
   }
 
@@ -76,11 +68,6 @@ class _VideoPatientScreenState extends State<VideoPatientScreen> {
               onPressed: () async {
                 await Wakelock.enable();
                 await _getChannel();
-                setState(() {
-                  video_call = false;
-                  _isLoading = true;
-                });
-                print(channelName);
                 await Navigator.push(
                   context,
                   MaterialPageRoute(

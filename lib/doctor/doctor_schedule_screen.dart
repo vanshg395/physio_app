@@ -30,13 +30,10 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
         },
       );
       final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         _consults = responseBody;
       }
     } catch (e) {
-      print(e);
     }
     setState(() {
       _isLoading = false;
@@ -122,13 +119,10 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
       final response = await http.post(url, body: {
         'consolId': id,
       });
-      print(response.statusCode);
       if (response.statusCode == 200) {
-        print('done');
         await _getConsults();
       }
     } catch (e) {
-      print(e);
     }
   }
 
@@ -142,11 +136,9 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
         'consolId': id,
       });
       if (response.statusCode == 200) {
-        print('done');
         await _getConsults();
       }
     } catch (e) {
-      print(e);
     }
   }
 
@@ -160,11 +152,9 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
         'consolId': id,
       });
       if (response.statusCode == 200) {
-        print('done');
         await _getConsults();
       }
     } catch (e) {
-      print(e);
     }
   }
 
@@ -180,14 +170,12 @@ class _DoctorScheduleScreenState extends State<DoctorScheduleScreen> {
         break;
       }
     }
-    print(initials);
     initials = initials.toUpperCase();
     return initials;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getConsults();
   }

@@ -39,7 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await Provider.of<Auth>(context, listen: false).login(email, password);
     } catch (error) {
-      print(error);
       errorMessage = error.toString();
       setState(() {
         _emailController.text = '';

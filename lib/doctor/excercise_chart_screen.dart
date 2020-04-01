@@ -44,7 +44,6 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
         context: context,
         builder: (ctx) => BottomSheet(),
       );
-      print(_res);
       setState(() {
         assignedExercises.add({
           'videoId': id,
@@ -54,7 +53,6 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
         isSelected[i] = true;
       });
     }
-    print(assignedExercises);
   }
 
   Future<void> assign() async {
@@ -66,12 +64,7 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
     }
     try {
       String url = 'https://fitknees.herokuapp.com/auth/excercise/';
-      print({
-        'name': _nameC.text,
-        'notes': _noteC.text,
-        'consolId': widget.consolId,
-        'data': assignedExercises,
-      });
+      
       final response = await http.post(
         url,
         headers: {
@@ -85,7 +78,6 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
           'data': assignedExercises,
         }),
       );
-      print(response.statusCode);
       if (response.statusCode >= 200 && response.statusCode < 299) {
         Navigator.of(context).pop();
       } else {
@@ -99,10 +91,7 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
           duration: 5,
         );
       }
-      print(response.body);
     } catch (e) {
-      print('err');
-      print(e);
     }
   }
 
@@ -119,7 +108,6 @@ class _ExcerciseChartScreenState extends State<ExcerciseChartScreen> {
           'Authorization': Provider.of<Auth>(context, listen: false).token,
         },
       );
-      print(response.body);
       final resBody = json.decode(response.body);
       _excercises = resBody;
       for (var i = 0; i < _excercises.length; i++) {
@@ -363,7 +351,6 @@ class _BottomSheetState extends State<BottomSheet> {
                             fontFamily: 'SFProTextSemiMed',
                           ),
                         ),
-                        // onPressed: _submit,
                         onPressed: () {
                           Navigator.of(context).pop([_setsC.text, _repsC.text]);
                         },

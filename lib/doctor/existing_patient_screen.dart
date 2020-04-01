@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../providers/auth.dart';
-import '../videocall/pages/call.dart';
 
 class ExistingPatientScreen extends StatefulWidget {
   @override
@@ -45,14 +44,10 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
           'Authorization': Provider.of<Auth>(context, listen: false).token,
         },
       );
-      print(response.body);
-      print(response.statusCode);
       final responseBody = json.decode(response.body);
       _patients = responseBody['patients'];
-      print(_patients);
       _docId = responseBody['docHandlerId'];
     } catch (e) {
-      print(e);
     }
     setState(() {
       _isLoading = false;
@@ -71,7 +66,6 @@ class _ExistingPatientScreenState extends State<ExistingPatientScreen> {
         break;
       }
     }
-    print(initials);
     initials = initials.toUpperCase();
     return initials;
   }

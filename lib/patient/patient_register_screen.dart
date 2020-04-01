@@ -66,11 +66,9 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
       return;
     }
     _formKey.currentState.save();
-    print(_data);
     setState(() {
       _isLoading = true;
     });
-    print(_data);
 
     try {
       String url = 'https://fitknees.herokuapp.com/auth/patient/';
@@ -82,16 +80,12 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
             "Accept": "application/json",
           },
           body: json.encode(_data));
-      final responseBody = response.body;
-      print(responseBody);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (ctx) => PatientRouter()));
         await Provider.of<Auth>(context, listen: false).changeEntryLevel();
       }
     } catch (e) {
-      print(e);
     }
     setState(() {
       _isLoading = false;
@@ -160,7 +154,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
 
                       _data['date_of_birth'] =
                           DateFormat('yyyy-MM-dd').format(date);
-                      print(_data);
                     },
                     validator: (val) {
                       if (val == '') {
@@ -172,7 +165,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                     height: 15,
                   ),
                   TextFormField(
-                    // controller: _emailController,
                     decoration: InputDecoration(
                       suffixText: 'cm',
                       labelText: 'Height',
@@ -209,7 +201,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                     height: 15,
                   ),
                   TextFormField(
-                    // controller: _emailController,
                     decoration: InputDecoration(
                       suffixText: 'Kg',
                       labelText: 'Weight',
@@ -246,7 +237,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                     height: 15,
                   ),
                   TextFormField(
-                    // controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'Phone Number',
                       labelStyle: TextStyle(color: Colors.grey),
@@ -277,28 +267,11 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                       _data['phone_number'] = val;
                     },
                   ),
-                  // InternationalPhoneNumberInput.withCustomBorder(
-                  //   onInputChanged: (PhoneNumber number) {
-                  //     print(number.phoneNumber);
-                  //     _data['country_code'] = number.dialCode;
-                  //     _data['phone_number'] = number.phoneNumber;
-                  //   },
-                  //   // isEnabled: true,
-                  //   autoValidate: true,
-                  //   formatInput: true,
-                  //   inputBorder: OutlineInputBorder(
-                  //     borderSide: BorderSide(color: Colors.grey),
-                  //   ),
-                  //   hintText: 'Enter your Phone Number',
-                  //   onInputValidated: (_) {},
-                  //   selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                  //   initialCountry2LetterCode: 'IN',
-                  // ),
+                  
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
-                    // controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'Occupation',
                       labelStyle: TextStyle(color: Colors.grey),
@@ -663,7 +636,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                       height: 15,
                     ),
                     TextFormField(
-                      // controller: _emailController,
                       maxLines: 3,
                       decoration: InputDecoration(
                         labelText: 'If Yes, Please Specify',
@@ -898,7 +870,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                           setState(() {
                             _yesno7 = value;
                             _familyHistory = true;
-                            // _data['gender'] = describeEnum(_gender);
                             _data['history_osteoporosis'] =
                                 describeEnum(_yesno7) == 'Yes';
                           });
@@ -929,7 +900,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                       height: 15,
                     ),
                     TextFormField(
-                      // controller: _emailController,
                       maxLines: 3,
                       decoration: InputDecoration(
                         labelText: 'If Yes, Please Specify',
@@ -1108,7 +1078,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                         .id;
                                 _submit();
                               }
-                              // onPressed: () {},
                               ),
                     ),
                   ),

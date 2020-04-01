@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -43,7 +42,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
       return;
     }
     _formKey.currentState.save();
-    print(_data);
     setState(() {
       _isLoading = true;
     });
@@ -57,8 +55,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
         },
         body: _data,
       );
-      print(response.statusCode);
-      print(response.body);
       if (response.statusCode == 201) {
         await showDialog(
           context: context,
@@ -111,7 +107,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
         );
       }
     } catch (e) {
-      print(e);
     }
     setState(() {
       _fnameController.clear();

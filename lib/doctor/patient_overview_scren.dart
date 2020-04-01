@@ -56,20 +56,16 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
           'pat_id': widget.patId,
         },
       );
-      print(response.statusCode);
       final responseBody = json.decode(response.body);
       if (response.statusCode == 200) {
         _consulID = responseBody['consol'];
-        print(_consulID);
       }
       else{
         setState(() {
           consulBool=false;
         });
-        print(consulBool);
       }
     } catch (e) {
-      print(e);
     }
   }
 
@@ -85,13 +81,11 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
         'id': widget.patId,
       });
       final responseBody = json.decode(response.body);
-      print(responseBody);
       if (responseBody == []) {
         return;
       }
       _userData = responseBody[0];
     } catch (e) {
-      print(e);
     }
     await getConsolID();
     setState(() {
@@ -117,8 +111,6 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
         },
       );
       final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
       setState(() {
         _isLoading2 = false;
       });
@@ -136,8 +128,6 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
       );
       await Wakelock.disable();
     } catch (e) {
-      print('error:');
-      print(e);
     }
   }
 
@@ -164,7 +154,6 @@ class _PatientOverviewScreenState extends State<PatientOverviewScreen> {
                     size: 30,
                   ),
                   onPressed: () async {
-                    print('hey');
                     await makeVideoCall(widget.docId, widget.patId);
                   },
                   color: Colors.green,

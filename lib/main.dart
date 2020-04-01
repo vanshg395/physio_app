@@ -1,11 +1,8 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:physio_app/videocall/intializeCall.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
-import 'package:edge_alert/edge_alert.dart';
 
 import './doctor/doctor_tabs_screen.dart';
 import './doctor/doctor_register_screen.dart';
@@ -14,7 +11,6 @@ import './login_screen.dart';
 import './providers/auth.dart';
 import './patient/router.dart';
 
-//IndexPage()    ---- Video Calling
 
 void main() => runApp(
       RestartWidget(

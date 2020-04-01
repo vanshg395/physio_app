@@ -33,18 +33,6 @@ class _DoctorTabsScreenState extends State<DoctorTabsScreen> {
         'page': DoctorProfileScreen(),
         'title': 'Profile',
       },
-      // {
-      //   'page': AllTeamsScreen(),
-      //   'title': 'All Teams',
-      // },
-      // {
-      //   'page': Message(),
-      //   'title': 'Messages',
-      // },
-      // {
-      //   'page': EssentialsScreen(),
-      //   'title': 'Profile',
-      // },
     ];
     super.initState();
   }

@@ -1,10 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
-
-import '../providers/auth.dart';
 import './video_screen.dart';
 
 class ExerciseOverviewScreen extends StatefulWidget {
@@ -22,7 +16,6 @@ class _ExerciseOverviewScreenState extends State<ExerciseOverviewScreen> {
   @override
   void initState() {
     super.initState();
-    print(widget._exerciseData);
     for (var i = 0; i < widget._exerciseData.length; i++) {
       _exerciseDone.add(false);
     }

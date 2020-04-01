@@ -19,7 +19,6 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
   String _depart = '';
   String _designation = '';
   String _hospital = '';
-  String _image = '';
   String _docID = '';
 
   @override
@@ -35,7 +34,6 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
     try {
       await Provider.of<Auth>(context, listen: false).startConsult();
     } catch (error) {
-      print(error);
       String errorMessage;
       errorMessage = error.toString();
 
@@ -89,20 +87,16 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
           'Authorization': Provider.of<Auth>(context, listen: false).token,
         },
       );
-      print(response.body);
       final resBody = json.decode(response.body);
 
       _fullname = resBody['name'];
       _depart = resBody['department'];
       _designation = resBody['designation'];
       _hospital = resBody['hospital'];
-      _image = resBody['image'];
       _docID = resBody['docId'];
-      print(resBody);
 
       await Provider.of<Auth>(context, listen: false).addDocID(_docID);
     } catch (error) {
-      print(error);
     }
     setState(() {
       _isLoading = false;
@@ -119,10 +113,6 @@ class _PatientConsultationScreenState extends State<PatientConsultationScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Image.asset(
-                    //   'logo/doctor.jpeg',
-                    //   fit: BoxFit.fitHeight,
-                    // ),
 
                     Card(
                       color: Colors.grey[200],

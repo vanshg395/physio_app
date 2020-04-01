@@ -32,7 +32,6 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
           'password': _passController.text,
         },
       );
-      print(response.statusCode);
       if (response.statusCode >= 200 && response.statusCode < 300) {
         await showDialog(
           context: context,
@@ -121,7 +120,6 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                           ),
                         ),
                         onPressed: changePass,
-                        // onPressed: () {},
                       ),
                     ),
             ),

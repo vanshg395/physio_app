@@ -22,8 +22,6 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   void initState() {
     super.initState();
-    print(widget.title);
-    print(widget.vidUrl);
     _videoPlayerController1 = VideoPlayerController.network(widget.vidUrl);
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController1,

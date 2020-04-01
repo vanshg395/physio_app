@@ -5,10 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../utils/settings.dart';
 
 class CallPage extends StatefulWidget {
-  /// non-modifiable channel name of the page
   final String channelName;
-
-  /// Creates a call page with given channel name.
   const CallPage({Key key, this.channelName}) : super(key: key);
 
   @override
@@ -22,9 +19,7 @@ class _CallPageState extends State<CallPage> {
 
   @override
   void dispose() {
-    // clear users
     _users.clear();
-    // destroy sdk
     AgoraRtcEngine.leaveChannel();
     AgoraRtcEngine.destroy();
     super.dispose();
@@ -33,7 +28,6 @@ class _CallPageState extends State<CallPage> {
   @override
   void initState() {
     super.initState();
-    // initialize agora sdk
     initialize();
   }
 
@@ -56,13 +50,11 @@ class _CallPageState extends State<CallPage> {
     await AgoraRtcEngine.joinChannel(null, widget.channelName, null, 0);
   }
 
-  /// Create agora sdk instance and initialize
   Future<void> _initAgoraRtcEngine() async {
     await AgoraRtcEngine.create(APP_ID);
     await AgoraRtcEngine.enableVideo();
   }
 
-  /// Add agora event handlers
   void _addAgoraEventHandlers() {
     AgoraRtcEngine.onError = (dynamic code) {
       setState(() {
@@ -119,7 +111,6 @@ class _CallPageState extends State<CallPage> {
     };
   }
 
-  /// Helper function to get list of native views
   List<Widget> _getRenderViews() {
     final List<AgoraRenderWidget> list = [
       AgoraRenderWidget(0, local: true, preview: true),
@@ -128,12 +119,10 @@ class _CallPageState extends State<CallPage> {
     return list;
   }
 
-  /// Video view wrapper
   Widget _videoView(view) {
     return Expanded(child: Container(child: view));
   }
 
-  /// Video view row wrapper
   Widget _expandedVideoRow(List<Widget> views) {
     final wrappedViews = views.map<Widget>(_videoView).toList();
     return Expanded(
@@ -143,7 +132,6 @@ class _CallPageState extends State<CallPage> {
     );
   }
 
-  /// Video layout wrapper
   Widget _viewRows() {
     final views = _getRenderViews();
     switch (views.length) {
@@ -181,7 +169,6 @@ class _CallPageState extends State<CallPage> {
     return Container();
   }
 
-  /// Toolbar layout
   Widget _toolbar() {
     return Container(
       alignment: Alignment.bottomCenter,
@@ -230,56 +217,6 @@ class _CallPageState extends State<CallPage> {
     );
   }
 
-  /// Info panel to show logs
-  Widget _panel() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 48),
-      alignment: Alignment.bottomCenter,
-      child: FractionallySizedBox(
-        heightFactor: 0.5,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 48),
-          child: ListView.builder(
-            reverse: true,
-            itemCount: _infoStrings.length,
-            itemBuilder: (BuildContext context, int index) {
-              if (_infoStrings.isEmpty) {
-                return null;
-              }
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 3,
-                  horizontal: 10,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Flexible(
-                    //   child: Container(
-                    //     padding: const EdgeInsets.symmetric(
-                    //       vertical: 2,
-                    //       horizontal: 5,
-                    //     ),
-                    //     decoration: BoxDecoration(
-                    //       color: Colors.yellowAccent,
-                    //       borderRadius: BorderRadius.circular(5),
-                    //     ),
-                    //     child: Text(
-                    //       _infoStrings[index],
-                    //       style: TextStyle(color: Colors.blueGrey),
-                    //     ),
-                    //   ),
-                    // )
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
   void _onCallEnd(BuildContext context) {
     Navigator.pop(context);
   }
@@ -303,7 +240,6 @@ class _CallPageState extends State<CallPage> {
         child: Stack(
           children: <Widget>[
             _viewRows(),
-            _panel(),
             _toolbar(),
           ],
         ),

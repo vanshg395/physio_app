@@ -22,7 +22,6 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
   String file_loc = '';
 
   Future<void> _submit() async {
-    print('started sumbission');
     Map<String, String> headers = {
       'Authorization': Provider.of<Auth>(context, listen: false).token,
     };
@@ -50,13 +49,10 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
     var multipartFile = await MultipartFile.fromPath("video", filePath);
     multipartRequest.files.add(multipartFile);
     var response = await multipartRequest.send();
-    print(response.statusCode);
 
     if (response.statusCode == 201) {
-      print("Done");
       Navigator.of(context).pop();
     } else {
-      print("Upload Failed");
       Navigator.of(context).pop();
     }
 
@@ -67,7 +63,6 @@ class _DoctorVideoAddState extends State<DoctorVideoAdd> {
 
   Future<void> _getVideo() async {
     filePath = await FilePicker.getFilePath(type: FileType.video);
-    print(filePath + '   ===> Filepath');
     setState(() {
       file_loc = filePath;
     });

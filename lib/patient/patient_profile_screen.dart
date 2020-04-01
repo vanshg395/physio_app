@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-
-import '../login_screen.dart';
 import './change_password_screen.dart';
 import '../providers/auth.dart';
 import '../main.dart';
@@ -38,8 +36,6 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
           'Authorization': Provider.of<Auth>(context, listen: false).token,
         },
       );
-      print(response.body);
-      print(response.statusCode);
       _details = json.decode(response.body);
     } catch (e) {}
     setState(() {
@@ -142,9 +138,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                       fontFamily: 'SFProTextSemiMed',
                                     ),
                                   ),
-                                  // onPressed: _submit,
                                   onPressed: () {
-                                    // await changePassword();
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) =>
@@ -183,9 +177,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                                       fontFamily: 'SFProTextSemiMed',
                                     ),
                                   ),
-                                  // onPressed: _submit,
                                   onPressed: () async {
-                                    // await changePassword();
                                     setState(() {
                                       _isLoading2 = true;
                                     });

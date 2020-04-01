@@ -33,7 +33,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       final responseBody = json.decode(response.body);
       if (response.statusCode == 201) {
         _correctOtp = responseBody['otp'];
-        print(_correctOtp);
       } else {
         await showDialog(
           context: context,
@@ -152,7 +151,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
                 onPressed: _submitOtp,
-                // onPressed: () {},
               ),
             ),
           ),
@@ -225,7 +223,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                       ),
                       onPressed: _submitEmail,
-                      // onPressed: () {},
                     ),
                   ),
           ),

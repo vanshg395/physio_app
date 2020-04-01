@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 
 import './exercise_overview_screen.dart';
 import '../providers/auth.dart';
-import './video_screen.dart';
 
 class PatientExerciseScreen extends StatefulWidget {
   @override
@@ -29,9 +28,6 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
       _isLoading = true;
     });
     try {
-      final id = Provider.of<Auth>(context, listen: false).id;
-      print(id);
-      print(Provider.of<Auth>(context, listen: false).token);
       String url =
           'https://fitknees.herokuapp.com/auth/excercise/';
 
@@ -42,16 +38,11 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
         },
       );
       final resBody = json.decode(response.body);
-      print(resBody);
       _exerciseData = resBody;
       for (var i = 0; i < _exerciseData.length; i++) {
         _exerciseDone.add(false);
       }
-      print('DATA');
-      print(_exerciseData.length);
     } catch (e) {
-      print('err');
-      print(e);
     }
     setState(() {
       _isLoading = false;

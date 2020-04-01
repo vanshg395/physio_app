@@ -33,23 +33,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     if (!_formKey.currentState.validate()) {
       return;
     }
-    print('Checkpoint 1');
 
     final password = _authData['password'];
     final password1 = _authData['password1'];
     final password2 = _authData['password2'];
-    print(password);
     setState(() {
       _isLoading = true;
     });
     try {
-      print(_authData);
       await Provider.of<Auth>(context, listen: false)
           .changePass(password, password1, password2);
       Navigator.of(context).pop();
     } catch (error) {
       errorMessage = error.toString();
-      print(errorMessage);
       setState(() {
         _passController.text = '';
         _pass1Controller.text = '';

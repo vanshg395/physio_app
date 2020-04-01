@@ -19,7 +19,6 @@ class Auth with ChangeNotifier {
   bool consulStatus;
   bool consulApproval;
   bool consulRejection;
-  bool _patID;
   int _consolStatusCode = 0;
 
   String _patientID;
@@ -67,8 +66,6 @@ class Auth with ChangeNotifier {
   Future<void> _pushNotifications() {
     final FirebaseMessaging _messaging = FirebaseMessaging();
     _messaging.getToken().then((token) {
-      print('Tokennnnn >>>>>>  ');
-      print(token);
       sendReg(token);
     });
   }
@@ -81,25 +78,17 @@ class Auth with ChangeNotifier {
         headers: {'Authorization': _token},
         body: {'device_id': deviceId},
       );
-      print(response.body);
-      // final responseBody = json.decode(response.body);
-      print(response.statusCode);
-
       if (response.statusCode == 204) {
-        print('OK');
         notifyListeners();
       } else {
         throw HttpException('Unable to login.');
       }
     } on HttpException catch (e) {
-      // throw e;
-      print(e.toString());
     }
   }
 
   Future<void> startConsult() async {
     String url = 'https://fitknees.herokuapp.com/auth/consult/';
-    print("sfc");
     try {
       final response = await http.post(url, headers: {
         'Authorization': _token
@@ -107,8 +96,6 @@ class Auth with ChangeNotifier {
         'docId': _docId,
       });
       final responseBody = json.decode(response.body);
-      print("Response : " + responseBody.toString());
-      print(response.statusCode);
       if (response.statusCode == 200) {
         _consulId = responseBody['consul_id'];
         consulStatus = responseBody['case_closed'];
@@ -118,19 +105,15 @@ class Auth with ChangeNotifier {
         throw HttpException('No Cash in your wallet');
       }
     } on HttpException catch (e) {
-      print(e);
       throw e;
     }
   }
 
   Future<void> getConsol() async {
     String url = 'https://fitknees.herokuapp.com/auth/consult/';
-    print("I'm dead");
     try {
       final response = await http.get(url, headers: {'Authorization': _token});
-      print(response.statusCode);
       final responseBody = json.decode(response.body);
-      print(responseBody);
       if (response.statusCode == 200) {
         if (responseBody.length != 0) {
           consulRejection = responseBody[0]['doc_rejection'];
@@ -156,7 +139,6 @@ class Auth with ChangeNotifier {
         throw HttpException('Error retrieving consultation');
       }
     } on HttpException catch (e) {
-      print(e);
       throw e;
     }
   }
@@ -172,9 +154,6 @@ class Auth with ChangeNotifier {
         'patient': patientId,
       });
       final responseBody = json.decode(response.body);
-      print(responseBody);
-      print(response.statusCode);
-      final channelName = responseBody[0]['channel'];
     } catch (e) {
       throw HttpException('Unable to log in with provided credentials.');
     }
@@ -189,11 +168,9 @@ class Auth with ChangeNotifier {
         'password': password,
       });
       final responseBody = json.decode(response.body);
-      print(responseBody);
       if (response.statusCode == 200) {
         _userType = responseBody['userInfo']['userType'];
         _token = 'Token ' + responseBody['token']['auth_token'];
-        print(_token);
         _username = responseBody['username'];
         _name = responseBody['name'];
         _id = responseBody['userInfo']['id'];
@@ -228,7 +205,6 @@ class Auth with ChangeNotifier {
       _username = null;
       _name = null;
       _id = null;
-      print(e);
       throw e;
     }
   }
@@ -240,21 +216,18 @@ class Auth with ChangeNotifier {
     }
     final extractedUserData =
         json.decode(prefs.getString('userData')) as Map<String, Object>;
-    print('extractedUserData : ' + extractedUserData.toString());
     _token = extractedUserData['token'];
     _userType = extractedUserData['userType'];
     _username = extractedUserData['username'];
     _name = extractedUserData['name'];
     _id = extractedUserData['id'];
     _entryLevel = extractedUserData['entryLevel'];
-    // logout();
     notifyListeners();
     return true;
   }
 
   Future<void> changePass(
       String currentPass, String newPass, String newConfirmPass) async {
-    print('checkpointttttt');
     String url = 'https://fitknees.herokuapp.com/auth/users/set_password/';
     try {
       final response = await http.post(url, headers: {
@@ -263,12 +236,7 @@ class Auth with ChangeNotifier {
         'current_password': currentPass,
         'new_password': newPass,
       });
-      print(response.body);
-      // final responseBody = json.decode(response.body);
-      print(response.statusCode);
-
       if (response.statusCode == 204) {
-        print('OK');
         notifyListeners();
       } else {
         throw HttpException(
@@ -296,11 +264,6 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> logout() async {
-    // print(1);
-    // String url = 'https://fitknees.herokuapp.com/auth/token/logout/';
-    // final response = await http.post(url, headers: {'Authorization': _token});
-    // print(response.statusCode);
-    // print(response.body);
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
     _token = null;
@@ -309,6 +272,5 @@ class Auth with ChangeNotifier {
     _name = null;
     _id = null;
     notifyListeners();
-    print('called');
   }
 }
