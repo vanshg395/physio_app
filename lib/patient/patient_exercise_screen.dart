@@ -32,8 +32,7 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
       final id = Provider.of<Auth>(context, listen: false).id;
       print(id);
       print(Provider.of<Auth>(context, listen: false).token);
-      String url =
-          'https://fitknees.herokuapp.com/auth/excercise/';
+      String url = 'https://fitknees.herokuapp.com/auth/excercise/';
 
       final response = await http.get(
         url,
@@ -102,7 +101,9 @@ class _PatientExerciseScreenState extends State<PatientExerciseScreen> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               ExerciseOverviewScreen(
-                                                  _exerciseData[i]['data']),
+                                            _exerciseData[i]['data'],
+                                            _exerciseData[i]['id'],
+                                          ),
                                         ),
                                       );
                                     },
