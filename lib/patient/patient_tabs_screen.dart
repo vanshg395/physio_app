@@ -17,7 +17,7 @@ class PatientTabsScreen extends StatefulWidget {
 
 class _PatientTabsScreenState extends State<PatientTabsScreen> {
   List<Map<String, Object>> _pages;
-  int _selectedPageIndex = 0;
+  int _selectedPageIndex = 1;
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
