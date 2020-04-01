@@ -18,7 +18,7 @@ class PatientTabsScreen extends StatefulWidget {
 class _PatientTabsScreenState extends State<PatientTabsScreen> {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
-final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
@@ -29,27 +29,27 @@ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
         print("onMessage: $message");
         print(message);
         print("chlna chahiye");
-        print("Context    :"+context.toString());
+        print("Context    :" + context.toString());
         print("chlna chahiy");
-        
-        if (message['data']['title']=="video-call-by-doc"){
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => IntializeVideoCall(
-              
-            ),
-          ),
-        );
-        }
-        else{
-            EdgeAlert.show(
+        print('1' + message['title']);
+        print('2' + 'video-call-by-doc');
+
+        if (message['data']['title'] == "video-call-by-doc" ||
+            message['title'] == "video-call-by-doc") {
+          print('hey');
+          Navigator.push(
             context,
-            title: message['notification']['title'],
-            description: message['notification']['body'],
-            gravity: EdgeAlert.TOP,
-            backgroundColor: Colors.green
+            MaterialPageRoute(
+              builder: (context) => IntializeVideoCall(),
+            ),
           );
+        } else {
+          print('bi');
+          EdgeAlert.show(context,
+              title: message['notification']['title'],
+              description: message['notification']['body'],
+              gravity: EdgeAlert.TOP,
+              backgroundColor: Colors.green);
         }
       },
       onLaunch: (Map<String, dynamic> message) async {
@@ -63,8 +63,7 @@ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
           gravity: EdgeAlert.TOP,
           backgroundColor: Colors.red,
         );
-        print("Context    :"+context.toString());
-
+        print("Context    :" + context.toString());
       },
       onResume: (Map<String, dynamic> message) async {
         print("YO MAMA 2");
@@ -77,8 +76,7 @@ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
           gravity: EdgeAlert.TOP,
           backgroundColor: Colors.red,
         );
-        print("Context    :"+context.toString());
-
+        print("Context    :" + context.toString());
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
@@ -108,7 +106,6 @@ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     ];
   }
 
-  
   void _selectPage(int index) {
     setState(() {
       _selectedPageIndex = index;
