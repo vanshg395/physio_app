@@ -85,8 +85,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
             .push(MaterialPageRoute(builder: (ctx) => PatientRouter()));
         await Provider.of<Auth>(context, listen: false).changeEntryLevel();
       }
-    } catch (e) {
-    }
+    } catch (e) {}
     setState(() {
       _isLoading = false;
     });
@@ -267,7 +266,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                       _data['phone_number'] = val;
                     },
                   ),
-                  
                   SizedBox(
                     height: 15,
                   ),
@@ -1077,8 +1075,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                                     Provider.of<Auth>(context, listen: false)
                                         .id;
                                 _submit();
-                              }
-                              ),
+                              }),
                     ),
                   ),
                   SizedBox(
