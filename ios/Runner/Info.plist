@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -29,12 +29,26 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>${PRODUCT_NAME} requires permission to access your Music Library.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>${PRODUCT_NAME} requires permission to access your calendar.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>${PRODUCT_NAME} requires permission to use your camera.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>${PRODUCT_NAME} requires permission to access your contacts.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>${PRODUCT_NAME} requires permission to access your Location.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>${PRODUCT_NAME} requires permission to access your Location.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>${PRODUCT_NAME} requires permission to use your microphone.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>${PRODUCT_NAME} requires permission to access your Motion Sensor.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>${PRODUCT_NAME} requires access to your Photo Library</string>
+	<string>${PRODUCT_NAME} requires access to your Photo Library.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>${PRODUCT_NAME} requires permission to access your Speech Recognition.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
